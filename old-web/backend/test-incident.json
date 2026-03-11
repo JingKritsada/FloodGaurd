@@ -1,0 +1,13 @@
+{
+  "type": "MEDICAL",
+  "status": "OPEN",
+  "description": "test incident",
+  "location": {
+    "latitude": 17.01,
+    "longitude": 99.83
+  },
+  "victimCount": 2,
+  "hasBedridden": false,
+  "phone": "0812345678",
+  "address": "test address"
+}
