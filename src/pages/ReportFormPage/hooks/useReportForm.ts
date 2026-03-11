@@ -1,8 +1,10 @@
+import type { Location } from "@/interfaces/incidents.interfaces";
+import type { IncidentType, OfficerReportMode, ReportType } from "@/types/index.types";
+
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import type { Location } from "@/interfaces/incidents.interfaces";
-import type { IncidentType, OfficerReportMode, ReportType } from "@/types/index.types";
+import { DEMO_CENTER, DEFAULT_REPORTER_NAME } from "@/constants/incidents.constants";
 import { incidentsService } from "@/services/incidents.service";
 import { useAuth } from "@/providers/AuthContext";
 
@@ -40,14 +42,16 @@ export function useReportForm() {
 		const isLevee = officerReportMode === "LEVEE";
 
 		const type: IncidentType = isRoad ? "ROAD_BLOCKED" : isLevee ? "LEVEE_BREACH" : formType;
-		const location = formLocation ?? (draftPoints[0] ?? { lat: 17.007, lng: 99.826 });
+		const location = formLocation ?? draftPoints[0] ?? { lat: DEMO_CENTER.lat, lng: DEMO_CENTER.lng };
 
 		const payload: Record<string, unknown> = {
 			type,
 			description: formDesc.trim() || "ไม่มีรายละเอียด",
 			location: { latitude: location.lat, longitude: location.lng },
-			reporterName: userRole === "CITIZEN" ? "พลเมืองดี" : userRole,
-			...(isRoad && draftPoints.length > 0 ? { path: draftPoints.map((p) => ({ lat: p.lat, lng: p.lng })) } : {}),
+			reporterName: userRole === "CITIZEN" ? DEFAULT_REPORTER_NAME : userRole,
+			...(isRoad && draftPoints.length > 0
+				? { path: draftPoints.map((p) => ({ lat: p.lat, lng: p.lng })) }
+				: {}),
 			...(userRole === "CITIZEN" ? { victimCount, hasBedridden, phone, address } : {}),
 		};
 
@@ -61,16 +65,26 @@ export function useReportForm() {
 	};
 
 	return {
-		userRole, reportType,
-		officerReportMode, setOfficerReportMode,
-		formLocation, setFormLocation,
-		draftPoints, setDraftPoints,
-		formType, setFormType,
-		formDesc, setFormDesc,
-		victimCount, setVictimCount,
-		hasBedridden, setHasBedridden,
-		phone, setPhone,
-		address, setAddress,
+		userRole,
+		reportType,
+		officerReportMode,
+		setOfficerReportMode,
+		formLocation,
+		setFormLocation,
+		draftPoints,
+		setDraftPoints,
+		formType,
+		setFormType,
+		formDesc,
+		setFormDesc,
+		victimCount,
+		setVictimCount,
+		hasBedridden,
+		setHasBedridden,
+		phone,
+		setPhone,
+		address,
+		setAddress,
 		handleSubmit,
 		resetForm,
 	};

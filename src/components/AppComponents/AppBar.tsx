@@ -2,7 +2,7 @@ import type { AppView, Role } from "@/types/index.types";
 
 import React, { useState } from "react";
 import { Contrast, Menu, Type, Waves, X } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { useAuth } from "@/providers/AuthContext";
 import { useAlert } from "@/providers/AlertContext";
@@ -12,12 +12,18 @@ import { roles, ThemeIcon } from "@/constants/components.constants";
 import FontSizeControls from "@/components/FontSizeControl";
 import BaseButton from "@/components/BaseComponents/BaseButton";
 
+const ROLE_ROUTES: Record<Role, string> = {
+	CITIZEN: "/",
+	OFFICER: "/list",
+	ADMIN: "/stats",
+};
+
 export default function AppBar(): React.JSX.Element {
 	const { theme, toggleTheme, fontSize, setFontSize } = useTheme();
-	const { userRole, isAuthenticated } = useAuth();
+	const { userRole, isAuthenticated, logout } = useAuth();
 	const { showAlert } = useAlert();
+	const navigate = useNavigate();
 
-	const [_isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
 	const canAccessRole = (roleId: Role): boolean => {
@@ -38,7 +44,22 @@ export default function AppBar(): React.JSX.Element {
 			return;
 		}
 
-		setIsMenuOpen(false);
+		navigate(ROLE_ROUTES[roleId]);
+		setIsMobileMenuOpen(false);
+	};
+
+	const handleAuthClick = () => {
+		if (isAuthenticated) {
+			logout();
+			showAlert("ออกจากระบบแล้ว", "คุณออกจากระบบเรียบร้อยแล้ว", "success");
+			navigate("/");
+		} else {
+			showAlert(
+				"เข้าสู่ระบบ",
+				"กรุณาใช้ฟีเจอร์นี้ผ่าน API หรือ JWT token ในระบบ production",
+				"info"
+			);
+		}
 	};
 
 	return (
@@ -111,15 +132,7 @@ export default function AppBar(): React.JSX.Element {
 						className={`py-0! h-full font-semibold rounded-xl ${isAuthenticated ? "text-gold-600! dark:text-gold-400! shadow-sm" : ""}`}
 						size="md"
 						variant={isAuthenticated ? "secondary" : "primary"}
-						onClick={() =>
-							showAlert(
-								isAuthenticated ? "ออกจากระบบแล้ว" : "เข้าสู่ระบบแล้ว",
-								isAuthenticated
-									? "คุณออกจากระบบเรียบร้อยแล้ว"
-									: "คุณเข้าสู่ระบบเรียบร้อยแล้ว",
-								"success"
-							)
-						}
+						onClick={handleAuthClick}
 					>
 						{isAuthenticated ? "ออกจากระบบ" : "เข้าสู่ระบบ"}
 					</BaseButton>
@@ -226,15 +239,7 @@ export default function AppBar(): React.JSX.Element {
 						className={`font-semibold rounded-xl ${isAuthenticated ? "text-gold-600! dark:text-gold-400! shadow-sm" : ""}`}
 						size="lg"
 						variant={isAuthenticated ? "secondary" : "primary"}
-						onClick={() =>
-							showAlert(
-								isAuthenticated ? "ออกจากระบบแล้ว" : "เข้าสู่ระบบแล้ว",
-								isAuthenticated
-									? "คุณออกจากระบบเรียบร้อยแล้ว"
-									: "คุณเข้าสู่ระบบเรียบร้อยแล้ว",
-								"success"
-							)
-						}
+						onClick={handleAuthClick}
 					>
 						{isAuthenticated ? "ออกจากระบบ" : "เข้าสู่ระบบ"}
 					</BaseButton>

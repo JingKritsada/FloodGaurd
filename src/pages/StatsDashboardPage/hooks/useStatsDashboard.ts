@@ -1,6 +1,7 @@
+import type { Incident } from "@/interfaces/incidents.interfaces";
+
 import { useEffect, useState } from "react";
 
-import type { Incident } from "@/interfaces/incidents.interfaces";
 import { incidentsService } from "@/services/incidents.service";
 
 export function useStatsDashboard() {

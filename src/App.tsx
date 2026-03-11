@@ -1,12 +1,7 @@
-import AppBar from "@/components/AppComponents/AppBar";
-import AppMain from "@/components/AppComponents/AppMain";
-import Providers from "@/providers/Providers";
+import { RouterProvider } from "react-router-dom";
+
+import { router } from "@/routes/router";
 
 export default function App() {
-	return (
-		<Providers>
-			<AppBar />
-			<AppMain />
-		</Providers>
-	);
+	return <RouterProvider router={router} />;
 }

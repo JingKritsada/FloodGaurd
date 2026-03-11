@@ -1,6 +1,6 @@
-import { AlertTriangle, Bell, Home, Map as MapIcon, Waves } from "lucide-react";
-
 import type { MapFilter } from "@/pages/MapPage/hooks/useMapPage";
+
+import { AlertTriangle, Bell, Home, Map as MapIcon, Waves } from "lucide-react";
 
 interface MapFiltersProps {
 	filter: MapFilter;
@@ -21,12 +21,12 @@ export default function MapFilters({ filter, onFilterChange }: MapFiltersProps) 
 			{FILTERS.map((f) => (
 				<button
 					key={f.id}
-					onClick={() => onFilterChange(f.id)}
 					className={`flex items-center gap-2 px-3 py-2 rounded-xl font-bold text-xs shadow-lg transition-all border ${
 						filter === f.id
 							? "bg-amber-600 text-white border-amber-700 shadow-amber-600/30"
 							: "bg-white/90 dark:bg-slate-900/90 text-slate-700 dark:text-slate-300 border-white/20 hover:bg-amber-50 dark:hover:bg-slate-800"
 					}`}
+					onClick={() => onFilterChange(f.id)}
 				>
 					{f.icon}
 					<span>{f.label}</span>

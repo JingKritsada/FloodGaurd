@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-
 import type { Incident, RoadStatus, Shelter } from "@/interfaces/incidents.interfaces";
 import type { TicketStatus } from "@/types/index.types";
+
+import { useEffect, useRef, useState } from "react";
+
 import { incidentsService } from "@/services/incidents.service";
 import { roadsService } from "@/services/roads.service";
 import { sheltersService } from "@/services/shelters.service";

@@ -8,11 +8,19 @@ export default function StatsDashboardPage() {
 	const { incidents, loading, error } = useStatsDashboard();
 
 	if (loading) {
-		return <div className="flex items-center justify-center h-full text-slate-400 font-bold">กำลังโหลด...</div>;
+		return (
+			<div className="flex items-center justify-center h-full text-slate-400 font-bold">
+				กำลังโหลด...
+			</div>
+		);
 	}
 
 	if (error) {
-		return <div className="flex items-center justify-center h-full text-red-500 font-bold">{error}</div>;
+		return (
+			<div className="flex items-center justify-center h-full text-red-500 font-bold">
+				{error}
+			</div>
+		);
 	}
 
 	return (

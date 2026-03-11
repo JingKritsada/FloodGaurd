@@ -1,6 +1,7 @@
+import type { Announcement } from "@/interfaces/incidents.interfaces";
+
 import { useEffect, useState } from "react";
 
-import type { Announcement } from "@/interfaces/incidents.interfaces";
 import { announcementsService } from "@/services/announcements.service";
 import { useAuth } from "@/providers/AuthContext";
 
@@ -19,12 +20,17 @@ export function useAnnouncements() {
 	}, []);
 
 	const handleCreate = async (data: Partial<Announcement>) => {
-		const created = await announcementsService.createAnnouncement({ ...data, createdBy: username ?? "admin" });
+		const created = await announcementsService.createAnnouncement({
+			...data,
+			createdBy: username ?? "admin",
+		});
+
 		setAnnouncements((prev) => [...prev, created]);
 	};
 
 	const handleUpdate = async (id: string, data: Partial<Announcement>) => {
 		const updated = await announcementsService.updateAnnouncement(id, data);
+
 		setAnnouncements((prev) => prev.map((a) => (a.id === id ? updated : a)));
 	};
 

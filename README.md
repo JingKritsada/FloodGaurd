@@ -1,73 +1,146 @@
-# React + TypeScript + Vite
+# FloodGuard — รู้ทันน้ำท่วม จังหวัดสุโขทัย
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Flood incident management system for Sukhothai province.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 19** + **TypeScript** + **Vite**
+- **React Router v6** (data router / `createBrowserRouter`)
+- **Tailwind CSS v4**
+- **react-leaflet v5** + **Leaflet** — interactive maps
+- **Recharts** — statistics charts
+- **Lucide React** — icons
 
-## React Compiler
+## Project Structure
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-	globalIgnores(["dist"]),
-	{
-		files: ["**/*.{ts,tsx}"],
-		extends: [
-			// Other configs...
-
-			// Remove tseslint.configs.recommended and replace with this
-			tseslint.configs.recommendedTypeChecked,
-			// Alternatively, use this for stricter rules
-			tseslint.configs.strictTypeChecked,
-			// Optionally, add this for stylistic rules
-			tseslint.configs.stylisticTypeChecked,
-
-			// Other configs...
-		],
-		languageOptions: {
-			parserOptions: {
-				project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-				tsconfigRootDir: import.meta.dirname,
-			},
-			// other options...
-		},
-	},
-]);
+```
+src/
+├── App.tsx                          # Entry: RouterProvider
+├── index.tsx                        # React DOM root
+├── index.css                        # Global styles + Tailwind
+│
+├── routes/
+│   ├── router.tsx                   # All routes (createBrowserRouter)
+│   └── ProtectedRoute.tsx           # Role-based route guard
+│
+├── providers/
+│   ├── Providers.tsx                # Legacy (unused – kept for tests)
+│   ├── AuthContext.tsx              # JWT auth state
+│   ├── ThemeContext.tsx             # light/dark/system + font-size
+│   └── AlertContext.tsx            # Global alert/confirm modal
+│
+├── components/
+│   ├── AppComponents/
+│   │   ├── AppBar.tsx               # Top navigation bar
+│   │   └── AppNavBar.tsx            # (reserved)
+│   ├── BaseComponents/
+│   │   └── BaseButton.tsx           # Primary button component
+│   ├── BottomNav.tsx                # Role-aware bottom navigation
+│   ├── AlertModal.tsx               # Alert / confirm modal
+│   ├── FontSizeControl.tsx          # Font-size stepper
+│   ├── ErrorBoundary.tsx            # React error boundary
+│   └── FuzzyText.tsx                # Canvas fuzzy text effect
+│
+├── pages/
+│   ├── MapPage/                     # / — interactive map
+│   │   ├── index.tsx
+│   │   ├── hooks/useMapPage.ts
+│   │   └── sections/
+│   │       ├── MapSection.tsx       # react-leaflet map
+│   │       ├── MapFilters.tsx       # Filter overlay buttons
+│   │       └── IncidentModal.tsx    # Incident detail drawer
+│   ├── IncidentListPage/            # /list — incident work list
+│   │   ├── index.tsx
+│   │   ├── hooks/useIncidentList.ts
+│   │   └── sections/IncidentListSection.tsx
+│   ├── StatsDashboardPage/          # /stats — analytics (ADMIN)
+│   │   ├── index.tsx
+│   │   ├── hooks/useStatsDashboard.ts
+│   │   └── sections/
+│   │       ├── StatsCardsSection.tsx
+│   │       └── StatsChartsSection.tsx
+│   ├── ReportFormPage/              # /report — submit incident
+│   │   ├── index.tsx
+│   │   ├── hooks/useReportForm.ts
+│   │   └── sections/
+│   │       ├── CitizenReportSection.tsx
+│   │       ├── OfficerReportSection.tsx
+│   │       └── FormMap.tsx
+│   ├── AnnouncementsPage/           # /announcements
+│   │   ├── index.tsx
+│   │   ├── hooks/useAnnouncements.ts
+│   │   └── sections/AnnouncementListSection.tsx
+│   ├── AnnouncementFormPage/        # /announcements/new, /:id/edit (ADMIN)
+│   │   ├── index.tsx
+│   │   └── hooks/useAnnouncementForm.ts
+│   ├── ErrorPage.tsx
+│   ├── NotFoundPage.tsx             # 404
+│   ├── ForbiddenPage.tsx            # 403
+│   └── demo/
+│       ├── ButtonDemoPage.tsx       # /demo/buttons
+│       └── AlertDemoPage.tsx        # /demo/alerts
+│
+├── services/
+│   ├── api.ts                       # Base fetch wrapper + JWT headers
+│   ├── auth.service.ts              # login / logout
+│   ├── incidents.service.ts         # fetchIncidents, createIncident, updateStatus
+│   ├── announcements.service.ts     # CRUD announcements
+│   ├── roads.service.ts             # fetchRoads
+│   └── shelters.service.ts          # fetchShelters
+│
+├── interfaces/
+│   ├── incidents.interfaces.ts      # Location, Incident, RoadStatus, Shelter, Announcement
+│   ├── components.interfaces.ts
+│   ├── pages.interfaces.ts
+│   └── providers.interfaces.ts
+│
+├── types/
+│   ├── index.types.ts               # Role, AppView, IncidentType, TicketStatus, …
+│   └── components.types.ts
+│
+└── constants/
+    ├── incidents.constants.ts       # TYPE_LABELS, STATUS_LABELS, FILTER_LABELS, DEMO_CENTER
+    ├── components.constants.tsx     # Button styles, alert icons, roles list
+    └── zindex.constants.tsx
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Routes
 
-```js
-// eslint.config.js
-import reactX from "eslint-plugin-react-x";
-import reactDom from "eslint-plugin-react-dom";
+| Path | Page | Access |
+|------|------|--------|
+| `/` | MapPage | All |
+| `/list` | IncidentListPage | All |
+| `/stats` | StatsDashboardPage | ADMIN |
+| `/report` | ReportFormPage | All |
+| `/announcements` | AnnouncementsPage | All |
+| `/announcements/new` | AnnouncementFormPage | ADMIN |
+| `/announcements/:id/edit` | AnnouncementFormPage | ADMIN |
+| `/demo/buttons` | ButtonDemoPage | All |
+| `/demo/alerts` | AlertDemoPage | All |
+| `/forbidden` | ForbiddenPage | — |
+| `*` | NotFoundPage | — |
 
-export default defineConfig([
-	globalIgnores(["dist"]),
-	{
-		files: ["**/*.{ts,tsx}"],
-		extends: [
-			// Other configs...
-			// Enable lint rules for React
-			reactX.configs["recommended-typescript"],
-			// Enable lint rules for React DOM
-			reactDom.configs.recommended,
-		],
-		languageOptions: {
-			parserOptions: {
-				project: ["./tsconfig.node.json", "./tsconfig.app.json"],
-				tsconfigRootDir: import.meta.dirname,
-			},
-			// other options...
-		},
-	},
-]);
+## Getting Started
+
+```bash
+npm install
+npm run dev
 ```
+
+## Environment
+
+Create a `.env` file:
+
+```
+VITE_API_URL=http://localhost:3001/api
+```
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server |
+| `npm run build` | Production build |
+| `npm run lint` | Run ESLint |
+| `npm run lint:fix` | Auto-fix lint errors |
+| `npm run format` | Format with Prettier |

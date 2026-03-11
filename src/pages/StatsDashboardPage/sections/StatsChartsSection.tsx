@@ -1,8 +1,18 @@
-import { AlertCircle, CheckCircle } from "lucide-react";
-import { Bar, BarChart, Cell, Pie, PieChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-
 import type { Incident } from "@/interfaces/incidents.interfaces";
 import type { Theme } from "@/types/index.types";
+
+import { AlertCircle, CheckCircle } from "lucide-react";
+import {
+	Bar,
+	BarChart,
+	Cell,
+	Pie,
+	PieChart,
+	ResponsiveContainer,
+	Tooltip,
+	XAxis,
+	YAxis,
+} from "recharts";
 
 interface Props {
 	incidents: Incident[];
@@ -14,7 +24,9 @@ const PIE_COLORS = ["#ef4444", "#f59e0b", "#10b981"];
 export default function StatsChartsSection({ incidents, theme }: Props) {
 	const isDark =
 		theme === "dark" ||
-		(theme === "system" && typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+		(theme === "system" &&
+			typeof window !== "undefined" &&
+			window.matchMedia("(prefers-color-scheme: dark)").matches);
 
 	const statusData = [
 		{ name: "Critical", value: incidents.filter((i) => i.status === "OPEN").length },
@@ -41,53 +53,113 @@ export default function StatsChartsSection({ incidents, theme }: Props) {
 		<>
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 				<div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
-					<h3 className="text-slate-900 dark:text-white font-black text-lg mb-6 tracking-tight">Status Overview</h3>
-					<ResponsiveContainer width="100%" height={240}>
+					<h3 className="text-slate-900 dark:text-white font-black text-lg mb-6 tracking-tight">
+						Status Overview
+					</h3>
+					<ResponsiveContainer height={240} width="100%">
 						<PieChart>
-							<Pie data={statusData} innerRadius={65} outerRadius={85} paddingAngle={8} dataKey="value" stroke="none" cornerRadius={8}>
-								{statusData.map((_, index) => <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />)}
+							<Pie
+								cornerRadius={8}
+								data={statusData}
+								dataKey="value"
+								innerRadius={65}
+								outerRadius={85}
+								paddingAngle={8}
+								stroke="none"
+							>
+								{statusData.map((_, index) => (
+									<Cell
+										key={`cell-${index}`}
+										fill={PIE_COLORS[index % PIE_COLORS.length]}
+									/>
+								))}
 							</Pie>
-							<Tooltip contentStyle={tooltipStyle} itemStyle={{ color: isDark ? "#f8fafc" : "#0f172a", fontWeight: "bold" }} />
+							<Tooltip
+								contentStyle={tooltipStyle}
+								itemStyle={{
+									color: isDark ? "#f8fafc" : "#0f172a",
+									fontWeight: "bold",
+								}}
+							/>
 						</PieChart>
 					</ResponsiveContainer>
 					<div className="flex justify-center gap-6 mt-4">
 						{statusData.map((s, i) => (
 							<div key={i} className="flex items-center gap-2">
-								<div className="w-2 h-2 rounded-full" style={{ backgroundColor: PIE_COLORS[i] }} />
-								<span className="text-[10px] font-black uppercase text-slate-400">{s.name}</span>
+								<div
+									className="w-2 h-2 rounded-full"
+									style={{ backgroundColor: PIE_COLORS[i] }}
+								/>
+								<span className="text-[10px] font-black uppercase text-slate-400">
+									{s.name}
+								</span>
 							</div>
 						))}
 					</div>
 				</div>
 
 				<div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
-					<h3 className="text-slate-900 dark:text-white font-black text-lg mb-6 tracking-tight">Incident Types</h3>
-					<ResponsiveContainer width="100%" height={240}>
+					<h3 className="text-slate-900 dark:text-white font-black text-lg mb-6 tracking-tight">
+						Incident Types
+					</h3>
+					<ResponsiveContainer height={240} width="100%">
 						<BarChart data={typeData}>
-							<XAxis dataKey="name" fontSize={10} axisLine={false} tickLine={false} stroke={isDark ? "#64748b" : "#94a3b8"} />
+							<XAxis
+								axisLine={false}
+								dataKey="name"
+								fontSize={10}
+								stroke={isDark ? "#64748b" : "#94a3b8"}
+								tickLine={false}
+							/>
 							<YAxis hide />
-							<Tooltip cursor={{ fill: isDark ? "#334155" : "#f8fafc" }} contentStyle={tooltipStyle} itemStyle={{ color: isDark ? "#f8fafc" : "#0f172a", fontWeight: "bold" }} />
-							<Bar dataKey="value" fill="#c5a039" radius={[8, 8, 8, 8]} barSize={24} />
+							<Tooltip
+								contentStyle={tooltipStyle}
+								cursor={{ fill: isDark ? "#334155" : "#f8fafc" }}
+								itemStyle={{
+									color: isDark ? "#f8fafc" : "#0f172a",
+									fontWeight: "bold",
+								}}
+							/>
+							<Bar
+								barSize={24}
+								dataKey="value"
+								fill="#c5a039"
+								radius={[8, 8, 8, 8]}
+							/>
 						</BarChart>
 					</ResponsiveContainer>
 				</div>
 			</div>
 
 			<div className="bg-white dark:bg-slate-900 p-6 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-800">
-				<h3 className="text-slate-900 dark:text-white font-black text-lg mb-4 tracking-tight">Operations Log</h3>
+				<h3 className="text-slate-900 dark:text-white font-black text-lg mb-4 tracking-tight">
+					Operations Log
+				</h3>
 				<div className="space-y-3">
 					<div className="flex items-center gap-4 p-4 bg-amber-50 dark:bg-amber-900/10 rounded-2xl border border-amber-100 dark:border-amber-900/20">
-						<div className="p-2 bg-amber-500 rounded-xl text-white"><AlertCircle size={18} /></div>
+						<div className="p-2 bg-amber-500 rounded-xl text-white">
+							<AlertCircle size={18} />
+						</div>
 						<div>
-							<p className="text-xs font-bold text-amber-900 dark:text-amber-400">Water Level Alert</p>
-							<p className="text-[10px] text-amber-700 dark:text-amber-500/80 mt-1">Sukhothai Zone 4 +15cm in last 1hr</p>
+							<p className="text-xs font-bold text-amber-900 dark:text-amber-400">
+								Water Level Alert
+							</p>
+							<p className="text-[10px] text-amber-700 dark:text-amber-500/80 mt-1">
+								Sukhothai Zone 4 +15cm in last 1hr
+							</p>
 						</div>
 					</div>
 					<div className="flex items-center gap-4 p-4 bg-emerald-50 dark:bg-emerald-900/10 rounded-2xl border border-emerald-100 dark:border-emerald-900/20">
-						<div className="p-2 bg-emerald-500 rounded-xl text-white"><CheckCircle size={18} /></div>
+						<div className="p-2 bg-emerald-500 rounded-xl text-white">
+							<CheckCircle size={18} />
+						</div>
 						<div>
-							<p className="text-xs font-bold text-emerald-900 dark:text-emerald-400">Team 2 Deployed</p>
-							<p className="text-[10px] text-emerald-700 dark:text-emerald-500/80 mt-1">Medical supplies delivered to Shelter #1</p>
+							<p className="text-xs font-bold text-emerald-900 dark:text-emerald-400">
+								Team 2 Deployed
+							</p>
+							<p className="text-[10px] text-emerald-700 dark:text-emerald-500/80 mt-1">
+								Medical supplies delivered to Shelter #1
+							</p>
 						</div>
 					</div>
 				</div>

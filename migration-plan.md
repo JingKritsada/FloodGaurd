@@ -49,6 +49,7 @@ New files (no old-web equivalent):
 ## Extracted Interfaces / Types / Constants
 
 ### Types (`src/types/index.types.ts`) ✅
+
 - `Role` — `"CITIZEN" | "OFFICER" | "ADMIN"`
 - `Theme`, `FontSize`
 - `ReportType` — `"SOS" | "TRAFFIC"`
@@ -56,6 +57,7 @@ New files (no old-web equivalent):
 - `OfficerReportMode`, `AppView`, `IncidentType`
 
 ### Interfaces (`src/interfaces/incidents.interfaces.ts`) ✅
+
 - `Location` — `{ lat, lng }`
 - `Incident` — full incident with location, status, reporter info
 - `RoadStatus` — road closure with status enum
@@ -63,6 +65,7 @@ New files (no old-web equivalent):
 - `Announcement` — news/alert with priority and publish state
 
 ### Constants (`src/constants/incidents.constants.ts`) ✅
+
 - `TYPE_LABELS` — Thai display labels for `IncidentType`
 - `STATUS_LABELS` — Thai display labels for `TicketStatus`
 - `FILTER_LABELS` — Thai display labels for map filter modes
@@ -74,25 +77,28 @@ New files (no old-web equivalent):
 ## Component Strategy
 
 ### Layout
+
 - `src/App.tsx` — wraps `<Providers>` → `<AppBar>` + `<AppMain>` (router outlet)
 - `src/components/AppComponents/AppBar.tsx` — top header with role tabs, theme, font size, auth
 - `src/components/BottomNav.tsx` — role-aware floating bottom navigation with SOS/report buttons
 
 ### Pages (route-level components)
-| Route | Component | Roles |
-|-------|-----------|-------|
-| `/` | `MapPage` | ALL |
-| `/list` | `IncidentListPage` | OFFICER, ADMIN |
-| `/stats` | `StatsPage` | ADMIN |
-| `/report` | `ReportPage` | CITIZEN, OFFICER |
-| `/announcements` | `AnnouncementsPage` | ALL |
-| `/announcements/new` | `AnnouncementFormPage` | ADMIN |
-| `/announcements/:id/edit` | `AnnouncementFormPage` | ADMIN |
-| `/login` | `LoginPage` | public |
-| `/forbidden` | `ForbiddenPage` | public |
-| `*` | `NotFoundPage` | public |
+
+| Route                     | Component              | Roles            |
+| ------------------------- | ---------------------- | ---------------- |
+| `/`                       | `MapPage`              | ALL              |
+| `/list`                   | `IncidentListPage`     | OFFICER, ADMIN   |
+| `/stats`                  | `StatsPage`            | ADMIN            |
+| `/report`                 | `ReportPage`           | CITIZEN, OFFICER |
+| `/announcements`          | `AnnouncementsPage`    | ALL              |
+| `/announcements/new`      | `AnnouncementFormPage` | ADMIN            |
+| `/announcements/:id/edit` | `AnnouncementFormPage` | ADMIN            |
+| `/login`                  | `LoginPage`            | public           |
+| `/forbidden`              | `ForbiddenPage`        | public           |
+| `*`                       | `NotFoundPage`         | public           |
 
 ### Shared Components (pending)
+
 - `IncidentModal` — detail + status update overlay
 - `AlertModal` ✅ — reusable confirm/alert dialog
 
@@ -110,30 +116,30 @@ Example router setup (to be implemented in `App.tsx`):
 
 ```tsx
 <Routes>
-  {/* Public */}
-  <Route element={<LoginPage />} path="/login" />
-  <Route element={<ForbiddenPage />} path="/forbidden" />
+	{/* Public */}
+	<Route element={<LoginPage />} path="/login" />
+	<Route element={<ForbiddenPage />} path="/forbidden" />
 
-  {/* All authenticated users */}
-  <Route element={<ProtectedRoute />}>
-    <Route element={<MapPage />} path="/" />
-    <Route element={<AnnouncementsPage />} path="/announcements" />
-    <Route element={<ReportPage />} path="/report" />
-  </Route>
+	{/* All authenticated users */}
+	<Route element={<ProtectedRoute />}>
+		<Route element={<MapPage />} path="/" />
+		<Route element={<AnnouncementsPage />} path="/announcements" />
+		<Route element={<ReportPage />} path="/report" />
+	</Route>
 
-  {/* Officer + Admin */}
-  <Route element={<ProtectedRoute requiredRoles={["OFFICER", "ADMIN"]} />}>
-    <Route element={<IncidentListPage />} path="/list" />
-  </Route>
+	{/* Officer + Admin */}
+	<Route element={<ProtectedRoute requiredRoles={["OFFICER", "ADMIN"]} />}>
+		<Route element={<IncidentListPage />} path="/list" />
+	</Route>
 
-  {/* Admin only */}
-  <Route element={<ProtectedRoute requiredRoles={["ADMIN"]} />}>
-    <Route element={<StatsPage />} path="/stats" />
-    <Route element={<AnnouncementFormPage />} path="/announcements/new" />
-    <Route element={<AnnouncementFormPage />} path="/announcements/:id/edit" />
-  </Route>
+	{/* Admin only */}
+	<Route element={<ProtectedRoute requiredRoles={["ADMIN"]} />}>
+		<Route element={<StatsPage />} path="/stats" />
+		<Route element={<AnnouncementFormPage />} path="/announcements/new" />
+		<Route element={<AnnouncementFormPage />} path="/announcements/:id/edit" />
+	</Route>
 
-  <Route element={<NotFoundPage />} path="*" />
+	<Route element={<NotFoundPage />} path="*" />
 </Routes>
 ```
 
@@ -152,6 +158,7 @@ src/services/
 ```
 
 ### Base API (`src/services/api.ts`)
+
 - Reads `VITE_API_URL` env var, falls back to `/api`
 - Reads JWT from `sessionStorage["auth_token"]` and injects `Authorization: Bearer` header
 - Normalises JSON/text responses; throws typed errors with `.status` and `.body`
@@ -159,18 +166,18 @@ src/services/
 
 ### Backend API Endpoints (from `old-web/backend/`)
 
-| Method | Path | Auth | Roles |
-|--------|------|------|-------|
-| POST | `/auth/login` | — | public |
-| GET | `/incidents?limit=N` | JWT | ALL |
-| POST | `/incidents` | JWT | CITIZEN, OFFICER |
-| PATCH | `/incidents/:id/status` | JWT | OFFICER, ADMIN |
-| GET | `/announcements` | — | public |
-| POST | `/announcements` | JWT | ADMIN |
-| PATCH | `/announcements/:id` | JWT | ADMIN |
-| DELETE | `/announcements/:id` | JWT | ADMIN |
-| GET | `/roads` | — | public |
-| GET | `/shelters` | — | public |
+| Method | Path                    | Auth | Roles            |
+| ------ | ----------------------- | ---- | ---------------- |
+| POST   | `/auth/login`           | —    | public           |
+| GET    | `/incidents?limit=N`    | JWT  | ALL              |
+| POST   | `/incidents`            | JWT  | CITIZEN, OFFICER |
+| PATCH  | `/incidents/:id/status` | JWT  | OFFICER, ADMIN   |
+| GET    | `/announcements`        | —    | public           |
+| POST   | `/announcements`        | JWT  | ADMIN            |
+| PATCH  | `/announcements/:id`    | JWT  | ADMIN            |
+| DELETE | `/announcements/:id`    | JWT  | ADMIN            |
+| GET    | `/roads`                | —    | public           |
+| GET    | `/shelters`             | —    | public           |
 
 ---
 

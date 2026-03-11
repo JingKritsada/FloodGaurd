@@ -8,19 +8,24 @@ import IncidentModal from "@/pages/MapPage/sections/IncidentModal";
 export default function MapPage() {
 	const { userRole } = useAuth();
 	const {
-		incidents, roads, shelters,
-		selectedIncident, setSelectedIncident,
-		filter, filterToast,
-		handleStatusUpdate, handleFilterChange,
+		incidents,
+		roads,
+		shelters,
+		selectedIncident,
+		setSelectedIncident,
+		filter,
+		filterToast,
+		handleStatusUpdate,
+		handleFilterChange,
 	} = useMapPage();
 
 	return (
 		<div className="relative w-full h-full">
 			<MapSection
+				filter={filter}
 				incidents={incidents}
 				roads={roads}
 				shelters={shelters}
-				filter={filter}
 				onMarkerClick={setSelectedIncident}
 			/>
 
@@ -36,8 +41,8 @@ export default function MapPage() {
 
 			<IncidentModal
 				incident={selectedIncident}
-				onClose={() => setSelectedIncident(null)}
 				role={userRole}
+				onClose={() => setSelectedIncident(null)}
 				onStatusUpdate={handleStatusUpdate}
 			/>
 		</div>

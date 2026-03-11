@@ -1,8 +1,0 @@
-{
-  "name": "FloodGuard Pro - Disaster Response System",
-  "description": "An interactive prototype for a disaster response platform connecting Citizens, Field Officers, and Command Center Admins.",
-  "requestFramePermissions": [
-    "camera",
-    "geolocation"
-  ]
-}
