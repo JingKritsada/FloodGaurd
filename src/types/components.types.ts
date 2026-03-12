@@ -18,3 +18,10 @@ export type IconPosition = "left" | "right";
  * Alert Modal Types
  */
 export type AlertType = "success" | "error" | "warning" | "info";
+
+/**
+ * Input Component Types
+ */
+export type InputSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type InputVariant = "default" | "filled" | "outlined" | "ghost";
+export type InputType = "text" | "number" | "password" | "select" | "multiselect" | "textarea";

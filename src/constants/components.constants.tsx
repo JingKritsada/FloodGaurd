@@ -13,7 +13,12 @@ import {
 	Monitor,
 } from "lucide-react";
 
-import { type ButtonSize, type ButtonVariant } from "@/types/components.types";
+import {
+	type ButtonSize,
+	type ButtonVariant,
+	type InputSize,
+	type InputVariant,
+} from "@/types/components.types";
 
 /**
  * Base Button Constant
@@ -105,3 +110,34 @@ export function ThemeIcon({ theme }: { theme: string }) {
 			return <Sun size={20} />;
 	}
 }
+
+/**
+ * Base Input Constants
+ * - inputSizeStyles
+ * - inputVariantStyles
+ * - inputIconSizeStyles
+ */
+export const inputSizeStyles: Record<InputSize, string> = {
+	xs: "text-xs px-2 py-1.5 gap-1.5 rounded",
+	sm: "text-sm px-3 py-2 gap-2 rounded-md",
+	md: "text-sm px-3.5 py-2.5 gap-2.5 rounded-md",
+	lg: "text-base px-4 py-3 gap-3 rounded-lg",
+	xl: "text-lg px-5 py-3.5 gap-3.5 rounded-xl",
+};
+
+export const inputVariantStyles: Record<InputVariant, string> = {
+	default:
+		"border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus-within:border-gold-500 dark:focus-within:border-gold-400 focus-within:ring-2 focus-within:ring-gold-500/20",
+	filled: "border border-transparent bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 focus-within:border-gold-500 dark:focus-within:border-gold-400 focus-within:bg-white dark:focus-within:bg-slate-800",
+	outlined:
+		"border-2 border-slate-300 dark:border-slate-600 bg-transparent text-slate-800 dark:text-slate-200 focus-within:border-gold-500 dark:focus-within:border-gold-400",
+	ghost: "border border-transparent bg-transparent text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 focus-within:border-gold-500 dark:focus-within:border-gold-400",
+};
+
+export const inputIconSizeStyles: Record<InputSize, number> = {
+	xs: 12,
+	sm: 14,
+	md: 16,
+	lg: 18,
+	xl: 20,
+};
