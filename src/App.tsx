@@ -7,6 +7,7 @@ export default function App() {
 		<Providers>
 			<AppBar />
 			<AppMain />
+			{/* AppNavBar */}
 		</Providers>
 	);
 }

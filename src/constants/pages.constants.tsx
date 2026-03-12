@@ -9,5 +9,8 @@ export const Z_INDEX: Record<string, number> = {
 	appNavBar: 5000,
 
 	/** Alert Modal */
-	alertModal: 9999,
+	alertModal: 9000,
+
+	/** Global loading overlay */
+	globalLoading: 9999,
 };

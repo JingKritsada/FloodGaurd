@@ -1,4 +1,4 @@
-import type { AppView, Role } from "@/types/index.types";
+import type { Role } from "@/types/index.types";
 
 import {
 	CheckCircle,
@@ -87,10 +87,10 @@ export const bgColors = {
  * - roles
  * - ThemeIcon
  */
-export const roles: { id: Role; label: string; icon: React.ReactNode; view: AppView }[] = [
-	{ id: "CITIZEN", label: "ประชาชน", icon: <User size={20} />, view: "MAP" },
-	{ id: "OFFICER", label: "เจ้าหน้าที่", icon: <Shield size={20} />, view: "LIST" },
-	{ id: "ADMIN", label: "ศูนย์บัญชาการ", icon: <Siren size={20} />, view: "STATS" },
+export const roles: { id: Role; label: string; icon: React.ReactNode }[] = [
+	{ id: "CITIZEN", label: "ประชาชน", icon: <User size={20} /> },
+	{ id: "OFFICER", label: "เจ้าหน้าที่", icon: <Shield size={20} /> },
+	{ id: "ADMIN", label: "ศูนย์บัญชาการ", icon: <Siren size={20} /> },
 ];
 
 export function ThemeIcon({ theme }: { theme: string }) {

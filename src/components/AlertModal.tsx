@@ -4,7 +4,7 @@ import { X } from "lucide-react";
 
 import BaseButton from "./BaseComponents/BaseButton";
 
-import { Z_INDEX } from "@/constants/zindex.constants";
+import { Z_INDEX } from "@/constants/pages.constants";
 import { bgColors, icons } from "@/constants/components.constants";
 
 export default function AlertModal({

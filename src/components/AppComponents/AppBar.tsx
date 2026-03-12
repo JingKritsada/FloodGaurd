@@ -1,4 +1,4 @@
-import type { AppView, Role } from "@/types/index.types";
+import type { Role } from "@/types/index.types";
 
 import React, { useState } from "react";
 import { Contrast, Menu, Type, Waves, X } from "lucide-react";
@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "@/providers/AuthContext";
 import { useAlert } from "@/providers/AlertContext";
 import { useTheme } from "@/providers/ThemeContext";
-import { Z_INDEX } from "@/constants/zindex.constants";
+import { Z_INDEX } from "@/constants/pages.constants";
 import { roles, ThemeIcon } from "@/constants/components.constants";
 import FontSizeControls from "@/components/FontSizeControl";
 import BaseButton from "@/components/BaseComponents/BaseButton";
@@ -29,7 +29,7 @@ export default function AppBar(): React.JSX.Element {
 		return false;
 	};
 
-	const handleRoleChange = (roleId: Role, _view: AppView) => {
+	const handleRoleChange = (roleId: Role) => {
 		if (!canAccessRole(roleId)) {
 			const label = roles.find((r) => r.id === roleId)?.label ?? roleId;
 
@@ -98,7 +98,7 @@ export default function AppBar(): React.JSX.Element {
 									size="md"
 									title={role.label}
 									variant={active ? "secondary" : "ghost"}
-									onClick={() => handleRoleChange(role.id, role.view)}
+									onClick={() => handleRoleChange(role.id)}
 								>
 									{role.label}
 								</BaseButton>
@@ -213,7 +213,7 @@ export default function AppBar(): React.JSX.Element {
 									size="md"
 									title={role.label}
 									variant={active ? "secondary" : "ghost"}
-									onClick={() => handleRoleChange(role.id, role.view)}
+									onClick={() => handleRoleChange(role.id)}
 								>
 									{role.label}
 								</BaseButton>
