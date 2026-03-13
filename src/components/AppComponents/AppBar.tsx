@@ -17,10 +17,9 @@ import { getErrorMessage } from "@/services/api";
 export default function AppBar(): React.JSX.Element {
 	const { theme, toggleTheme, fontSize, setFontSize } = useTheme();
 	const { userRole, isAuthenticated, login, logout } = useAuth();
-	const { showAlert, showConfirm } = useAlert();
+	const { showConfirm } = useAlert();
 
 	const [error, setError] = useState("");
-	const [_isMenuOpen, setIsMenuOpen] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -38,12 +37,23 @@ export default function AppBar(): React.JSX.Element {
 		if (!canAccessRole(roleId)) {
 			const label = roles.find((r) => r.id === roleId)?.label ?? roleId;
 
-			showAlert("ไม่มีสิทธิ์เข้าถึง", `คุณไม่มีสิทธิ์เข้าใช้งานในบทบาท${label}`, "error");
+			setIsMobileMenuOpen(false);
+
+			showConfirm(
+				"ไม่มีสิทธิ์เข้าถึง",
+				`กรุณาเข้าสู่ระบบก่อนเปลี่ยนบทบาทเป็น${label}`,
+				() => {
+					setIsMobileMenuOpen(false);
+					setIsLoginModalOpen(true);
+				},
+				"warning",
+				"เข้าสู่ระบบ"
+			);
 
 			return;
 		}
 
-		setIsMenuOpen(false);
+		setIsMobileMenuOpen(false);
 	};
 
 	const handleLogin = () => {
@@ -248,25 +258,14 @@ export default function AppBar(): React.JSX.Element {
 					</div>
 
 					{/* Auth Button */}
-					{isAuthenticated ? (
-						<BaseButton
-							className={`rounded-xl font-semibold ${isAuthenticated ? "text-gold-600! shadow-sm dark:text-gold-400!" : ""}`}
-							size="lg"
-							variant="secondary"
-							onClick={handleLogout}
-						>
-							ออกจากระบบ
-						</BaseButton>
-					) : (
-						<BaseButton
-							className={`rounded-xl font-semibold ${isAuthenticated ? "text-gold-600! shadow-sm dark:text-gold-400!" : ""}`}
-							size="lg"
-							variant={isAuthenticated ? "secondary" : "primary"}
-							onClick={handleLogin}
-						>
-							เข้าสู่ระบบ
-						</BaseButton>
-					)}
+					<BaseButton
+						className={`rounded-xl font-semibold ${isAuthenticated ? "bg-slate-800! text-gold-600! shadow-sm dark:text-gold-400!" : ""}`}
+						size="lg"
+						variant={isAuthenticated ? "secondary" : "primary"}
+						onClick={isAuthenticated ? handleLogout : handleLogin}
+					>
+						{isAuthenticated ? "ออกจากระบบ" : "เข้าสู่ระบบ"}
+					</BaseButton>
 				</div>
 			</div>
 
