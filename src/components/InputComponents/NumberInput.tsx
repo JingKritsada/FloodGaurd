@@ -117,10 +117,10 @@ export default function NumberInput({
 					aria-label="Decrease value"
 					className={buttonClass}
 					disabled={!!isDecrementDisabled}
-					icon={<Minus size={iconSize} />}
+					leftIcon={<Minus size={iconSize} />}
 					tabIndex={-1}
 					type="button"
-					variant="ghost"
+					variant="secondary"
 					onClick={handleDecrement}
 				/>
 
@@ -146,10 +146,10 @@ export default function NumberInput({
 					aria-label="Increase value"
 					className={buttonClass}
 					disabled={!!isIncrementDisabled}
-					icon={<Plus size={iconSize} />}
+					leftIcon={<Plus size={iconSize} />}
 					tabIndex={-1}
 					type="button"
-					variant="ghost"
+					variant="secondary"
 					onClick={handleIncrement}
 				/>
 			</div>

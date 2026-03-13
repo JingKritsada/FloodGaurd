@@ -102,7 +102,7 @@ export default function InputDemoPage() {
 									{sizes.map((size) => (
 										<td key={size} className="px-2 py-1">
 											<BaseInput
-												icon={<Search />}
+												leftIcon={<Search />}
 												placeholder="Search…"
 												size={size}
 												variant={variant}

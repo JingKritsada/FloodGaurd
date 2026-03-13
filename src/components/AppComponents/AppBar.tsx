@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Contrast, Menu, Type, Waves, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
+import LoginModal from "@/components/LoginModal";
 import { useAuth } from "@/providers/AuthContext";
 import { useAlert } from "@/providers/AlertContext";
 import { useTheme } from "@/providers/ThemeContext";
@@ -11,14 +12,18 @@ import { Z_INDEX } from "@/constants/pages.constants";
 import { roles, ThemeIcon } from "@/constants/components.constants";
 import FontSizeControls from "@/components/FontSizeControl";
 import BaseButton from "@/components/BaseComponents/BaseButton";
+import { getErrorMessage } from "@/services/api";
 
 export default function AppBar(): React.JSX.Element {
 	const { theme, toggleTheme, fontSize, setFontSize } = useTheme();
-	const { userRole, isAuthenticated } = useAuth();
-	const { showAlert } = useAlert();
+	const { userRole, isAuthenticated, login, logout } = useAuth();
+	const { showAlert, showConfirm } = useAlert();
 
+	const [error, setError] = useState("");
 	const [_isMenuOpen, setIsMenuOpen] = useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+	const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
 	const canAccessRole = (roleId: Role): boolean => {
 		if (roleId === "CITIZEN") return true;
@@ -41,6 +46,37 @@ export default function AppBar(): React.JSX.Element {
 		setIsMenuOpen(false);
 	};
 
+	const handleLogin = () => {
+		setIsMobileMenuOpen(false);
+		setIsLoginModalOpen(true);
+	};
+
+	const handleLogout = () => {
+		setIsMobileMenuOpen(false);
+		showConfirm(
+			"ยืนยันการออกจากระบบ",
+			"คุณต้องการออกจากระบบใช่หรือไม่?",
+			async () => {
+				await logout();
+				setIsMobileMenuOpen(false);
+			},
+			"warning",
+			"ออกจากระบบ"
+		);
+	};
+
+	const handleSubmit = async (username: string, password: string) => {
+		try {
+			setIsSubmitting(true);
+			await login(username, password);
+			setIsLoginModalOpen(false);
+		} catch (error) {
+			setError(getErrorMessage(error));
+		} finally {
+			setIsSubmitting(false);
+		}
+	};
+
 	return (
 		<header className="sticky top-0" style={{ zIndex: Z_INDEX.appHeaderBar }}>
 			{/* Header Content */}
@@ -52,7 +88,7 @@ export default function AppBar(): React.JSX.Element {
 					<BaseButton
 						isIconOnly
 						className="aspect-square h-full w-auto p-0!"
-						icon={<Waves size={24} />}
+						leftIcon={<Waves size={24} />}
 						size="xl"
 					/>
 					<div className="flex flex-col">
@@ -75,7 +111,7 @@ export default function AppBar(): React.JSX.Element {
 					<BaseButton
 						isIconOnly
 						className="aspect-square h-full w-auto p-0! text-slate-700 dark:text-slate-200"
-						icon={<ThemeIcon theme={theme} />}
+						leftIcon={<ThemeIcon theme={theme} />}
 						size="xl"
 						variant="outline"
 						onClick={toggleTheme}
@@ -93,8 +129,7 @@ export default function AppBar(): React.JSX.Element {
 								<BaseButton
 									key={role.id}
 									className={`h-full rounded-xl py-0! font-semibold ${active ? "bg-white! text-gold-600! shadow-sm dark:bg-slate-800! dark:text-gold-400!" : ""}`}
-									icon={role.icon}
-									iconPosition="left"
+									leftIcon={role.icon}
 									size="md"
 									title={role.label}
 									variant={active ? "secondary" : "ghost"}
@@ -111,15 +146,7 @@ export default function AppBar(): React.JSX.Element {
 						className={`h-full rounded-xl py-0! font-semibold ${isAuthenticated ? "text-gold-600! shadow-sm dark:text-gold-400!" : ""}`}
 						size="md"
 						variant={isAuthenticated ? "secondary" : "primary"}
-						onClick={() =>
-							showAlert(
-								isAuthenticated ? "ออกจากระบบแล้ว" : "เข้าสู่ระบบแล้ว",
-								isAuthenticated
-									? "คุณออกจากระบบเรียบร้อยแล้ว"
-									: "คุณเข้าสู่ระบบเรียบร้อยแล้ว",
-								"success"
-							)
-						}
+						onClick={isAuthenticated ? handleLogout : handleLogin}
 					>
 						{isAuthenticated ? "ออกจากระบบ" : "เข้าสู่ระบบ"}
 					</BaseButton>
@@ -145,7 +172,7 @@ export default function AppBar(): React.JSX.Element {
 
 					<BaseButton
 						className="aspect-square h-full rounded-xl p-0!"
-						icon={isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+						leftIcon={isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
 						size="lg"
 						variant="primary"
 						onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -182,7 +209,7 @@ export default function AppBar(): React.JSX.Element {
 
 						<BaseButton
 							className="h-full w-36 rounded-xl p-0! text-slate-700 dark:text-slate-200"
-							icon={<ThemeIcon theme={theme} />}
+							leftIcon={<ThemeIcon theme={theme} />}
 							size="lg"
 							variant="outline"
 							onClick={toggleTheme}
@@ -208,8 +235,7 @@ export default function AppBar(): React.JSX.Element {
 								<BaseButton
 									key={role.id}
 									className={`h-full w-full rounded-xl px-2! py-0! font-semibold ${active ? "bg-white! text-gold-600! shadow-sm dark:bg-slate-900! dark:text-gold-400!" : ""}`}
-									icon={role.icon}
-									iconPosition="left"
+									leftIcon={role.icon}
 									size="md"
 									title={role.label}
 									variant={active ? "secondary" : "ghost"}
@@ -222,24 +248,36 @@ export default function AppBar(): React.JSX.Element {
 					</div>
 
 					{/* Auth Button */}
-					<BaseButton
-						className={`rounded-xl font-semibold ${isAuthenticated ? "text-gold-600! shadow-sm dark:text-gold-400!" : ""}`}
-						size="lg"
-						variant={isAuthenticated ? "secondary" : "primary"}
-						onClick={() =>
-							showAlert(
-								isAuthenticated ? "ออกจากระบบแล้ว" : "เข้าสู่ระบบแล้ว",
-								isAuthenticated
-									? "คุณออกจากระบบเรียบร้อยแล้ว"
-									: "คุณเข้าสู่ระบบเรียบร้อยแล้ว",
-								"success"
-							)
-						}
-					>
-						{isAuthenticated ? "ออกจากระบบ" : "เข้าสู่ระบบ"}
-					</BaseButton>
+					{isAuthenticated ? (
+						<BaseButton
+							className={`rounded-xl font-semibold ${isAuthenticated ? "text-gold-600! shadow-sm dark:text-gold-400!" : ""}`}
+							size="lg"
+							variant="secondary"
+							onClick={handleLogout}
+						>
+							ออกจากระบบ
+						</BaseButton>
+					) : (
+						<BaseButton
+							className={`rounded-xl font-semibold ${isAuthenticated ? "text-gold-600! shadow-sm dark:text-gold-400!" : ""}`}
+							size="lg"
+							variant={isAuthenticated ? "secondary" : "primary"}
+							onClick={handleLogin}
+						>
+							เข้าสู่ระบบ
+						</BaseButton>
+					)}
 				</div>
 			</div>
+
+			{/* Login Modal */}
+			<LoginModal
+				error={error}
+				isOpen={isLoginModalOpen}
+				isSubmitting={isSubmitting}
+				onClose={() => setIsLoginModalOpen(false)}
+				onSubmit={handleSubmit}
+			/>
 		</header>
 	);
 }

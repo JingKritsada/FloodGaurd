@@ -10,8 +10,8 @@ import { type BaseInputProps } from "@/interfaces/components.interfaces";
 export default function BaseInput({
 	className = "",
 	disabled,
-	icon: Icon,
-	iconPosition = "left",
+	leftIcon,
+	rightIcon,
 	id,
 	inputClassName = "",
 	isRequired = false,
@@ -20,7 +20,8 @@ export default function BaseInput({
 	variant = "default",
 	...rest
 }: BaseInputProps) {
-	const iconNode = Icon as ReactNode;
+	const leftIconNode = leftIcon as ReactNode;
+	const rightIconNode = rightIcon as ReactNode;
 	const iconSize = inputIconSizeStyles[size];
 
 	const baseStyle =
@@ -50,12 +51,12 @@ export default function BaseInput({
 					.filter(Boolean)
 					.join(" ")}
 			>
-				{iconNode && iconPosition === "left" && (
+				{leftIconNode && (
 					<span
 						className="shrink-0 items-center text-slate-400 dark:text-slate-500"
 						style={{ fontSize: iconSize }}
 					>
-						{iconNode}
+						{leftIconNode}
 					</span>
 				)}
 				<input
@@ -64,12 +65,12 @@ export default function BaseInput({
 					id={id}
 					{...rest}
 				/>
-				{iconNode && iconPosition === "right" && (
+				{rightIconNode && (
 					<span
 						className="shrink-0 items-end text-slate-400 dark:text-slate-500"
 						style={{ fontSize: iconSize }}
 					>
-						{iconNode}
+						{rightIconNode}
 					</span>
 				)}
 			</div>

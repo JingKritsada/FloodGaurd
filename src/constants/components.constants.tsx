@@ -35,7 +35,7 @@ export const variantStyles: Record<ButtonVariant, string> = {
 	success:
 		"bg-green-600 dark:bg-green-700 text-white dark:text-white hover:bg-green-700 dark:hover:bg-green-800 active:bg-green-800 dark:active:bg-green-800",
 	warning:
-		"bg-amber-500 dark:bg-amber-500 text-white dark:text-white hover:bg-amber-600 dark:hover:bg-amber-700 active:bg-amber-700 dark:active:bg-amber-700",
+		"bg-amber-400 dark:bg-amber-500 text-white dark:text-white hover:bg-amber-500 dark:hover:bg-amber-600 active:bg-amber-700 dark:active:bg-amber-700",
 	danger: "bg-red-600 dark:bg-red-700 text-white dark:text-white hover:bg-red-700 dark:hover:bg-red-800 active:bg-red-700 dark:active:bg-red-700",
 	link: "bg-blue-600 dark:bg-blue-700 text-white dark:text-white hover:bg-blue-700 dark:hover:bg-blue-800 active:bg-blue-800 dark:active:bg-blue-800",
 	outline:
@@ -130,7 +130,7 @@ export const inputVariantStyles: Record<InputVariant, string> = {
 		"border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus-within:border-gold-500 dark:focus-within:border-gold-400 focus-within:ring-2 focus-within:ring-gold-500/20",
 	filled: "border border-transparent bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 focus-within:border-gold-500 dark:focus-within:border-gold-400 focus-within:bg-white dark:focus-within:bg-slate-800",
 	outlined:
-		"border-2 border-slate-300 dark:border-slate-600 bg-transparent text-slate-800 dark:text-slate-200 focus-within:border-gold-500 dark:focus-within:border-gold-400",
+		"border border-slate-300 dark:border-slate-600 bg-transparent text-slate-800 dark:text-slate-200 focus-within:border-gold-500 dark:focus-within:border-gold-400",
 	ghost: "border border-transparent bg-transparent text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 focus-within:border-gold-500 dark:focus-within:border-gold-400",
 };
 
@@ -141,3 +141,15 @@ export const inputIconSizeStyles: Record<InputSize, number> = {
 	lg: 18,
 	xl: 20,
 };
+
+/**
+ * Login Modal Constants
+ * - LoginModalProps
+ */
+export interface LoginModalProps {
+	isOpen: boolean;
+	isSubmitting?: boolean;
+	error?: string;
+	onClose: () => void;
+	onSubmit: (username: string, password: string) => void;
+}

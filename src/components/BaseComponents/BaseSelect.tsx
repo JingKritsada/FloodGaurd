@@ -12,8 +12,8 @@ import { filterOptions } from "@/utils/components.utils";
 export default function BaseSelect({
 	className = "",
 	selectClassName = "",
-	icon: Icon,
-	iconPosition = "left",
+	leftIcon,
+	rightIcon,
 	size = "md",
 	variant = "default",
 	isRequired = false,
@@ -35,7 +35,8 @@ export default function BaseSelect({
 
 	const selected = options.find((o) => o.value === value) ?? null;
 	const filtered = filterOptions(options, query);
-	const iconNode = Icon as ReactNode;
+	const leftIconNode = leftIcon as ReactNode;
+	const rightIconNode = rightIcon as ReactNode;
 	const iconSize = inputIconSizeStyles[size];
 
 	// Close dropdown on outside click
@@ -142,12 +143,12 @@ export default function BaseSelect({
 					onClick={handleToggle}
 					onKeyDown={handleKeyDown}
 				>
-					{iconNode && iconPosition === "left" && (
+					{leftIconNode && (
 						<span
 							className="shrink-0 text-slate-400 dark:text-slate-500"
 							style={{ fontSize: iconSize }}
 						>
-							{iconNode}
+							{leftIconNode}
 						</span>
 					)}
 
@@ -183,12 +184,12 @@ export default function BaseSelect({
 						/>
 					</span>
 
-					{iconNode && iconPosition === "right" && (
+					{rightIconNode && (
 						<span
 							className="shrink-0 text-slate-400 dark:text-slate-500"
 							style={{ fontSize: iconSize }}
 						>
-							{iconNode}
+							{rightIconNode}
 						</span>
 					)}
 				</div>

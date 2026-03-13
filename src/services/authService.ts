@@ -61,8 +61,14 @@ async function verifyToken(options?: ApiOptions) {
 	return res.data;
 }
 
-/** Logout — remove stored token. */
-function logout() {
+/** Logout — intercept and optionally call API to invalidate token, then remove from storage. */
+async function logout(_options?: ApiOptions) {
+	// Usually there might be an API call here.
+	// await apiRequest(() => api.post("/auth/logout"), _options);
+
+	// Add a fake delay for UX response
+	await new Promise((resolve) => setTimeout(resolve, 500));
+
 	localStorage.removeItem(TOKEN_KEY);
 }
 

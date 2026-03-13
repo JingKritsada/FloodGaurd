@@ -1,5 +1,6 @@
 import type { AlertModalProps } from "@/interfaces/components.interfaces";
 
+import { useState } from "react";
 import { X } from "lucide-react";
 
 import BaseButton from "./BaseComponents/BaseButton";
@@ -18,7 +19,25 @@ export default function AlertModal({
 	confirmText = "ตกลง",
 	cancelText = "ยกเลิก",
 }: AlertModalProps): React.JSX.Element | null {
+	const [isSubmitting, setIsSubmitting] = useState(false);
+
 	if (!isOpen) return null;
+
+	const handleConfirm = async () => {
+		if (onConfirm) {
+			try {
+				setIsSubmitting(true);
+				await onConfirm();
+			} catch (error) {
+				console.error(error);
+			} finally {
+				setIsSubmitting(false);
+				onClose();
+			}
+		} else {
+			onClose();
+		}
+	};
 
 	return (
 		<div
@@ -56,7 +75,7 @@ export default function AlertModal({
 						{message}
 					</p>
 
-					<div className="flex w-full gap-3">
+					<div className="flex w-full gap-3 font-semibold">
 						{isConfirm ? (
 							<>
 								<BaseButton
@@ -64,12 +83,14 @@ export default function AlertModal({
 									size="lg"
 									variant="secondary"
 									onClick={onClose}
+									disabled={isSubmitting}
 								>
 									{cancelText}
 								</BaseButton>
 								<BaseButton
 									className="w-full"
 									size="lg"
+									isLoading={isSubmitting}
 									variant={
 										type === "success"
 											? "success"
@@ -81,10 +102,7 @@ export default function AlertModal({
 														? "link"
 														: "primary"
 									}
-									onClick={() => {
-										if (onConfirm) onConfirm();
-										onClose();
-									}}
+									onClick={handleConfirm}
 								>
 									{confirmText}
 								</BaseButton>

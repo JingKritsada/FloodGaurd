@@ -11,8 +11,8 @@ import { type BaseButtonProps } from "@/interfaces/components.interfaces";
 
 export default function BaseButton({
 	className = "",
-	icon: Icon,
-	iconPosition = "left",
+	leftIcon,
+	rightIcon,
 	ref,
 	size = "md",
 	variant = "primary",
@@ -34,11 +34,13 @@ export default function BaseButton({
 		return cloneElement(el, { size: el.props.size ?? defaultSize });
 	};
 
-	const iconElement: ReactNode = isLoading ? (
+	const leftIconElement: ReactNode = isLoading ? (
 		<Loader2 className="animate-spin" size={defaultSize} />
 	) : (
-		sizeIcon(Icon ?? null)
+		sizeIcon(leftIcon ?? null)
 	);
+
+	const rightIconElement: ReactNode = sizeIcon(rightIcon ?? null);
 
 	const baseStyle =
 		"inline-flex text-nowrap items-center justify-center transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60";
@@ -59,12 +61,16 @@ export default function BaseButton({
 			{...rest}
 		>
 			{isIconOnly ? (
-				iconElement
+				isLoading ? (
+					<Loader2 className="animate-spin" size={defaultSize} />
+				) : (
+					sizeIcon(leftIcon ?? rightIcon ?? null)
+				)
 			) : (
 				<>
-					{iconPosition === "left" && iconElement}
+					{leftIconElement}
 					{children}
-					{iconPosition === "right" && iconElement}
+					{!isLoading && rightIconElement}
 				</>
 			)}
 		</button>

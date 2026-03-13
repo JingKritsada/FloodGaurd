@@ -49,7 +49,7 @@ export default function ButtonDemoPage() {
 									{sizes.map((size) => (
 										<td key={size} className="px-2 py-1 text-center">
 											<BaseButton
-												icon={<Zap />}
+												leftIcon={<Zap />}
 												size={size}
 												variant={variant}
 											>
@@ -92,7 +92,7 @@ export default function ButtonDemoPage() {
 										<td key={size} className="px-2 py-1 text-center">
 											<BaseButton
 												isIconOnly
-												icon={<Zap />}
+												leftIcon={<Zap />}
 												size={size}
 												variant={variant}
 											/>
@@ -122,7 +122,7 @@ export default function ButtonDemoPage() {
 				<h2 className="text-lg font-semibold text-slate-700">Disabled State</h2>
 				<div className="flex flex-wrap gap-3">
 					{variants.map((variant) => (
-						<BaseButton key={variant} disabled icon={<Zap />} variant={variant}>
+						<BaseButton key={variant} disabled leftIcon={<Zap />} variant={variant}>
 							{variant}
 						</BaseButton>
 					))}

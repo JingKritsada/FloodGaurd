@@ -15,8 +15,8 @@ export default function MultiselectInput({
 	onValueChange,
 	size = "md",
 	variant = "default",
-	icon: Icon,
-	iconPosition = "left",
+	leftIcon,
+	rightIcon,
 	className = "",
 	inputClassName = "",
 	isRequired = false,
@@ -32,7 +32,8 @@ export default function MultiselectInput({
 	const containerRef = useRef<HTMLDivElement>(null);
 	const searchRef = useRef<HTMLInputElement>(null);
 
-	const iconNode = Icon as ReactNode;
+	const leftIconNode = leftIcon as ReactNode;
+	const rightIconNode = rightIcon as ReactNode;
 	const iconSize = inputIconSizeStyles[size];
 	const selectedOptions = options.filter((o) => value.includes(o.value));
 	const filtered = filterOptions(options, query);
@@ -134,12 +135,12 @@ export default function MultiselectInput({
 					onClick={handleToggle}
 					onKeyDown={handleKeyDown}
 				>
-					{iconNode && iconPosition === "left" && (
+					{leftIconNode && (
 						<span
 							className="mr-1 shrink-0 text-slate-400 dark:text-slate-500"
 							style={{ fontSize: iconSize }}
 						>
-							{iconNode}
+							{leftIconNode}
 						</span>
 					)}
 
@@ -190,12 +191,12 @@ export default function MultiselectInput({
 						/>
 					</span>
 
-					{iconNode && iconPosition === "right" && (
+					{rightIconNode && (
 						<span
 							className="ml-1 shrink-0 text-slate-400 dark:text-slate-500"
 							style={{ fontSize: iconSize }}
 						>
-							{iconNode}
+							{rightIconNode}
 						</span>
 					)}
 				</div>

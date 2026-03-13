@@ -13,7 +13,6 @@ import {
 	type AlertType,
 	type ButtonSize,
 	type ButtonVariant,
-	type IconPosition,
 	type InputSize,
 	type InputVariant,
 } from "@/types/components.types";
@@ -23,8 +22,8 @@ import {
  */
 export interface BaseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	className?: string;
-	icon?: ReactNode;
-	iconPosition?: IconPosition;
+	leftIcon?: ReactNode;
+	rightIcon?: ReactNode;
 	ref?: Ref<HTMLButtonElement>;
 	size?: ButtonSize;
 	type?: "button" | "submit" | "reset";
@@ -67,7 +66,7 @@ export interface AlertModalProps {
 	message: string;
 	isConfirm?: boolean;
 	onClose: () => void;
-	onConfirm?: () => void;
+	onConfirm?: () => void | Promise<void>;
 	confirmText?: string;
 	cancelText?: string;
 }
@@ -87,8 +86,8 @@ export interface SelectOption {
 export interface BaseInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
 	size?: InputSize;
 	variant?: InputVariant;
-	icon?: ReactNode;
-	iconPosition?: IconPosition;
+	leftIcon?: ReactNode;
+	rightIcon?: ReactNode;
 	className?: string;
 	inputClassName?: string;
 	isRequired?: boolean;
@@ -102,8 +101,8 @@ export interface BaseSelectProps extends Omit<SelectHTMLAttributes<HTMLSelectEle
 	options: SelectOption[];
 	size?: InputSize;
 	variant?: InputVariant;
-	icon?: ReactNode;
-	iconPosition?: IconPosition;
+	leftIcon?: ReactNode;
+	rightIcon?: ReactNode;
 	className?: string;
 	selectClassName?: string;
 	isRequired?: boolean;
@@ -135,8 +134,8 @@ export interface MultiselectProps {
 	onValueChange?: (values: string[]) => void;
 	size?: InputSize;
 	variant?: InputVariant;
-	icon?: ReactNode;
-	iconPosition?: IconPosition;
+	leftIcon?: ReactNode;
+	rightIcon?: ReactNode;
 	className?: string;
 	inputClassName?: string;
 	isRequired?: boolean;

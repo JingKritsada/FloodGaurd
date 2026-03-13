@@ -120,3 +120,14 @@ h6,
 .font-heading {
 	font-family: var(--font-heading);
 }
+
+input {
+	appearance: none;
+}
+
+input:-webkit-autofill {
+	background-color: transparent;
+	-webkit-text-fill-color: inherit;
+	transition-property: background-color, color;
+	transition-duration: 5000000s;
+}

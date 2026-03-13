@@ -34,7 +34,7 @@ export const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 		(
 			title: string,
 			message: string,
-			onConfirm: () => void,
+			onConfirm: () => void | Promise<void>,
 			type: AlertType = "warning",
 			confirmText?: string,
 			cancelText?: string

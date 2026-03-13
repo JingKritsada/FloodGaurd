@@ -18,7 +18,7 @@ export default function FontSizeControls({
 				isIconOnly
 				className="aspect-square h-full w-auto p-0! text-xs"
 				disabled={fontSize <= 80}
-				icon={<Minus size={20} />}
+				leftIcon={<Minus size={20} />}
 				size="lg"
 				title="ขนาดตัวอักษรเล็ก"
 				variant="ghost"
@@ -35,7 +35,7 @@ export default function FontSizeControls({
 				isIconOnly
 				className="aspect-square h-full w-auto p-0! text-xs"
 				disabled={fontSize >= 140}
-				icon={<Plus size={20} />}
+				leftIcon={<Plus size={20} />}
 				size="lg"
 				title="เพิ่มขนาดตัวอักษร"
 				variant="ghost"
