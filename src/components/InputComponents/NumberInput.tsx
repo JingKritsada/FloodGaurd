@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { Minus, Plus } from "lucide-react";
 
 import {
@@ -6,6 +6,7 @@ import {
 	inputSizeStyles,
 	inputVariantStyles,
 } from "@/constants/components.constants";
+import BaseButton from "@/components/BaseComponents/BaseButton";
 import { type BaseInputProps } from "@/interfaces/components.interfaces";
 
 export default function NumberInput({
@@ -17,6 +18,7 @@ export default function NumberInput({
 	label,
 	id,
 	value,
+	defaultValue,
 	onChange,
 	min,
 	max,
@@ -24,7 +26,12 @@ export default function NumberInput({
 	disabled,
 	...rest
 }: BaseInputProps) {
-	const numericValue = value !== undefined && value !== "" ? Number(value) : undefined;
+	const isControlled = value !== undefined;
+	const [internalValue, setInternalValue] = useState<number>(
+		defaultValue !== undefined ? Number(defaultValue) : 0
+	);
+
+	const numericValue = isControlled ? (value !== "" ? Number(value) : undefined) : internalValue;
 	const iconSize = inputIconSizeStyles[size];
 
 	const clamp = useCallback(
@@ -40,13 +47,19 @@ export default function NumberInput({
 	);
 
 	function fireChange(newVal: number) {
-		if (!onChange) return;
 		const clamped = clamp(newVal);
-		const syntheticEvent = {
-			target: { value: String(clamped) },
-		} as React.ChangeEvent<HTMLInputElement>;
 
-		onChange(syntheticEvent);
+		if (!isControlled) {
+			setInternalValue(clamped);
+		}
+
+		if (onChange) {
+			const syntheticEvent = {
+				target: { value: String(clamped) },
+			} as React.ChangeEvent<HTMLInputElement>;
+
+			onChange(syntheticEvent);
+		}
 	}
 
 	function handleDecrement() {
@@ -85,7 +98,7 @@ export default function NumberInput({
 					htmlFor={id}
 				>
 					{label}
-					{isRequired && <span className="text-red-500 ml-1">*</span>}
+					{isRequired && <span className="ml-1 text-red-500">*</span>}
 				</label>
 			)}
 			<div
@@ -93,21 +106,23 @@ export default function NumberInput({
 					baseWrapperStyle,
 					inputVariantStyles[variant],
 					inputSizeStyles[size],
-					disabled ? "opacity-60 cursor-not-allowed" : "",
+					disabled ? "cursor-not-allowed opacity-60" : "",
+					"px-2!",
 				]
 					.filter(Boolean)
 					.join(" ")}
 			>
-				<button
+				<BaseButton
+					isIconOnly
 					aria-label="Decrease value"
 					className={buttonClass}
 					disabled={!!isDecrementDisabled}
+					icon={<Minus size={iconSize} />}
 					tabIndex={-1}
 					type="button"
+					variant="ghost"
 					onClick={handleDecrement}
-				>
-					<Minus size={iconSize} />
-				</button>
+				/>
 
 				<input
 					className={[baseInputStyle, inputClassName].filter(Boolean).join(" ")}
@@ -117,21 +132,26 @@ export default function NumberInput({
 					min={min}
 					step={step}
 					type="number"
-					value={value}
-					onChange={onChange}
+					value={isControlled ? value : String(internalValue)}
+					onChange={(e) => {
+						if (!isControlled)
+							setInternalValue(e.target.value === "" ? 0 : Number(e.target.value));
+						if (onChange) onChange(e);
+					}}
 					{...rest}
 				/>
 
-				<button
+				<BaseButton
+					isIconOnly
 					aria-label="Increase value"
 					className={buttonClass}
 					disabled={!!isIncrementDisabled}
+					icon={<Plus size={iconSize} />}
 					tabIndex={-1}
 					type="button"
+					variant="ghost"
 					onClick={handleIncrement}
-				>
-					<Plus size={iconSize} />
-				</button>
+				/>
 			</div>
 		</div>
 	);

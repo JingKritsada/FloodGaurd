@@ -19,7 +19,7 @@ const sizes: ButtonSize[] = ["xs", "sm", "md", "lg", "xl"];
 
 export default function ButtonDemoPage() {
 	return (
-		<div className="p-10 space-y-12">
+		<div className="space-y-12 p-10">
 			{/* All variants × all sizes with icon */}
 			<section className="space-y-4">
 				<h2 className="text-lg font-semibold text-slate-700">
@@ -29,13 +29,13 @@ export default function ButtonDemoPage() {
 					<table className="border-separate border-spacing-2">
 						<thead>
 							<tr>
-								<th className="text-left text-xs text-slate-400 pr-4 font-normal w-24">
+								<th className="w-24 pr-4 text-left text-xs font-normal text-slate-400">
 									variant \ size
 								</th>
 								{sizes.map((size) => (
 									<th
 										key={size}
-										className="text-center text-xs text-slate-400 font-normal px-2"
+										className="px-2 text-center text-xs font-normal text-slate-400"
 									>
 										{size}
 									</th>
@@ -45,9 +45,9 @@ export default function ButtonDemoPage() {
 						<tbody>
 							{variants.map((variant) => (
 								<tr key={variant}>
-									<td className="text-xs text-slate-500 pr-4 py-1">{variant}</td>
+									<td className="py-1 pr-4 text-xs text-slate-500">{variant}</td>
 									{sizes.map((size) => (
-										<td key={size} className="text-center py-1 px-2">
+										<td key={size} className="px-2 py-1 text-center">
 											<BaseButton
 												icon={<Zap />}
 												size={size}
@@ -71,13 +71,13 @@ export default function ButtonDemoPage() {
 					<table className="border-separate border-spacing-2">
 						<thead>
 							<tr>
-								<th className="text-left text-xs text-slate-400 pr-4 font-normal w-24">
+								<th className="w-24 pr-4 text-left text-xs font-normal text-slate-400">
 									variant \ size
 								</th>
 								{sizes.map((size) => (
 									<th
 										key={size}
-										className="text-center text-xs text-slate-400 font-normal px-2"
+										className="px-2 text-center text-xs font-normal text-slate-400"
 									>
 										{size}
 									</th>
@@ -87,9 +87,9 @@ export default function ButtonDemoPage() {
 						<tbody>
 							{variants.map((variant) => (
 								<tr key={variant}>
-									<td className="text-xs text-slate-500 pr-4 py-1">{variant}</td>
+									<td className="py-1 pr-4 text-xs text-slate-500">{variant}</td>
 									{sizes.map((size) => (
-										<td key={size} className="text-center py-1 px-2">
+										<td key={size} className="px-2 py-1 text-center">
 											<BaseButton
 												isIconOnly
 												icon={<Zap />}

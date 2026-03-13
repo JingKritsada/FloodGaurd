@@ -9,11 +9,16 @@ import TextareaInput from "@/components/InputComponents/TextareaInput";
 export default function Input(props: InputProps) {
 	switch (props.type) {
 		case "text":
+		case "email":
+		case "search":
+		case "tel":
+		case "url":
 			return <TextInput {...props} />;
 		case "number":
 			return <NumberInput {...props} />;
 		case "password":
 			return <PasswordInput {...props} />;
+
 		case "select": {
 			const { type: _type, ...rest } = props;
 

@@ -7,7 +7,7 @@ import {
 	inputVariantStyles,
 } from "@/constants/components.constants";
 import { type MultiselectProps, type SelectOption } from "@/interfaces/components.interfaces";
-import { filterOptions } from "@/utils/input.utils";
+import { filterOptions } from "@/utils/components.utils";
 
 export default function MultiselectInput({
 	options = [],
@@ -104,7 +104,7 @@ export default function MultiselectInput({
 					htmlFor={id}
 				>
 					{label}
-					{isRequired && <span className="text-red-500 ml-1">*</span>}
+					{isRequired && <span className="ml-1 text-red-500">*</span>}
 				</label>
 			)}
 
@@ -125,7 +125,7 @@ export default function MultiselectInput({
 						inputVariantStyles[variant],
 						inputSizeStyles[size],
 						inputClassName,
-						disabled ? "opacity-60 cursor-not-allowed" : "",
+						disabled ? "cursor-not-allowed opacity-60" : "",
 					]
 						.filter(Boolean)
 						.join(" ")}
@@ -136,14 +136,14 @@ export default function MultiselectInput({
 				>
 					{iconNode && iconPosition === "left" && (
 						<span
-							className="flex-shrink-0 text-slate-400 dark:text-slate-500 mr-1"
+							className="mr-1 shrink-0 text-slate-400 dark:text-slate-500"
 							style={{ fontSize: iconSize }}
 						>
 							{iconNode}
 						</span>
 					)}
 
-					<div className="flex flex-1 flex-wrap gap-1 min-w-0">
+					<div className="flex min-w-0 flex-1 flex-wrap gap-1">
 						{selectedOptions.length === 0 ? (
 							<span className="text-slate-400 dark:text-slate-500">
 								{placeholder}
@@ -152,12 +152,12 @@ export default function MultiselectInput({
 							selectedOptions.map((option: SelectOption) => (
 								<span
 									key={option.value}
-									className="inline-flex items-center gap-1 px-2 py-0.5 text-xs rounded bg-gold-100 dark:bg-gold-900/30 text-gold-800 dark:text-gold-300 font-medium"
+									className="inline-flex items-center gap-1 rounded bg-gold-100 px-2 py-0.5 text-xs font-medium text-gold-800 dark:bg-gold-900/30 dark:text-gold-300"
 								>
 									{option.label}
 									<button
 										aria-label={`Remove ${option.label}`}
-										className="hover:text-gold-900 dark:hover:text-gold-100 cursor-pointer"
+										className="cursor-pointer hover:text-gold-900 dark:hover:text-gold-100"
 										type="button"
 										onClick={(e) => handleRemoveTag(option.value, e)}
 									>
@@ -168,11 +168,11 @@ export default function MultiselectInput({
 						)}
 					</div>
 
-					<span className="flex items-center gap-1 flex-shrink-0 text-slate-400 dark:text-slate-500 ml-1">
+					<span className="ml-1 flex shrink-0 items-center gap-1 text-slate-400 dark:text-slate-500">
 						{selectedOptions.length > 0 && (
 							<button
 								aria-label="Clear all selections"
-								className="hover:text-slate-600 dark:hover:text-slate-300 cursor-pointer"
+								className="cursor-pointer hover:text-slate-600 dark:hover:text-slate-300"
 								type="button"
 								onClick={handleClearAll}
 							>
@@ -192,7 +192,7 @@ export default function MultiselectInput({
 
 					{iconNode && iconPosition === "right" && (
 						<span
-							className="flex-shrink-0 text-slate-400 dark:text-slate-500 ml-1"
+							className="ml-1 shrink-0 text-slate-400 dark:text-slate-500"
 							style={{ fontSize: iconSize }}
 						>
 							{iconNode}
@@ -204,15 +204,15 @@ export default function MultiselectInput({
 				{isOpen && (
 					<div
 						aria-multiselectable="true"
-						className="absolute z-50 mt-1 w-full rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg overflow-hidden"
+						className="absolute z-50 mt-1 w-full overflow-hidden rounded-md border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800"
 						id={`${id}-listbox`}
 						role="listbox"
 					>
 						{searchable && (
-							<div className="p-2 border-b border-slate-100 dark:border-slate-700">
+							<div className="border-b border-slate-100 p-2 dark:border-slate-700">
 								<input
 									ref={searchRef}
-									className="w-full text-sm outline-none bg-transparent text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500"
+									className="w-full bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400 dark:text-slate-200 dark:placeholder:text-slate-500"
 									placeholder="Search…"
 									type="text"
 									value={query}
@@ -234,12 +234,12 @@ export default function MultiselectInput({
 											key={option.value}
 											aria-selected={isSelected}
 											className={[
-												"flex items-center justify-between px-3 py-2 text-sm cursor-pointer",
+												"flex cursor-pointer items-center justify-between px-3 py-2 text-sm",
 												option.disabled
-													? "opacity-50 cursor-not-allowed text-slate-400 dark:text-slate-500"
-													: "text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700",
+													? "cursor-not-allowed text-slate-400 opacity-50 dark:text-slate-500"
+													: "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700",
 												isSelected
-													? "bg-gold-50 dark:bg-gold-900/20 text-gold-700 dark:text-gold-300"
+													? "bg-gold-50 text-gold-700 dark:bg-gold-900/20 dark:text-gold-300"
 													: "",
 											]
 												.filter(Boolean)
@@ -261,7 +261,7 @@ export default function MultiselectInput({
 											<span>{option.label}</span>
 											{isSelected && (
 												<Check
-													className="text-gold-500 flex-shrink-0"
+													className="shrink-0 text-gold-500"
 													size={14}
 												/>
 											)}

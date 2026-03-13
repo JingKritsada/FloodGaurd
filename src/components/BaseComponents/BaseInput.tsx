@@ -9,15 +9,15 @@ import { type BaseInputProps } from "@/interfaces/components.interfaces";
 
 export default function BaseInput({
 	className = "",
-	inputClassName = "",
+	disabled,
 	icon: Icon,
 	iconPosition = "left",
-	size = "md",
-	variant = "default",
+	id,
+	inputClassName = "",
 	isRequired = false,
 	label,
-	id,
-	disabled,
+	size = "md",
+	variant = "default",
 	...rest
 }: BaseInputProps) {
 	const iconNode = Icon as ReactNode;
@@ -30,24 +30,29 @@ export default function BaseInput({
 		"w-full outline-none bg-transparent placeholder:text-slate-400 dark:placeholder:text-slate-500 disabled:cursor-not-allowed";
 
 	return (
-		<div className={["flex flex-col gap-1", className].filter(Boolean).join(" ")}>
+		<div className={["flex flex-col gap-1"].filter(Boolean).join(" ")}>
 			{label && (
 				<label
 					className="text-sm font-medium text-slate-700 dark:text-slate-300"
 					htmlFor={id}
 				>
 					{label}
-					{isRequired && <span className="text-red-500 ml-1">*</span>}
+					{isRequired && <span className="ml-1 text-red-500">*</span>}
 				</label>
 			)}
 			<div
-				className={[baseStyle, inputVariantStyles[variant], inputSizeStyles[size]]
+				className={[
+					baseStyle,
+					inputVariantStyles[variant],
+					inputSizeStyles[size],
+					className,
+				]
 					.filter(Boolean)
 					.join(" ")}
 			>
 				{iconNode && iconPosition === "left" && (
 					<span
-						className="flex-shrink-0 text-slate-400 dark:text-slate-500"
+						className="shrink-0 items-center text-slate-400 dark:text-slate-500"
 						style={{ fontSize: iconSize }}
 					>
 						{iconNode}
@@ -61,7 +66,7 @@ export default function BaseInput({
 				/>
 				{iconNode && iconPosition === "right" && (
 					<span
-						className="flex-shrink-0 text-slate-400 dark:text-slate-500"
+						className="shrink-0 items-end text-slate-400 dark:text-slate-500"
 						style={{ fontSize: iconSize }}
 					>
 						{iconNode}

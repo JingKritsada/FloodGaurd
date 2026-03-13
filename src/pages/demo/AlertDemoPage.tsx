@@ -60,7 +60,7 @@ export default function AlertDemoPage() {
 	const { showAlert, showConfirm } = useAlert();
 
 	return (
-		<div className="p-10 space-y-12">
+		<div className="space-y-12 p-10">
 			{/* Alert types */}
 			<section className="space-y-4">
 				<div>

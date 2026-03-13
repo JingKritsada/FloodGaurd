@@ -7,7 +7,7 @@ import {
 	inputVariantStyles,
 } from "@/constants/components.constants";
 import { type BaseSelectProps } from "@/interfaces/components.interfaces";
-import { filterOptions } from "@/utils/input.utils";
+import { filterOptions } from "@/utils/components.utils";
 
 export default function BaseSelect({
 	className = "",
@@ -96,7 +96,7 @@ export default function BaseSelect({
 					htmlFor={id}
 				>
 					{label}
-					{isRequired && <span className="text-red-500 ml-1">*</span>}
+					{isRequired && <span className="ml-1 text-red-500">*</span>}
 				</label>
 			)}
 
@@ -133,7 +133,7 @@ export default function BaseSelect({
 						inputVariantStyles[variant],
 						inputSizeStyles[size],
 						selectClassName,
-						disabled ? "opacity-60 cursor-not-allowed" : "",
+						disabled ? "cursor-not-allowed opacity-60" : "",
 					]
 						.filter(Boolean)
 						.join(" ")}
@@ -144,7 +144,7 @@ export default function BaseSelect({
 				>
 					{iconNode && iconPosition === "left" && (
 						<span
-							className="flex-shrink-0 text-slate-400 dark:text-slate-500"
+							className="shrink-0 text-slate-400 dark:text-slate-500"
 							style={{ fontSize: iconSize }}
 						>
 							{iconNode}
@@ -161,11 +161,11 @@ export default function BaseSelect({
 						)}
 					</span>
 
-					<span className="flex items-center gap-1 flex-shrink-0 text-slate-400 dark:text-slate-500 ml-1">
+					<span className="ml-1 flex shrink-0 items-center gap-1 text-slate-400 dark:text-slate-500">
 						{selected && (
 							<button
 								aria-label="Clear selection"
-								className="hover:text-slate-600 dark:hover:text-slate-300 cursor-pointer"
+								className="cursor-pointer hover:text-slate-600 dark:hover:text-slate-300"
 								type="button"
 								onClick={handleClear}
 							>
@@ -185,7 +185,7 @@ export default function BaseSelect({
 
 					{iconNode && iconPosition === "right" && (
 						<span
-							className="flex-shrink-0 text-slate-400 dark:text-slate-500"
+							className="shrink-0 text-slate-400 dark:text-slate-500"
 							style={{ fontSize: iconSize }}
 						>
 							{iconNode}
@@ -196,15 +196,15 @@ export default function BaseSelect({
 				{/* Dropdown panel */}
 				{isOpen && (
 					<div
-						className="absolute z-50 mt-1 w-full rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-lg overflow-hidden"
+						className="absolute z-50 mt-1 w-full overflow-hidden rounded-md border border-slate-200 bg-white shadow-lg dark:border-slate-700 dark:bg-slate-800"
 						id={`${id}-listbox`}
 						role="listbox"
 					>
 						{searchable && (
-							<div className="p-2 border-b border-slate-100 dark:border-slate-700">
+							<div className="border-b border-slate-100 p-2 dark:border-slate-700">
 								<input
 									ref={searchRef}
-									className="w-full text-sm outline-none bg-transparent text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500"
+									className="w-full bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400 dark:text-slate-200 dark:placeholder:text-slate-500"
 									placeholder="Search…"
 									type="text"
 									value={query}
@@ -223,12 +223,12 @@ export default function BaseSelect({
 										key={option.value}
 										aria-selected={value === option.value}
 										className={[
-											"flex items-center justify-between px-3 py-2 text-sm cursor-pointer",
+											"flex cursor-pointer items-center justify-between px-3 py-2 text-sm",
 											option.disabled
-												? "opacity-50 cursor-not-allowed text-slate-400 dark:text-slate-500"
-												: "text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700",
+												? "cursor-not-allowed text-slate-400 opacity-50 dark:text-slate-500"
+												: "text-slate-700 hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-slate-700",
 											value === option.value
-												? "bg-gold-50 dark:bg-gold-900/20 text-gold-700 dark:text-gold-300"
+												? "bg-gold-50 text-gold-700 dark:bg-gold-900/20 dark:text-gold-300"
 												: "",
 										]
 											.filter(Boolean)
@@ -249,10 +249,7 @@ export default function BaseSelect({
 									>
 										<span>{option.label}</span>
 										{value === option.value && (
-											<Check
-												className="text-gold-500 flex-shrink-0"
-												size={14}
-											/>
+											<Check className="shrink-0 text-gold-500" size={14} />
 										)}
 									</li>
 								))

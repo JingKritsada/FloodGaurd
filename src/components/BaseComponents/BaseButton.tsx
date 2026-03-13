@@ -16,6 +16,7 @@ export default function BaseButton({
 	ref,
 	size = "md",
 	variant = "primary",
+	type = "button",
 	isLoading = false,
 	isIconOnly = false,
 	disabled,
@@ -54,6 +55,7 @@ export default function BaseButton({
 				.filter(Boolean)
 				.join(" ")}
 			disabled={isDisabled}
+			type={type}
 			{...rest}
 		>
 			{isIconOnly ? (

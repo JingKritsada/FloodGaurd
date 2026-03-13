@@ -115,7 +115,7 @@ export default function FuzzyText({
 			<canvas
 				ref={canvasRef}
 				aria-label={typeof children === "string" ? children : "Fuzzy text"}
-				className="block w-full h-auto"
+				className="block h-auto w-full"
 			/>
 		</div>
 	);

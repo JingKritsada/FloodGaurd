@@ -27,6 +27,7 @@ export interface BaseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
 	iconPosition?: IconPosition;
 	ref?: Ref<HTMLButtonElement>;
 	size?: ButtonSize;
+	type?: "button" | "submit" | "reset";
 	variant?: ButtonVariant;
 	isLoading?: boolean;
 	isIconOnly?: boolean;
@@ -150,7 +151,7 @@ export interface MultiselectProps {
 /**
  * Input (smart wrapper) discriminated union props
  */
-export type TextInputProps = { type: "text" } & BaseInputProps;
+export type TextInputProps = { type: "text" | "email" | "search" | "tel" | "url" } & BaseInputProps;
 export type NumberInputProps = { type: "number" } & BaseInputProps;
 export type PasswordInputProps = { type: "password" } & BaseInputProps;
 export type SelectInputProps = { type: "select" } & BaseSelectProps;

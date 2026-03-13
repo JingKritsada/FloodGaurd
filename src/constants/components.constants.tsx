@@ -74,10 +74,10 @@ export const iconSizeStyles: Record<ButtonSize, number> = {
  * - bgColors
  */
 export const icons = {
-	success: <CheckCircle className="w-12 h-12 text-green-500" />,
-	error: <AlertCircle className="w-12 h-12 text-red-500" />,
-	warning: <AlertTriangle className="w-12 h-12 text-amber-500" />,
-	info: <Info className="w-12 h-12 text-blue-500" />,
+	success: <CheckCircle className="h-12 w-12 text-green-500" />,
+	error: <AlertCircle className="h-12 w-12 text-red-500" />,
+	warning: <AlertTriangle className="h-12 w-12 text-amber-500" />,
+	info: <Info className="h-12 w-12 text-blue-500" />,
 };
 
 export const bgColors = {
@@ -118,11 +118,11 @@ export function ThemeIcon({ theme }: { theme: string }) {
  * - inputIconSizeStyles
  */
 export const inputSizeStyles: Record<InputSize, string> = {
-	xs: "text-xs px-2 py-1.5 gap-1.5 rounded",
-	sm: "text-sm px-3 py-2 gap-2 rounded-md",
-	md: "text-sm px-3.5 py-2.5 gap-2.5 rounded-md",
-	lg: "text-base px-4 py-3 gap-3 rounded-lg",
-	xl: "text-lg px-5 py-3.5 gap-3.5 rounded-xl",
+	xs: "text-xs px-2 py-1 gap-1 rounded",
+	sm: "text-sm px-3 py-1.5 gap-1.5 rounded-md",
+	md: "text-sm px-3.5 py-1.5 gap-1.5 rounded-md",
+	lg: "text-md px-4 py-2 gap-2 rounded-lg",
+	xl: "text-lg px-5 py-2.5 gap-2.5 rounded-xl",
 };
 
 export const inputVariantStyles: Record<InputVariant, string> = {

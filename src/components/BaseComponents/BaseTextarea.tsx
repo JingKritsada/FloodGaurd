@@ -2,6 +2,7 @@ import { inputSizeStyles, inputVariantStyles } from "@/constants/components.cons
 import { type BaseTextareaProps } from "@/interfaces/components.interfaces";
 
 export default function BaseTextarea({
+	rows = 3,
 	className = "",
 	textareaClassName = "",
 	size = "md",
@@ -26,18 +27,27 @@ export default function BaseTextarea({
 					htmlFor={id}
 				>
 					{label}
-					{isRequired && <span className="text-red-500 ml-1">*</span>}
+					{isRequired && <span className="ml-1 text-red-500">*</span>}
 				</label>
 			)}
 			<div
-				className={[baseStyle, inputVariantStyles[variant], inputSizeStyles[size]]
+				className={[
+					baseStyle,
+					inputVariantStyles[variant],
+					inputSizeStyles[size],
+					"pr-1 pb-0",
+				]
 					.filter(Boolean)
 					.join(" ")}
 			>
 				<textarea
-					className={[baseTextareaStyle, textareaClassName].filter(Boolean).join(" ")}
+					className={[baseTextareaStyle, textareaClassName, "-mb-1"]
+						.filter(Boolean)
+						.join(" ")}
 					disabled={disabled}
 					id={id}
+					rows={rows}
+					style={{ resize: "vertical" }}
 					{...rest}
 				/>
 			</div>

@@ -1,6 +1,6 @@
 import type { ApiOptions } from "@/interfaces/services.interfaces";
 
-import { loadingManager } from "@/utils/loadingManager";
+import { loadingManager } from "@/utils/loading.utils";
 
 // ─── Configuration ────────────────────────────────────────────────────────────
 

@@ -1,4 +1,5 @@
 import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
+import tailwind from "eslint-plugin-tailwindcss";
 import react from "eslint-plugin-react";
 import unusedImports from "eslint-plugin-unused-imports";
 import _import from "eslint-plugin-import";
@@ -22,6 +23,14 @@ const compat = new FlatCompat({
 });
 
 export default [
+	...tailwind.configs["flat/recommended"],
+	{
+		settings: {
+			tailwindcss: {
+				config: path.join(__dirname, "src/index.css"),
+			},
+		},
+	},
 	{
 		ignores: [
 			".now/*",
@@ -150,6 +159,11 @@ export default [
 				"warn",
 				{ allowSameFolder: true, rootDir: "src", prefix: "@" },
 			],
+
+			"tailwindcss/classnames-order": "warn",
+			"tailwindcss/enforces-shorthand": "warn",
+			"tailwindcss/no-contradicting-classname": "off",
+			"tailwindcss/no-custom-classname": "off",
 
 			"react/self-closing-comp": "warn",
 
