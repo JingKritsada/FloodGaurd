@@ -11,6 +11,8 @@ import React, {
 	type ReactNode,
 } from "react";
 
+import authService from "@/services/authService";
+
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 /** Safely decode a JWT payload without any third-party library. */
@@ -41,9 +43,9 @@ function mapRole(raw: string | undefined): Role {
 
 	const normalised = raw.toUpperCase();
 
-	if (normalised === "ADMIN" || raw === "ศูนย์บัญชาการ") return "ADMIN";
-
 	if (normalised === "OFFICER" || raw === "เจ้าหน้าที่") return "OFFICER";
+
+	if (normalised === "ADMIN" || raw === "ศูนย์บัญชาการ") return "ADMIN";
 
 	return "CITIZEN";
 }
@@ -120,22 +122,23 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 	}, []);
 
 	const login = useCallback(
-		(token: string) => {
-			const payload = decodeJwtPayload(token);
+		async (username: string, password: string) => {
+			const result = await authService.login(username, password, { skipGlobalLoading: true });
+			const payload = decodeJwtPayload(result.token);
 
 			if (!payload || !isTokenValid(payload)) {
-				return;
+				throw new Error("Invalid token received");
 			}
 			try {
-				sessionStorage.setItem(STORAGE_KEY, token);
+				sessionStorage.setItem(STORAGE_KEY, result.token);
 			} catch {
 				// ignore storage errors
 			}
 			setState({
-				token,
-				username: payload.username ?? payload.name ?? payload.sub ?? null,
-				rawRole: payload.role ?? null,
-				userRole: mapRole(payload.role),
+				token: result.token,
+				username: result.user.username ?? null,
+				rawRole: result.user.role ?? null,
+				userRole: mapRole(result.user.role ?? undefined),
 				isAuthenticated: true,
 			});
 			scheduleExpiry(payload);
@@ -143,10 +146,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 		[scheduleExpiry]
 	);
 
-	const logout = useCallback(() => {
+	const logout = useCallback(async () => {
 		if (expiryTimer.current) clearTimeout(expiryTimer.current);
 
 		try {
+			await authService.logout({ skipGlobalLoading: true });
 			sessionStorage.removeItem(STORAGE_KEY);
 		} catch {
 			// ignore

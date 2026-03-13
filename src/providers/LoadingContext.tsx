@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, type ReactNode, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-import { loadingManager } from "@/utils/loadingManager";
+import { loadingManager } from "@/utils/loading.utils";
 import GlobalLoading from "@/components/GlobalLoading";
 
 interface LoadingContextType {

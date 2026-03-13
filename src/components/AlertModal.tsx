@@ -1,5 +1,6 @@
 import type { AlertModalProps } from "@/interfaces/components.interfaces";
 
+import { useState } from "react";
 import { X } from "lucide-react";
 
 import BaseButton from "./BaseComponents/BaseButton";
@@ -18,11 +19,29 @@ export default function AlertModal({
 	confirmText = "ตกลง",
 	cancelText = "ยกเลิก",
 }: AlertModalProps): React.JSX.Element | null {
+	const [isSubmitting, setIsSubmitting] = useState(false);
+
 	if (!isOpen) return null;
+
+	const handleConfirm = async () => {
+		if (onConfirm) {
+			try {
+				setIsSubmitting(true);
+				await onConfirm();
+			} catch (error) {
+				console.error(error);
+			} finally {
+				setIsSubmitting(false);
+				onClose();
+			}
+		} else {
+			onClose();
+		}
+	};
 
 	return (
 		<div
-			className="fixed inset-0 flex items-center justify-center p-4 animate-in fade-in duration-300"
+			className="animate-in fade-in fixed inset-0 flex items-center justify-center p-4 duration-300"
 			style={{ zIndex: Z_INDEX.alertModal }}
 		>
 			<div
@@ -35,7 +54,7 @@ export default function AlertModal({
 				}}
 			/>
 
-			<div className="relative bg-white dark:bg-slate-800 rounded-3xl shadow-2xl max-w-sm w-full p-4 transform scale-100 transition-all animate-in zoom-in-95 duration-200 border border-slate-100 dark:border-slate-700">
+			<div className="animate-in zoom-in-95 relative w-full max-w-sm scale-100 transform rounded-3xl border border-slate-100 bg-white p-4 shadow-2xl transition-all duration-200 dark:border-slate-700 dark:bg-slate-800">
 				<BaseButton
 					className="absolute top-4 right-4 p-2! dark:hover:bg-slate-900"
 					size="sm"
@@ -46,17 +65,17 @@ export default function AlertModal({
 				</BaseButton>
 
 				<div className="flex flex-col items-center text-center">
-					<div className={`p-4 rounded-full mb-6 ${bgColors[type]}`}>{icons[type]}</div>
+					<div className={`mb-6 rounded-full p-4 ${bgColors[type]}`}>{icons[type]}</div>
 
-					<h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">
+					<h3 className="mb-1 text-xl font-bold text-slate-900 dark:text-white">
 						{title}
 					</h3>
 
-					<p className="text-slate-500 dark:text-slate-400 mb-6 text-sm leading-relaxed">
+					<p className="mb-6 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
 						{message}
 					</p>
 
-					<div className="flex gap-3 w-full">
+					<div className="flex w-full gap-3 font-semibold">
 						{isConfirm ? (
 							<>
 								<BaseButton
@@ -64,12 +83,14 @@ export default function AlertModal({
 									size="lg"
 									variant="secondary"
 									onClick={onClose}
+									disabled={isSubmitting}
 								>
 									{cancelText}
 								</BaseButton>
 								<BaseButton
 									className="w-full"
 									size="lg"
+									isLoading={isSubmitting}
 									variant={
 										type === "success"
 											? "success"
@@ -81,10 +102,7 @@ export default function AlertModal({
 														? "link"
 														: "primary"
 									}
-									onClick={() => {
-										if (onConfirm) onConfirm();
-										onClose();
-									}}
+									onClick={handleConfirm}
 								>
 									{confirmText}
 								</BaseButton>

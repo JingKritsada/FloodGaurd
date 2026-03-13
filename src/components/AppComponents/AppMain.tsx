@@ -4,10 +4,11 @@ import { NotFoundPage } from "@/pages/NotFoundPage";
 import { PrivateRoute } from "@/routes/PrivateRoute";
 import AlertDemoPage from "@/pages/demo/AlertDemoPage";
 import ButtonDemoPage from "@/pages/demo/ButtonDemoPage";
+import InputDemoPage from "@/pages/demo/InputDemoPage";
 
 export default function AppMain() {
 	return (
-		<main className="grow overflow-hidden relative">
+		<main className="relative grow overflow-hidden">
 			<Routes>
 				{/* Public Routes */}
 
@@ -19,6 +20,7 @@ export default function AppMain() {
 				{/* Demo Routes */}
 				<Route element={<AlertDemoPage />} path="/demo/alert" />
 				<Route element={<ButtonDemoPage />} path="/demo/button" />
+				<Route element={<InputDemoPage />} path="/demo/input" />
 
 				{/* Catch all - Not Found */}
 				<Route element={<NotFoundPage />} path="*" />

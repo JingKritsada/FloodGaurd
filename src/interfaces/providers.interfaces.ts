@@ -29,8 +29,8 @@ export interface AuthState {
  * Value exposed by AuthContext.
  */
 export interface AuthContextType extends AuthState {
-	login: (token: string) => void;
-	logout: () => void;
+	login: (username: string, password: string) => Promise<void>;
+	logout: () => Promise<void>;
 }
 
 /**
@@ -42,7 +42,7 @@ export interface AlertState {
 	title: string;
 	message: string;
 	isConfirm: boolean;
-	onConfirm?: () => void;
+	onConfirm?: () => void | Promise<void>;
 	confirmText?: string;
 	cancelText?: string;
 }
@@ -55,7 +55,7 @@ export interface AlertContextType {
 	showConfirm: (
 		title: string,
 		message: string,
-		onConfirm: () => void,
+		onConfirm: () => void | Promise<void>,
 		type?: AlertType,
 		confirmText?: string,
 		cancelText?: string
