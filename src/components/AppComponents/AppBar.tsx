@@ -16,7 +16,7 @@ import { getErrorMessage } from "@/services/api";
 
 export default function AppBar(): React.JSX.Element {
 	const { theme, toggleTheme, fontSize, setFontSize } = useTheme();
-	const { userRole, isAuthenticated, login, logout } = useAuth();
+	const { userRole, currentRole, switchRole, isAuthenticated, login, logout } = useAuth();
 	const { showConfirm } = useAlert();
 
 	const [error, setError] = useState("");
@@ -26,6 +26,7 @@ export default function AppBar(): React.JSX.Element {
 
 	const canAccessRole = (roleId: Role): boolean => {
 		if (roleId === "CITIZEN") return true;
+
 		if (!isAuthenticated) return false;
 		if (roleId === "OFFICER") return userRole === "OFFICER" || userRole === "ADMIN";
 		if (roleId === "ADMIN") return userRole === "ADMIN";
@@ -53,6 +54,7 @@ export default function AppBar(): React.JSX.Element {
 			return;
 		}
 
+		switchRole(roleId);
 		setIsMobileMenuOpen(false);
 	};
 
@@ -133,7 +135,7 @@ export default function AppBar(): React.JSX.Element {
 					{/* Roles Tabs */}
 					<div className="flex h-full items-center gap-0.5 rounded-2xl bg-slate-100 p-1 dark:bg-slate-900">
 						{roles.map((role) => {
-							const active = userRole === role.id;
+							const active = currentRole === role.id;
 
 							return (
 								<BaseButton
@@ -165,7 +167,7 @@ export default function AppBar(): React.JSX.Element {
 				{/* Mobile Menu Button */}
 				<div className="flex h-full items-center gap-2 lg:hidden">
 					{(() => {
-						const role = roles.find((r) => r.id === userRole);
+						const role = roles.find((r) => r.id === currentRole);
 
 						if (!role) return null;
 
@@ -239,7 +241,7 @@ export default function AppBar(): React.JSX.Element {
 					{/* Roles Tabs */}
 					<div className="flex h-14 w-full items-center gap-0.5 rounded-2xl bg-slate-100 p-1 dark:bg-slate-800">
 						{roles.map((role) => {
-							const active = userRole === role.id;
+							const active = currentRole === role.id;
 
 							return (
 								<BaseButton

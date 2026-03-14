@@ -20,6 +20,7 @@ export interface AuthState {
 	token: string | null;
 	username: string | null;
 	userRole: Role;
+	currentRole: Role;
 	/** Raw role string as it appears in the token (e.g. "เจ้าหน้าที่") */
 	rawRole: string | null;
 	isAuthenticated: boolean;
@@ -31,6 +32,7 @@ export interface AuthState {
 export interface AuthContextType extends AuthState {
 	login: (username: string, password: string) => Promise<void>;
 	logout: () => void;
+	switchRole: (role: Role) => void;
 }
 
 /**

@@ -79,6 +79,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 						username: payload.username ?? payload.name ?? payload.sub ?? null,
 						rawRole: payload.role ?? null,
 						userRole: mapRole(payload.role),
+						currentRole: mapRole(payload.role),
 						isAuthenticated: true,
 					};
 				}
@@ -95,6 +96,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 			username: null,
 			rawRole: null,
 			userRole: "CITIZEN",
+			currentRole: "CITIZEN",
 			isAuthenticated: false,
 		};
 	});
@@ -115,6 +117,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 				username: null,
 				rawRole: null,
 				userRole: "CITIZEN",
+				currentRole: "CITIZEN",
 				isAuthenticated: false,
 			});
 			sessionStorage.removeItem(STORAGE_KEY);
@@ -139,6 +142,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 				username: result.user.username ?? null,
 				rawRole: result.user.role ?? null,
 				userRole: mapRole(result.user.role ?? undefined),
+				currentRole: mapRole(result.user.role ?? undefined),
 				isAuthenticated: true,
 			});
 			scheduleExpiry(payload);
@@ -161,8 +165,13 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 			username: null,
 			rawRole: null,
 			userRole: "CITIZEN",
+			currentRole: "CITIZEN",
 			isAuthenticated: false,
 		});
+	}, []);
+
+	const switchRole = useCallback((role: Role) => {
+		setState((prev) => ({ ...prev, currentRole: role }));
 	}, []);
 
 	// Schedule expiry when the provider mounts if a token was restored
@@ -180,7 +189,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 	}, []);
 
 	return (
-		<AuthContext.Provider value={{ ...state, login, logout }}>{children}</AuthContext.Provider>
+		<AuthContext.Provider value={{ ...state, login, logout, switchRole }}>
+			{children}
+		</AuthContext.Provider>
 	);
 };
 

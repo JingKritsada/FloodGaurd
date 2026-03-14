@@ -5,31 +5,37 @@ import NavButton from "@/components/NavButton";
 import { useAuth } from "@/providers/AuthContext";
 
 export default function AppNavBar() {
-	const { userRole } = useAuth();
+	const { currentRole } = useAuth();
 
 	return (
 		<nav
 			className="pointer-events-none fixed right-0 bottom-0 left-0 flex justify-center p-4"
 			style={{ zIndex: Z_INDEX.appNavBar }}
 		>
-			<div className="glass shadow-3xl pointer-events-auto flex w-fit items-center justify-around space-x-1.5 overflow-visible rounded-3xl border border-slate-200 bg-slate-50 p-1.5 dark:border-slate-800 dark:bg-slate-900">
-				{userRole === "CITIZEN" && (
+			<div className="pointer-events-auto flex w-fit items-center justify-around space-x-1.5 overflow-visible rounded-3xl border border-slate-100 bg-white/80 p-1.5 shadow-2xl backdrop-blur-md dark:border-slate-600 dark:bg-slate-900/80">
+				{currentRole === "CITIZEN" && (
 					<>
 						<NavButton
 							destination="/"
 							label="แผนที่"
 							leftIcon={<Map strokeWidth={2.5} />}
 						/>
-						<NavButton
-							destination="/create-request"
-							label="SOS"
-							leftIcon={<Bell strokeWidth={2.5} />}
-						/>
-						<NavButton
-							destination="/create-incident"
-							label="แจ้งเหตุ"
-							leftIcon={<AlertTriangle strokeWidth={2.5} />}
-						/>
+
+						<div className="mx-1.5 flex h-full -translate-y-6 gap-1.5 font-semibold text-white">
+							<NavButton
+								className="w-19! rounded-2xl! border-4 border-white bg-red-500 pt-3! shadow-lg shadow-red-500/30 transition-all duration-300 hover:scale-105 dark:border-slate-900"
+								destination="/create-request"
+								label="SOS"
+								leftIcon={<Bell strokeWidth={2.5} />}
+							/>
+							<NavButton
+								className="w-19! rounded-2xl! border-4 border-white bg-cyan-500 pt-3! shadow-lg shadow-cyan-500/30 transition-all duration-300 hover:scale-105 dark:border-slate-900"
+								destination="/create-incident"
+								label="แจ้งเหตุ"
+								leftIcon={<AlertTriangle strokeWidth={2.5} />}
+							/>
+						</div>
+
 						<NavButton
 							destination="/announcements"
 							label="ประกาศ"
@@ -38,7 +44,7 @@ export default function AppNavBar() {
 					</>
 				)}
 
-				{userRole === "OFFICER" && (
+				{currentRole === "OFFICER" && (
 					<>
 						<NavButton
 							destination="/"
@@ -58,7 +64,7 @@ export default function AppNavBar() {
 					</>
 				)}
 
-				{userRole === "ADMIN" && (
+				{currentRole === "ADMIN" && (
 					<>
 						<NavButton
 							destination="/"

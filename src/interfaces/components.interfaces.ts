@@ -37,8 +37,9 @@ export interface BaseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
 }
 
 export interface NavButtonProps extends BaseButtonProps {
-	label: string;
+	navClassName?: string;
 	destination: string;
+	label: string;
 }
 
 /**
