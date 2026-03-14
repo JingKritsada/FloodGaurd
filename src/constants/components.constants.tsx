@@ -68,6 +68,22 @@ export const iconSizeStyles: Record<ButtonSize, number> = {
 	xl: 20,
 };
 
+export const verticalSizeStyles: Record<ButtonSize, string> = {
+	xs: "text-xs px-3 py-2 gap-1.5 rounded",
+	sm: "text-sm px-4 py-2.5 gap-2 rounded-md",
+	md: "text-sm px-5 py-2.5 gap-2.5 rounded-md",
+	lg: "text-md px-6 py-3 gap-3 rounded-lg",
+	xl: "text-lg px-7 py-3 gap-3.5 rounded-xl",
+};
+
+export const verticalIconSizeStyles: Record<ButtonSize, number> = {
+	xs: 20,
+	sm: 22,
+	md: 24,
+	lg: 28,
+	xl: 32,
+};
+
 /**
  * Alert Modal Constants
  * - icons

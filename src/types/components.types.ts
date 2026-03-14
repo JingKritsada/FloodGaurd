@@ -12,6 +12,7 @@ export type ButtonVariant =
 	| "link"
 	| "none";
 export type ButtonSize = "xs" | "sm" | "md" | "lg" | "xl";
+export type ButtonOrientation = "horizontal" | "vertical";
 
 /**
  * Alert Modal Types

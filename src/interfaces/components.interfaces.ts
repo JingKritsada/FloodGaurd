@@ -13,12 +13,15 @@ import {
 	type AlertType,
 	type ButtonSize,
 	type ButtonVariant,
+	type ButtonOrientation,
 	type InputSize,
 	type InputVariant,
 } from "@/types/components.types";
 
 /**
- * BaseButtonProps extends the standard ButtonHTMLAttributes
+ * ButtonProps
+ * - BaseButtonProps extends the standard ButtonHTMLAttributes
+ * - NavButtonProps extends BaseButtonProps with additional props for navigation
  */
 export interface BaseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 	className?: string;
@@ -28,8 +31,14 @@ export interface BaseButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>
 	size?: ButtonSize;
 	type?: "button" | "submit" | "reset";
 	variant?: ButtonVariant;
+	orientation?: ButtonOrientation;
 	isLoading?: boolean;
 	isIconOnly?: boolean;
+}
+
+export interface NavButtonProps extends BaseButtonProps {
+	label: string;
+	destination: string;
 }
 
 /**

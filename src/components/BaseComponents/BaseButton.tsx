@@ -6,6 +6,8 @@ import {
 	iconSizeStyles,
 	sizeStyles,
 	variantStyles,
+	verticalSizeStyles,
+	verticalIconSizeStyles,
 } from "@/constants/components.constants";
 import { type BaseButtonProps } from "@/interfaces/components.interfaces";
 
@@ -16,6 +18,7 @@ export default function BaseButton({
 	ref,
 	size = "md",
 	variant = "primary",
+	orientation = "horizontal",
 	type = "button",
 	isLoading = false,
 	isIconOnly = false,
@@ -25,7 +28,8 @@ export default function BaseButton({
 }: BaseButtonProps) {
 	const isDisabled = disabled || isLoading;
 
-	const defaultSize = iconSizeStyles[size];
+	const defaultSize =
+		orientation === "vertical" ? verticalIconSizeStyles[size] : iconSizeStyles[size];
 	const sizeIcon = (node: ReactNode): ReactNode => {
 		if (!isValidElement(node)) return node;
 
@@ -50,8 +54,13 @@ export default function BaseButton({
 			ref={ref}
 			className={[
 				baseStyle,
+				orientation === "vertical" ? "flex-col" : "flex-row",
 				variantStyles[variant],
-				isIconOnly ? iconOnlySizeStyles[size] : sizeStyles[size],
+				isIconOnly
+					? iconOnlySizeStyles[size]
+					: orientation === "vertical"
+						? verticalSizeStyles[size]
+						: sizeStyles[size],
 				className,
 			]
 				.filter(Boolean)

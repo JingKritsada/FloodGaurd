@@ -64,6 +64,40 @@ export default function ButtonDemoPage() {
 				</div>
 			</section>
 
+			{/* Orientation */}
+			<section className="space-y-4">
+				<h2 className="text-lg font-semibold text-slate-700">Orientation</h2>
+				<div className="flex flex-wrap gap-4">
+					<BaseButton leftIcon={<Zap />} orientation="horizontal" variant="primary">
+						Horizontal
+					</BaseButton>
+					<BaseButton leftIcon={<Zap />} orientation="vertical" variant="primary">
+						Vertical (flex-col)
+					</BaseButton>
+					<BaseButton orientation="vertical" rightIcon={<Zap />} variant="outline">
+						Vertical Post-icon
+					</BaseButton>
+				</div>
+			</section>
+
+			{/* Vertical Sizes */}
+			<section className="space-y-4">
+				<h2 className="text-lg font-semibold text-slate-700">Vertical Sizes</h2>
+				<div className="flex flex-wrap items-end gap-3">
+					{sizes.map((size) => (
+						<BaseButton
+							key={size}
+							leftIcon={<Zap />}
+							orientation="vertical"
+							size={size}
+							variant="secondary"
+						>
+							{size}
+						</BaseButton>
+					))}
+				</div>
+			</section>
+
 			{/* Icon only */}
 			<section className="space-y-4">
 				<h2 className="text-lg font-semibold text-slate-700">Icon Only</h2>
