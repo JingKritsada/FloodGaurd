@@ -26,7 +26,7 @@ function buildQuery(params: Record<string, unknown>): string {
 // ─── Incident Functions ───────────────────────────────────────────────────────
 
 /** Get all incidents (paginated). */
-async function getAll(page = 1, limit = 10, options?: ApiOptions) {
+async function getAll(page = 1, limit = 100, options?: ApiOptions) {
 	return apiRequest(
 		() => api.get<Incident[]>(`/incidents${buildQuery({ page, limit })}`),
 		options

@@ -45,11 +45,11 @@ export const variantStyles: Record<ButtonVariant, string> = {
 };
 
 export const sizeStyles: Record<ButtonSize, string> = {
-	xs: "text-xs px-2 py-1.5 gap-1.5 rounded",
-	sm: "text-sm px-3 py-2 gap-2 rounded-md",
-	md: "text-sm px-4 py-2.5 gap-2.5 rounded-md",
-	lg: "text-md px-5 py-3 gap-3 rounded-lg",
-	xl: "text-lg px-6 py-3.5 gap-3.5 rounded-xl",
+	xs: "font-normal text-xs px-2 py-1.5 gap-1.5 rounded",
+	sm: "font-semibold text-sm px-3 py-2 gap-2 rounded-md",
+	md: "font-semibold text-sm px-4 py-2.5 gap-2.5 rounded-md",
+	lg: "font-bold text-md px-5 py-3 gap-3 rounded-lg",
+	xl: "font-bold text-lg px-6 py-3.5 gap-3.5 rounded-xl",
 };
 
 export const iconOnlySizeStyles: Record<ButtonSize, string> = {

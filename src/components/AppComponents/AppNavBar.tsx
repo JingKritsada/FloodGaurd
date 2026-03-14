@@ -21,15 +21,15 @@ export default function AppNavBar() {
 							leftIcon={<Map strokeWidth={2.5} />}
 						/>
 
-						<div className="mx-1.5 flex h-full -translate-y-6 gap-1.5 font-semibold text-white">
+						<div className="flex h-full -translate-y-6 gap-1.5 font-semibold text-white">
 							<NavButton
-								className="w-19! rounded-2xl! border-4 border-white bg-red-500 pt-3! shadow-lg shadow-red-500/30 transition-all duration-300 hover:scale-105 dark:border-slate-900"
+								className="w-18! rounded-2xl! border-4 border-white bg-red-500 pt-3! shadow-lg shadow-red-500/30 transition-all duration-300 hover:scale-105 dark:border-slate-900"
 								destination="/create-request"
 								label="SOS"
 								leftIcon={<Bell strokeWidth={2.5} />}
 							/>
 							<NavButton
-								className="w-19! rounded-2xl! border-4 border-white bg-cyan-500 pt-3! shadow-lg shadow-cyan-500/30 transition-all duration-300 hover:scale-105 dark:border-slate-900"
+								className="w-18! rounded-2xl! border-4 border-white bg-cyan-500 pt-3! shadow-lg shadow-cyan-500/30 transition-all duration-300 hover:scale-105 dark:border-slate-900"
 								destination="/create-incident"
 								label="แจ้งเหตุ"
 								leftIcon={<AlertTriangle strokeWidth={2.5} />}

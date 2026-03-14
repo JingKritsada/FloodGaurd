@@ -126,6 +126,7 @@ export default [
 					ignoreRestSiblings: false,
 					argsIgnorePattern: "^_.*?$",
 					varsIgnorePattern: "^_.*?$",
+					caughtErrorsIgnorePattern: "^_.*?$",
 				},
 			],
 

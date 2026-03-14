@@ -28,8 +28,8 @@ export default function AlertModal({
 			try {
 				setIsSubmitting(true);
 				await onConfirm();
-			} catch (error) {
-				console.error(error);
+			} catch (_error) {
+				// Optionally, you can show an error alert here if onConfirm fails
 			} finally {
 				setIsSubmitting(false);
 				onClose();
@@ -80,17 +80,17 @@ export default function AlertModal({
 							<>
 								<BaseButton
 									className="w-full"
+									disabled={isSubmitting}
 									size="lg"
 									variant="secondary"
 									onClick={onClose}
-									disabled={isSubmitting}
 								>
 									{cancelText}
 								</BaseButton>
 								<BaseButton
 									className="w-full"
-									size="lg"
 									isLoading={isSubmitting}
+									size="lg"
 									variant={
 										type === "success"
 											? "success"

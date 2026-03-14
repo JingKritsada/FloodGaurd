@@ -1,4 +1,5 @@
 import type { FontSize } from "@/types/index.types";
+import type { Incident } from "@/interfaces/services.interfaces";
 
 import {
 	type ButtonHTMLAttributes,
@@ -17,6 +18,13 @@ import {
 	type InputSize,
 	type InputVariant,
 } from "@/types/components.types";
+
+export interface TaskCardProps {
+	incident: Incident;
+	currentRole: string | null;
+	onActionClick?: () => void;
+	onNavigateClick?: () => void;
+}
 
 /**
  * ButtonProps

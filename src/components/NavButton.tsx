@@ -16,13 +16,13 @@ export default function NavButton({ navClassName, destination, label, ...rest }:
 
 	return (
 		<BaseButton
-			className={`h-full w-18! rounded-2xl! pt-3! font-semibold ${navClassName || ""} ${
+			className={`h-full w-16! rounded-2xl! pt-3! font-semibold ${navClassName || ""} ${
 				active
 					? "bg-gold-500/10 text-gold-500 dark:text-gold-400"
 					: "text-slate-500 hover:bg-slate-100 hover:text-slate-600 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-slate-300"
 			} `}
 			orientation="vertical"
-			size="sm"
+			size="xs"
 			variant="none"
 			onClick={handleOnClick}
 			{...rest}
