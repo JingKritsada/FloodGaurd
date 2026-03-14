@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 
-import { NotFoundPage } from "@/pages/NotFoundPage";
 import { PrivateRoute } from "@/routes/PrivateRoute";
 import AlertDemoPage from "@/pages/demo/AlertDemoPage";
 import InputDemoPage from "@/pages/demo/InputDemoPage";
@@ -12,6 +11,7 @@ import MapPage from "@/pages/view/MapPage";
 import CreateRequestPage from "@/pages/view/CreateRequestPage";
 import CreateIncidentPage from "@/pages/view/CreateIncidentPage";
 import AnnouncementListPage from "@/pages/view/AnnoucementListPage";
+import NotFoundPage from "@/pages/NotFoundPage";
 
 export default function AppMain() {
 	return (

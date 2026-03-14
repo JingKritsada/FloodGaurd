@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import FuzzyText from "@/components/FuzzyText";
 import BaseButton from "@/components/BaseComponents/BaseButton";
 
-export const NotFoundPage: React.FC = () => {
+export default function NotFoundPage(): React.JSX.Element {
 	const navigate = useNavigate();
 
 	return (
@@ -16,7 +16,7 @@ export const NotFoundPage: React.FC = () => {
 						<FuzzyText
 							baseIntensity={0.15}
 							color="rgba(156, 163, 175, 1)"
-							fontSize="9rem"
+							fontSize="12rem"
 							fontWeight={700}
 							hoverIntensity={0.35}
 						>
@@ -41,6 +41,8 @@ export const NotFoundPage: React.FC = () => {
 				<div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-6 py-4 dark:border-slate-800 dark:bg-slate-900/20">
 					<p className="wrap-break-words md:text-md text-xs leading-relaxed font-medium text-slate-700 sm:text-sm dark:text-slate-300">
 						ขออภัย ไม่พบหน้าที่คุณร้องขอ กรุณาตรวจสอบ URL หรือกลับไปหน้าหลัก
+						หากยังพบปัญหานี้อยู่ กรุณาติดต่อฝ่ายสนับสนุน
+						หรือรีเฟรชหน้าเว็บเพื่อแก้ไขปัญหา
 					</p>
 				</div>
 
@@ -58,13 +60,6 @@ export const NotFoundPage: React.FC = () => {
 					</BaseButton>
 				</div>
 			</div>
-
-			{/* Additional Info */}
-			<div className="text-center text-xs text-slate-500/50 sm:text-sm dark:text-slate-400/50">
-				<p>
-					หากยังพบปัญหานี้อยู่ กรุณาติดต่อฝ่ายสนับสนุน หรือรีเฟรชหน้าเว็บเพื่อแก้ไขปัญหา
-				</p>
-			</div>
 		</div>
 	);
-};
+}

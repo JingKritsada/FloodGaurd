@@ -1,9 +1,12 @@
-import type { ErrorPageProps } from "@/interfaces/pages.interfaces";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
 import FuzzyText from "@/components/FuzzyText";
 import BaseButton from "@/components/BaseComponents/BaseButton";
 
-export default function ErrorPage({ error, reset }: ErrorPageProps) {
+export default function ForbiddenPage(): React.JSX.Element {
+	const navigate = useNavigate();
+
 	return (
 		<div className="flex h-[calc(100vh-120px)] w-full flex-col items-center justify-between p-6">
 			<div className="flex h-full w-full max-w-lg flex-col items-center justify-center gap-12 text-center">
@@ -12,12 +15,12 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
 					<div className="relative w-full">
 						<FuzzyText
 							baseIntensity={0.15}
-							color="rgba(239, 68, 68, 0.9)"
+							color="rgba(156, 163, 175, 1)"
 							fontSize="12rem"
 							fontWeight={700}
 							hoverIntensity={0.35}
 						>
-							ERROR
+							403
 						</FuzzyText>
 					</div>
 
@@ -29,27 +32,31 @@ export default function ErrorPage({ error, reset }: ErrorPageProps) {
 							fontWeight={500}
 							hoverIntensity={0.25}
 						>
-							Something went wrong !
+							This page is forbidden.
 						</FuzzyText>
 					</div>
 				</div>
 
 				{/* Error Message Section */}
-				<div className="w-full rounded-lg border border-red-200 bg-red-50 px-6 py-4 dark:border-red-800 dark:bg-red-900/20">
-					<p className="warp-break-words md:text-md text-xs leading-relaxed font-medium text-red-700 sm:text-sm dark:text-red-300">
-						{error.message || "An unexpected error occurred."}
+				<div className="w-full rounded-lg border border-slate-200 bg-slate-50 px-6 py-4 dark:border-slate-800 dark:bg-slate-900/20">
+					<p className="wrap-break-words md:text-md text-xs leading-relaxed font-medium text-slate-700 sm:text-sm dark:text-slate-300">
+						ขออภัย คุณไม่มีสิทธิ์เข้าถึงหน้านี้ กรุณาตรวจสอบสิทธิ์การเข้าถึง
+						หากยังพบปัญหานี้อยู่ กรุณาติดต่อฝ่ายสนับสนุน
+						หรือรีเฟรชหน้าเว็บเพื่อแก้ไขปัญหา
 					</p>
 				</div>
 
 				{/* Action Button */}
-				<div className="flex w-full justify-center">
+				<div className="flex w-full flex-row justify-center gap-2">
 					<BaseButton
 						className="w-full transform transition-all duration-200 hover:scale-105"
 						size="lg"
-						variant="danger"
-						onClick={() => reset()}
+						variant="secondary"
+						onClick={() => {
+							navigate(-1);
+						}}
 					>
-						ลองอีกครั้ง
+						ย้อนกลับ
 					</BaseButton>
 				</div>
 			</div>
