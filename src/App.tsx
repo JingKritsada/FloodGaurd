@@ -6,9 +6,11 @@ import AppNavBar from "@/components/AppComponents/AppNavBar";
 export default function App() {
 	return (
 		<Providers>
-			<AppBar />
-			<AppMain />
-			<AppNavBar />
+			<div className="flex h-dvh flex-col overflow-hidden">
+				<AppBar />
+				<AppMain />
+				<AppNavBar />
+			</div>
 		</Providers>
 	);
 }

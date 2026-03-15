@@ -44,7 +44,7 @@ export const taskStatusOptions: { id: "ALL" | IncidentStatus; label: string }[] 
 export const mapStatusColor: Record<IncidentStatus, string> = {
 	OPEN: "bg-red-500 text-white shadow-red-500/20",
 	IN_PROGRESS: "bg-amber-500 text-white shadow-amber-500/20",
-	RESOLVED: "bg-emerald-500 text-white shadow-emerald-500/20",
+	RESOLVED: "bg-green-600 text-white shadow-green-600/20",
 };
 
 export const mapCategoryLabel: Record<IncidentCategory, string> = {

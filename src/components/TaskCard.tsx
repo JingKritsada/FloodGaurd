@@ -127,9 +127,9 @@ export default function TaskCard({
 			</div>
 
 			{/* Action Buttons */}
-			<div className="mt-auto flex flex-row items-center gap-3">
+			<div className="mt-auto flex w-full flex-row items-center gap-3">
 				<BaseButton
-					className="rounded-xl"
+					className="w-full rounded-xl"
 					leftIcon={<Info size={20} />}
 					size="md"
 					variant="outline"

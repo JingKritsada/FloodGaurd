@@ -186,7 +186,7 @@ export default function AppBar(): React.JSX.Element {
 
 						{/* Auth Button */}
 						<BaseButton
-							className={`h-full rounded-xl py-0! font-semibold ${isAuthenticated ? "text-gold-600! shadow-sm dark:text-gold-400!" : ""}`}
+							className={`h-full rounded-xl font-semibold ${isAuthenticated ? "text-gold-400! shadow-sm dark:bg-slate-800! dark:text-gold-500!" : ""}`}
 							size="md"
 							variant={isAuthenticated ? "secondary" : "primary"}
 							onClick={isAuthenticated ? handleLogout : handleLogin}
@@ -292,7 +292,7 @@ export default function AppBar(): React.JSX.Element {
 
 						{/* Auth Button */}
 						<BaseButton
-							className={`rounded-xl font-semibold ${isAuthenticated ? "bg-slate-800! text-gold-600! shadow-sm dark:text-gold-400!" : ""}`}
+							className={`h-full rounded-xl font-semibold ${isAuthenticated ? "text-gold-400! shadow-sm dark:bg-slate-800! dark:text-gold-500!" : ""}`}
 							size="lg"
 							variant={isAuthenticated ? "secondary" : "primary"}
 							onClick={isAuthenticated ? handleLogout : handleLogin}
