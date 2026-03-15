@@ -63,6 +63,7 @@ export default function TaskListPage(): React.JSX.Element {
 							ระบบแจ้งเตือนของจังหวัดสุโขทัย
 						</p>
 					</div>
+
 					<span className="h-full rounded-xl border border-gold-500/20 bg-gold-500/10 px-4 py-2 text-base font-black text-gold-600 dark:text-gold-400">
 						{filteredIncidents.length} ใบงาน
 					</span>

@@ -192,7 +192,6 @@ export interface TaskCardProps {
  */
 export interface AnnoucementCardProps {
 	announcement: Announcement;
-	currentRole: string | null;
 	onEdit?: (id: string) => void;
 	onDelete?: (id: string) => void;
 }

@@ -4,13 +4,13 @@ import { PrivateRoute } from "@/routes/PrivateRoute";
 import AlertDemoPage from "@/pages/demo/AlertDemoPage";
 import InputDemoPage from "@/pages/demo/InputDemoPage";
 import ButtonDemoPage from "@/pages/demo/ButtonDemoPage";
+import MapPage from "@/pages/view/MapPage";
 import TaskListPage from "@/pages/view/TaskListPage";
 import DashboardPage from "@/pages/view/DashboardPage";
-import CreateAnnouncementPage from "@/pages/view/CreateAnnoucementPage";
-import MapPage from "@/pages/view/MapPage";
-import CreateRequestPage from "@/pages/view/CreateRequestPage";
-import CreateIncidentPage from "@/pages/view/CreateIncidentPage";
 import AnnouncementListPage from "@/pages/view/AnnoucementListPage";
+import RequestFormPage from "@/pages/view/RequestFormPage";
+import IncidentFormPage from "@/pages/view/IncidentFormPage";
+import AnnouncementFormPage from "@/pages/view/AnnoucementFormPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 
 export default function AppMain() {
@@ -19,8 +19,8 @@ export default function AppMain() {
 			<Routes>
 				{/* Public Routes */}
 				<Route element={<MapPage />} path="/" />
-				<Route element={<CreateRequestPage />} path="/create-request" />
-				<Route element={<CreateIncidentPage />} path="/create-incident" />
+				<Route element={<RequestFormPage />} path="/request-form" />
+				<Route element={<IncidentFormPage />} path="/incident-form" />
 				<Route element={<AnnouncementListPage />} path="/announcements" />
 
 				{/* Protected Officer and Admin Routes */}
@@ -31,7 +31,7 @@ export default function AppMain() {
 				{/* Protected Admin Routes */}
 				<Route element={<PrivateRoute allowedRoles={["ADMIN"]} />}>
 					<Route element={<DashboardPage />} path="/dashboard" />
-					<Route element={<CreateAnnouncementPage />} path="/create-announcement" />
+					<Route element={<AnnouncementFormPage />} path="/announcement-form" />
 				</Route>
 
 				{/* Demo Routes */}

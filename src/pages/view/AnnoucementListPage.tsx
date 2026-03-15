@@ -1,17 +1,23 @@
 import type { AnnouncementPriority } from "@/types/services.types";
 import type { Announcement } from "@/interfaces/services.interfaces";
 
+import { List, Plus } from "lucide-react";
+import { useNavigate } from "react-router";
 import { useEffect, useState } from "react";
-import { List } from "lucide-react";
 
+import { getErrorMessage } from "@/services/api";
+import { useAuth } from "@/providers/AuthContext";
 import { useAlert } from "@/providers/AlertContext";
 import { announcementPriorityOptions } from "@/constants/pages.constants";
+import AnnoucementCard from "@/components/AnnoucementCard";
 import BaseButton from "@/components/BaseComponents/BaseButton";
 import announcementService from "@/services/announcementService";
-import AnnoucementCard from "@/components/AnnoucementCard";
 
 export default function AnnouncementListPage(): React.JSX.Element {
+	const navigate = useNavigate();
+
 	const { showAlert } = useAlert();
+	const { currentRole } = useAuth();
 
 	const [announcements, setAnnouncements] = useState<Announcement[]>([]);
 	const [announcementPriority, setAnnouncementPriority] = useState<"ALL" | AnnouncementPriority>(
@@ -31,6 +37,17 @@ export default function AnnouncementListPage(): React.JSX.Element {
 
 		fetchAnnouncements();
 	}, []);
+
+	const handleDelete = async (id: string) => {
+		try {
+			await announcementService.remove(id);
+			const data = await announcementService.getAll();
+
+			setAnnouncements(data || []);
+		} catch (error) {
+			showAlert("ข้อผิดพลาด", `ไม่สามารถลบประกาศได้: ${getErrorMessage(error)}`, "error");
+		}
+	};
 
 	const filteredAnnouncements =
 		announcementPriority === "ALL"
@@ -53,9 +70,21 @@ export default function AnnouncementListPage(): React.JSX.Element {
 							ระบบแจ้งเตือนของจังหวัดสุโขทัย
 						</p>
 					</div>
-					<span className="h-full rounded-xl border border-gold-500/20 bg-gold-500/10 px-4 py-2 text-base font-black text-gold-600 dark:text-gold-400">
-						{filteredAnnouncements.length} ประกาศ
-					</span>
+
+					{currentRole === "ADMIN" ? (
+						<BaseButton
+							className="h-full rounded-xl border border-gold-500/20 bg-gold-500/10 px-4 py-2 text-base text-gold-600 hover:bg-gold-500/20 dark:text-gold-400"
+							leftIcon={<Plus size={20} />}
+							size="md"
+							variant="none"
+						>
+							สร้างประกาศ
+						</BaseButton>
+					) : (
+						<span className="h-full rounded-xl border border-gold-500/20 bg-gold-500/10 px-4 py-2 text-base text-gold-600 dark:text-gold-400">
+							{filteredAnnouncements.length} ประกาศ
+						</span>
+					)}
 				</div>
 
 				{/* Priority Filter */}
@@ -88,7 +117,8 @@ export default function AnnouncementListPage(): React.JSX.Element {
 						<AnnoucementCard
 							key={announcement._id}
 							announcement={announcement}
-							currentRole="USER"
+							onDelete={handleDelete}
+							onEdit={() => navigate(`/announcement-form`)}
 						/>
 					))}
 

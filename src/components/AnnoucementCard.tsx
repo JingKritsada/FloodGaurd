@@ -4,15 +4,16 @@ import { Clock, User } from "lucide-react";
 
 import BaseButton from "./BaseComponents/BaseButton";
 
+import { useAuth } from "@/providers/AuthContext";
 import { useAlert } from "@/providers/AlertContext";
 import { mapPriorityColor, mapPriorityIcon, mapPriorityLabel } from "@/constants/pages.constants";
 
 export default function AnnoucementCard({
 	announcement,
-	currentRole,
 	onEdit,
 	onDelete,
 }: AnnoucementCardProps): React.JSX.Element {
+	const { currentRole } = useAuth();
 	const { showConfirm } = useAlert();
 
 	const handleDeleteClick = () => {
