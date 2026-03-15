@@ -58,6 +58,7 @@ function isTokenValid(payload: TokenPayload): boolean {
 }
 
 const STORAGE_KEY = "auth_token";
+const ROLE_STORAGE_KEY = "current_role";
 
 // ─── Context ──────────────────────────────────────────────────────────────────
 
@@ -69,6 +70,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 	const [state, setState] = useState<AuthState>(() => {
 		try {
 			const stored = sessionStorage.getItem(STORAGE_KEY);
+			const storedRole = sessionStorage.getItem(ROLE_STORAGE_KEY) as Role | null;
 
 			if (stored) {
 				const payload = decodeJwtPayload(stored);
@@ -79,13 +81,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 						username: payload.username ?? payload.name ?? payload.sub ?? null,
 						rawRole: payload.role ?? null,
 						userRole: mapRole(payload.role),
-						currentRole: mapRole(payload.role),
+						currentRole: storedRole || mapRole(payload.role),
 						isAuthenticated: true,
 					};
 				}
 
 				// Stale / invalid token — clear it
 				sessionStorage.removeItem(STORAGE_KEY);
+				sessionStorage.removeItem(ROLE_STORAGE_KEY);
 			}
 		} catch {
 			// sessionStorage unavailable (private-browsing edge cases)
@@ -121,6 +124,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 				isAuthenticated: false,
 			});
 			sessionStorage.removeItem(STORAGE_KEY);
+			sessionStorage.removeItem(ROLE_STORAGE_KEY);
 		}, ms);
 	}, []);
 
@@ -134,6 +138,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 			}
 			try {
 				sessionStorage.setItem(STORAGE_KEY, result.token);
+				sessionStorage.removeItem(ROLE_STORAGE_KEY);
 			} catch {
 				// ignore storage errors
 			}
@@ -154,8 +159,10 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 		if (expiryTimer.current) clearTimeout(expiryTimer.current);
 
 		try {
-			await authService.logout({ skipGlobalLoading: true });
+			window.location.href = "/";
 			sessionStorage.removeItem(STORAGE_KEY);
+			sessionStorage.removeItem(ROLE_STORAGE_KEY);
+			await authService.logout({ skipGlobalLoading: true });
 		} catch {
 			// ignore
 		}
@@ -171,6 +178,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 	}, []);
 
 	const switchRole = useCallback((role: Role) => {
+		try {
+			sessionStorage.setItem(ROLE_STORAGE_KEY, role);
+		} catch {
+			// ignore
+		}
 		setState((prev) => ({ ...prev, currentRole: role }));
 	}, []);
 

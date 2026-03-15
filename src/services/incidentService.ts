@@ -55,8 +55,11 @@ async function create(data: CreateIncidentData, options?: ApiOptions) {
 }
 
 /** Update an incident's status (officer/admin only). */
-async function updateStatus(id: string, status: IncidentStatus, options?: ApiOptions) {
-	return apiRequest(() => api.patch<Incident>(`/incidents/${id}/status`, { status }), options);
+async function updateStatus(id: string, newStatus: IncidentStatus, options?: ApiOptions) {
+	return apiRequest(
+		() => api.patch<Incident>(`/incidents/${id}/status`, { status: newStatus }),
+		options
+	);
 }
 
 export default {

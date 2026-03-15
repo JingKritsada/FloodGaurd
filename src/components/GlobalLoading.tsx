@@ -7,7 +7,7 @@ export default function GlobalLoading() {
 			style={{ zIndex: Z_INDEX.globalLoading }}
 		>
 			<div className="flex flex-col items-center gap-6 rounded-2xl bg-white p-8 shadow-2xl dark:bg-slate-800">
-				<div className="border-t-forest-500 dark:border-t-forest-400 h-16 w-16 animate-spin rounded-full border-4 border-slate-200 dark:border-slate-700" />
+				<div className="h-16 w-16 animate-spin rounded-full border-4 border-slate-200 border-t-gold-500 dark:border-slate-700 dark:border-t-gold-400" />
 				<p className="text-lg font-medium text-slate-600 dark:text-slate-300">
 					กำลังโหลด...
 				</p>

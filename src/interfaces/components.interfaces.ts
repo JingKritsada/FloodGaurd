@@ -1,5 +1,6 @@
 import type { FontSize } from "@/types/index.types";
-import type { Incident } from "@/interfaces/services.interfaces";
+import type { IncidentStatus } from "@/types/services.types";
+import type { Announcement, Incident } from "@/interfaces/services.interfaces";
 
 import {
 	type ButtonHTMLAttributes,
@@ -18,13 +19,6 @@ import {
 	type InputSize,
 	type InputVariant,
 } from "@/types/components.types";
-
-export interface TaskCardProps {
-	incident: Incident;
-	currentRole: string | null;
-	onActionClick?: () => void;
-	onNavigateClick?: () => void;
-}
 
 /**
  * ButtonProps
@@ -182,3 +176,23 @@ export type InputProps =
 	| SelectInputProps
 	| MultiselectInputProps
 	| TextareaInputProps;
+
+/**
+ * TaskCardProps
+ */
+export interface TaskCardProps {
+	incident: Incident;
+	currentRole: string | null;
+	onStatusUpdate?: (id: string, newStatus: IncidentStatus) => void;
+	onNavigateClick?: () => void;
+}
+
+/**
+ * AnnoucementCardProps
+ */
+export interface AnnoucementCardProps {
+	announcement: Announcement;
+	currentRole: string | null;
+	onEdit?: (id: string) => void;
+	onDelete?: (id: string) => void;
+}

@@ -23,16 +23,23 @@ export default function AppBar(): React.JSX.Element {
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 	const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+	const [pendingRole, setPendingRole] = useState<Role | null>(null);
 
-	const canAccessRole = (roleId: Role): boolean => {
-		if (roleId === "CITIZEN") return true;
+	const canAccessRole = React.useCallback(
+		(roleId: Role, overrideUserRole?: Role, overrideIsAuthenticated?: boolean): boolean => {
+			if (roleId === "CITIZEN") return true;
 
-		if (!isAuthenticated) return false;
-		if (roleId === "OFFICER") return userRole === "OFFICER" || userRole === "ADMIN";
-		if (roleId === "ADMIN") return userRole === "ADMIN";
+			const isAuth = overrideIsAuthenticated ?? isAuthenticated;
+			const rUserRole = overrideUserRole ?? userRole;
 
-		return false;
-	};
+			if (!isAuth) return false;
+			if (roleId === "OFFICER") return rUserRole === "OFFICER" || rUserRole === "ADMIN";
+			if (roleId === "ADMIN") return rUserRole === "ADMIN";
+
+			return false;
+		},
+		[isAuthenticated, userRole]
+	);
 
 	const handleRoleChange = (roleId: Role) => {
 		if (!canAccessRole(roleId)) {
@@ -45,6 +52,7 @@ export default function AppBar(): React.JSX.Element {
 				`กรุณาเข้าสู่ระบบก่อนเปลี่ยนบทบาทเป็น${label}`,
 				() => {
 					setIsMobileMenuOpen(false);
+					setPendingRole(roleId);
 					setIsLoginModalOpen(true);
 				},
 				"warning",
@@ -56,6 +64,7 @@ export default function AppBar(): React.JSX.Element {
 
 		switchRole(roleId);
 		setIsMobileMenuOpen(false);
+		window.location.href = "/";
 	};
 
 	const handleLogin = () => {
@@ -88,6 +97,15 @@ export default function AppBar(): React.JSX.Element {
 			setIsSubmitting(false);
 		}
 	};
+
+	React.useEffect(() => {
+		if (isAuthenticated && pendingRole) {
+			if (canAccessRole(pendingRole)) {
+				switchRole(pendingRole);
+			}
+			setPendingRole(null);
+		}
+	}, [isAuthenticated, pendingRole, canAccessRole, switchRole]);
 
 	return (
 		<>
@@ -289,7 +307,10 @@ export default function AppBar(): React.JSX.Element {
 					error={error}
 					isOpen={isLoginModalOpen}
 					isSubmitting={isSubmitting}
-					onClose={() => setIsLoginModalOpen(false)}
+					onClose={() => {
+						setIsLoginModalOpen(false);
+						setPendingRole(null);
+					}}
 					onSubmit={handleSubmit}
 				/>
 			</header>

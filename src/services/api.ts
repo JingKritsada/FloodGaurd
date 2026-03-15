@@ -90,11 +90,22 @@ export function getErrorMessage(error: unknown): string {
 			}
 		}
 
-		if (error.name === "TypeError") {
-			return "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต";
+		if (
+			error.name === "TypeError" ||
+			error.message.includes("Load failed") ||
+			error.message.includes("Failed to fetch")
+		) {
+			return "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต (หรือปัญหาจาก CORS)";
 		}
 
 		return error.message;
+	}
+
+	if (
+		typeof error === "string" &&
+		(error.includes("Load failed") || error.includes("Failed to load resource"))
+	) {
+		return "ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้ กรุณาตรวจสอบการเชื่อมต่ออินเทอร์เน็ต (หรือปัญหาจาก CORS)";
 	}
 
 	return "เกิดข้อผิดพลาดที่ไม่ทราบสาเหตุ";

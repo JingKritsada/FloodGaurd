@@ -38,7 +38,7 @@ async function getById(id: string, options?: ApiOptions) {
 }
 
 /** Get all announcements including drafts (admin only). */
-async function getAllAdmin(page = 1, limit = 20, options?: ApiOptions) {
+async function getAllAdmin(page = 1, limit = 100, options?: ApiOptions) {
 	return apiRequest(
 		() => api.get<Announcement[]>(`/announcements/admin/all${buildQuery({ page, limit })}`),
 		options
