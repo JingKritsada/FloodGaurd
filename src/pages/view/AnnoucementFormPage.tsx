@@ -10,7 +10,11 @@ import announcementService from "@/services/announcementService";
 import { getErrorMessage } from "@/services/api";
 import { useAuth } from "@/providers/AuthContext";
 import { useAlert } from "@/providers/AlertContext";
-import { annoucementPriorityOptionsForm, mapPriorityColor } from "@/constants/pages.constants";
+import {
+	annoucementPriorityOptionsForm,
+	mapPriorityColor,
+	mapPriorityIcon,
+} from "@/constants/pages.constants";
 import ToggleSwitch from "@/components/InputComponents/ToggleSwitch";
 
 export default function AnnouncementFormPage(): React.JSX.Element {
@@ -90,14 +94,12 @@ export default function AnnouncementFormPage(): React.JSX.Element {
 			<div className="sticky top-0 z-10 flex flex-row items-center justify-between border-b border-slate-200 bg-white/80 p-4 backdrop-blur-lg sm:px-6 dark:border-slate-800 dark:bg-slate-950/80">
 				{/* Title */}
 				<div className="flex h-full flex-col items-start gap-1">
-					<h2 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
+					<h2 className="text-2xl font-black text-slate-900 dark:text-white">
 						{isEditMode ? "แก้ไขประกาศ" : "สร้างประกาศใหม่"}
 					</h2>
 
 					{isEditMode && id && (
-						<span className="font-mono text-xs tracking-tight text-slate-500 uppercase">
-							# {id}
-						</span>
+						<span className="font-mono text-xs text-slate-500 uppercase"># {id}</span>
 					)}
 				</div>
 
@@ -179,7 +181,7 @@ export default function AnnouncementFormPage(): React.JSX.Element {
 									<div
 										className={`rounded-xl p-2 transition-all ${formData.priority === priorityOption.id ? "bg-white/20" : "bg-white shadow-sm dark:bg-slate-800"}`}
 									>
-										{priorityOption.icon}
+										{mapPriorityIcon[priorityOption.id]}
 									</div>
 									<span
 										className={`text-sm font-semibold ${formData.priority === priorityOption.id ? "text-forest-700 dark:text-forest-400" : "text-slate-600 dark:text-slate-400"}`}

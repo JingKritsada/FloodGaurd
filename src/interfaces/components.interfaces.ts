@@ -208,3 +208,13 @@ export interface ToggleSwitchProps {
 	description?: string;
 	onChange: (checked: boolean) => void;
 }
+
+/**
+ * StatCardProps
+ */
+export interface StatCardProps {
+	id: "ALL" | IncidentStatus;
+	label: string;
+	sublabel?: string;
+	value: number | string;
+}

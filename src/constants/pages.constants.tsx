@@ -4,7 +4,16 @@ import type {
 	IncidentStatus,
 } from "@/types/services.types";
 
-import { AlertTriangle, Info, Megaphone, Navigation, PlusCircle, Waves, X } from "lucide-react";
+import {
+	AlertTriangle,
+	CircleCheckBig,
+	Info,
+	Megaphone,
+	Navigation,
+	PlusCircle,
+	Waves,
+	X,
+} from "lucide-react";
 
 /**
  * Z-Index values for various components in the application.
@@ -31,30 +40,47 @@ export const Z_INDEX: Record<string, number> = {
 
 /**
  * Task List Page
- * - Status filter options
+ * - Status options
  * - Status color mapping
+ * - Status icon mapping
+ * - Category options
+ * - Category icon mapping
  */
-export const taskStatusOptions: { id: "ALL" | IncidentStatus; label: string }[] = [
-	{ id: "ALL", label: "ทั้งหมด" },
-	{ id: "OPEN", label: "เปิดใหม่" },
-	{ id: "IN_PROGRESS", label: "กำลังดำเนินการ" },
-	{ id: "RESOLVED", label: "ดำเนินการแล้ว" },
-];
+export const taskStatusOptions: { id: "ALL" | IncidentStatus; label: string; sublabel: string }[] =
+	[
+		{ id: "ALL", label: "ทั้งหมด", sublabel: "ใบงานทั้งหมด" },
+		{ id: "OPEN", label: "เปิดใหม่", sublabel: "ใบงานที่ต้องตรวจสอบ" },
+		{ id: "IN_PROGRESS", label: "กำลังดำเนินการ", sublabel: "ใบงานที่กำลังปฏิบัติงาน" },
+		{ id: "RESOLVED", label: "ดำเนินการแล้ว", sublabel: "ใบงานที่แก้ไขแล้ว" },
+	];
 
-export const mapStatusColor: Record<IncidentStatus, string> = {
+export const mapTaskStatusColor: Record<"ALL" | IncidentStatus, string> = {
+	ALL: "bg-slate-500 text-white shadow-slate-500/20",
 	OPEN: "bg-red-500 text-white shadow-red-500/20",
 	IN_PROGRESS: "bg-amber-500 text-white shadow-amber-500/20",
-	RESOLVED: "bg-green-600 text-white shadow-green-600/20",
+	RESOLVED: "bg-green-500 text-white shadow-green-500/20",
 };
 
-export const mapCategoryLabel: Record<IncidentCategory, string> = {
-	MEDICAL: "เจ็บป่วย/พยาบาล",
-	SUPPLIES: "อาหาร/น้ำดื่ม",
-	EVACUATION: "อพยพคน",
-	ROAD_BLOCKED: "เส้นทางถูกตัดขาด",
-	RISK_AREA: "พื้นที่เสี่ยงภัย",
-	LEVEE_BREACH: "น้ำล้น/ผนังกั้นน้ำพัง",
+export const mapTaskStatusIcon: Record<"ALL" | IncidentStatus, React.JSX.Element> = {
+	ALL: <Info size={32} />,
+	OPEN: <AlertTriangle size={32} />,
+	IN_PROGRESS: <Megaphone size={32} />,
+	RESOLVED: <CircleCheckBig size={32} />,
 };
+
+export const taskCategoryOptions: {
+	id: "ALL" | IncidentCategory;
+	label: string;
+	sublabel: string;
+}[] = [
+	{ id: "ALL", label: "ทั้งหมด", sublabel: "ใบงานทั้งหมด" },
+	{ id: "MEDICAL", label: "เจ็บป่วย/พยาบาล", sublabel: "ใบงานด้านสุขภาพ" },
+	{ id: "SUPPLIES", label: "อาหาร/น้ำดื่ม", sublabel: "ใบงานด้านทรัพยากร" },
+	{ id: "EVACUATION", label: "อพยพคน", sublabel: "ใบงานด้านการอพยพ" },
+	{ id: "ROAD_BLOCKED", label: "เส้นทางถูกตัดขาด", sublabel: "ใบงานด้านการขนส่ง" },
+	{ id: "RISK_AREA", label: "พื้นที่เสี่ยงภัย", sublabel: "ใบงานด้านความเสี่ยง" },
+	{ id: "LEVEE_BREACH", label: "น้ำล้น/ผนังกั้นน้ำพัง", sublabel: "ใบงานด้านความเสียหายจากน้ำ" },
+];
 
 export const mapCategoryIcon: Record<IncidentCategory, React.JSX.Element> = {
 	MEDICAL: <PlusCircle size={28} />,
@@ -80,11 +106,10 @@ export const announcementPriorityOptions: { id: "ALL" | AnnouncementPriority; la
 export const annoucementPriorityOptionsForm: {
 	id: AnnouncementPriority;
 	label: string;
-	icon: React.JSX.Element;
 }[] = [
-	{ id: "HIGH", label: "แจ้งเตือนฉุกเฉิน", icon: <AlertTriangle size={18} /> },
-	{ id: "MEDIUM", label: "แจ้งเตือนสำคัญ", icon: <Megaphone size={18} /> },
-	{ id: "LOW", label: "ประกาศทั่วไป", icon: <Info size={18} /> },
+	{ id: "HIGH", label: "แจ้งเตือนฉุกเฉิน" },
+	{ id: "MEDIUM", label: "แจ้งเตือนสำคัญ" },
+	{ id: "LOW", label: "ประกาศทั่วไป" },
 ];
 
 export const mapPriorityColor: Record<AnnouncementPriority, string> = {

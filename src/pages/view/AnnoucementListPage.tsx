@@ -74,10 +74,10 @@ export default function AnnouncementListPage(): React.JSX.Element {
 				{/* Title */}
 				<div className="flex h-full items-center justify-between">
 					<div className="flex flex-col gap-1">
-						<h2 className="text-2xl font-black tracking-tight text-slate-900 dark:text-white">
+						<h2 className="text-2xl font-black text-slate-900 dark:text-white">
 							ประกาศและแจ้งเตือน
 						</h2>
-						<p className="text-xs font-bold tracking-wide text-slate-500 uppercase">
+						<p className="text-xs font-bold text-slate-500 uppercase">
 							ระบบแจ้งเตือนของจังหวัดสุโขทัย
 						</p>
 					</div>

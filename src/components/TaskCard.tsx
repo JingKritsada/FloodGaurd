@@ -6,7 +6,11 @@ import { ArrowRight, CircleCheckBig, Clock, Info, MapPin, Phone, User, Users } f
 import BaseButton from "./BaseComponents/BaseButton";
 
 import { useAlert } from "@/providers/AlertContext";
-import { mapCategoryIcon, mapCategoryLabel, mapStatusColor } from "@/constants/pages.constants";
+import {
+	mapCategoryIcon,
+	mapTaskStatusColor,
+	taskCategoryOptions,
+} from "@/constants/pages.constants";
 
 export default function TaskCard({
 	incident,
@@ -51,7 +55,7 @@ export default function TaskCard({
 			<div className="item-center flex flex-row justify-start gap-4">
 				{/* Status Icon and ID */}
 				<div
-					className={`flex aspect-square h-full shrink-0 items-center justify-center rounded-lg shadow-sm ${mapStatusColor[normalizedIncident.status]}`}
+					className={`flex aspect-square h-full shrink-0 items-center justify-center rounded-lg shadow-sm ${mapTaskStatusColor[normalizedIncident.status]}`}
 				>
 					{mapCategoryIcon[normalizedIncident.type]}
 				</div>
@@ -59,8 +63,12 @@ export default function TaskCard({
 				{/* Header */}
 				<div className="flex min-w-0 flex-col items-start gap-2">
 					{/* Category */}
-					<h4 className="line-clamp-1 w-full text-xl font-bold tracking-tight text-slate-900 dark:text-slate-50">
-						{mapCategoryLabel[normalizedIncident.type] || normalizedIncident.type}
+					<h4 className="line-clamp-1 w-full text-xl font-bold text-slate-900 dark:text-slate-50">
+						{
+							taskCategoryOptions.find(
+								(option) => option.id === normalizedIncident.type
+							)?.label
+						}
 					</h4>
 
 					{/* Reporter Name */}
