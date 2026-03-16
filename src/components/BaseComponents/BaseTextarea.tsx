@@ -4,6 +4,7 @@ import { type BaseTextareaProps } from "@/interfaces/components.interfaces";
 export default function BaseTextarea({
 	rows = 3,
 	className = "",
+	labelClassName = "",
 	textareaClassName = "",
 	size = "md",
 	variant = "default",
@@ -23,7 +24,12 @@ export default function BaseTextarea({
 		<div className={["flex flex-col gap-1", className].filter(Boolean).join(" ")}>
 			{label && (
 				<label
-					className="text-sm font-medium text-slate-700 dark:text-slate-300"
+					className={[
+						labelClassName,
+						"text-sm font-medium text-slate-700 dark:text-slate-300",
+					]
+						.filter(Boolean)
+						.join(" ")}
 					htmlFor={id}
 				>
 					{label}
@@ -46,6 +52,7 @@ export default function BaseTextarea({
 						.join(" ")}
 					disabled={disabled}
 					id={id}
+					required={isRequired}
 					rows={rows}
 					style={{ resize: "vertical" }}
 					{...rest}

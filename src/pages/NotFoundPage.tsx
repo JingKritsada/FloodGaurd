@@ -51,7 +51,7 @@ export default function NotFoundPage(): React.JSX.Element {
 					<BaseButton
 						className="w-full transform transition-all duration-200 hover:scale-105"
 						size="lg"
-						variant="secondary"
+						variant="outline"
 						onClick={() => {
 							navigate(-1);
 						}}

@@ -9,11 +9,12 @@ import { type BaseInputProps } from "@/interfaces/components.interfaces";
 
 export default function BaseInput({
 	className = "",
+	inputClassName = "",
+	labelClassName = "",
 	disabled,
 	leftIcon,
 	rightIcon,
 	id,
-	inputClassName = "",
 	isRequired = false,
 	label,
 	size = "md",
@@ -34,7 +35,12 @@ export default function BaseInput({
 		<div className={["flex flex-col gap-1"].filter(Boolean).join(" ")}>
 			{label && (
 				<label
-					className="text-sm font-medium text-slate-700 dark:text-slate-300"
+					className={[
+						labelClassName,
+						"text-sm font-medium text-slate-700 dark:text-slate-300",
+					]
+						.filter(Boolean)
+						.join(" ")}
 					htmlFor={id}
 				>
 					{label}
@@ -63,6 +69,7 @@ export default function BaseInput({
 					className={[baseInputStyle, inputClassName].filter(Boolean).join(" ")}
 					disabled={disabled}
 					id={id}
+					required={isRequired}
 					{...rest}
 				/>
 				{rightIconNode && (

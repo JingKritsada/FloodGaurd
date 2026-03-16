@@ -54,20 +54,34 @@ export default function AnnoucementCard({
 						{announcement.title}
 					</h4>
 
-					{/* Priority */}
-					{announcement.priority && (
-						<span
-							className={`rounded-lg px-3 py-1 text-sm font-medium ${
-								announcement.priority === "HIGH"
-									? "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400"
-									: announcement.priority === "MEDIUM"
-										? "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400"
-										: "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
-							}`}
-						>
-							{mapPriorityLabel[announcement.priority] || announcement.priority}
-						</span>
-					)}
+					<div className="flex items-center gap-2">
+						{/* Priority */}
+						{announcement.priority && (
+							<span
+								className={`rounded-lg px-3 py-1 text-sm font-medium ${
+									announcement.priority === "HIGH"
+										? "bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400"
+										: announcement.priority === "MEDIUM"
+											? "bg-amber-100 text-amber-600 dark:bg-amber-900/30 dark:text-amber-400"
+											: "bg-blue-100 text-blue-600 dark:bg-blue-900/30 dark:text-blue-400"
+								}`}
+							>
+								{mapPriorityLabel[announcement.priority] || announcement.priority}
+							</span>
+						)}
+
+						{/* Published Status */}
+						{currentRole === "ADMIN" &&
+							(announcement.isPublished ? (
+								<span className="rounded-lg bg-green-100 px-3 py-1 text-sm font-medium text-green-600 dark:bg-green-900/30 dark:text-green-400">
+									เผยแพร่แล้ว
+								</span>
+							) : (
+								<span className="rounded-lg bg-slate-100 px-3 py-1 text-sm font-medium text-slate-600 dark:bg-slate-700/30 dark:text-slate-400">
+									ฉบับร่าง
+								</span>
+							))}
+					</div>
 				</div>
 			</div>
 

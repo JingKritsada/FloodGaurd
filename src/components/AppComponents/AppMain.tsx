@@ -31,7 +31,8 @@ export default function AppMain() {
 				{/* Protected Admin Routes */}
 				<Route element={<PrivateRoute allowedRoles={["ADMIN"]} />}>
 					<Route element={<DashboardPage />} path="/dashboard" />
-					<Route element={<AnnouncementFormPage />} path="/announcement-form" />
+					<Route element={<AnnouncementFormPage />} path="/announcement-form/add" />
+					<Route element={<AnnouncementFormPage />} path="/announcement-form/edit/:id" />
 				</Route>
 
 				{/* Demo Routes */}

@@ -77,6 +77,16 @@ export const announcementPriorityOptions: { id: "ALL" | AnnouncementPriority; la
 	{ id: "LOW", label: "ประกาศทั่วไป" },
 ];
 
+export const annoucementPriorityOptionsForm: {
+	id: AnnouncementPriority;
+	label: string;
+	icon: React.JSX.Element;
+}[] = [
+	{ id: "HIGH", label: "แจ้งเตือนฉุกเฉิน", icon: <AlertTriangle size={18} /> },
+	{ id: "MEDIUM", label: "แจ้งเตือนสำคัญ", icon: <Megaphone size={18} /> },
+	{ id: "LOW", label: "ประกาศทั่วไป", icon: <Info size={18} /> },
+];
+
 export const mapPriorityColor: Record<AnnouncementPriority, string> = {
 	HIGH: "bg-red-500 text-white shadow-red-500/20",
 	MEDIUM: "bg-amber-500 text-white shadow-amber-500/20",

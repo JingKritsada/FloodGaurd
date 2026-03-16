@@ -102,6 +102,7 @@ export interface BaseInputProps extends Omit<InputHTMLAttributes<HTMLInputElemen
 	rightIcon?: ReactNode;
 	className?: string;
 	inputClassName?: string;
+	labelClassName?: string;
 	isRequired?: boolean;
 	label?: string;
 }
@@ -132,6 +133,7 @@ export interface BaseTextareaProps extends TextareaHTMLAttributes<HTMLTextAreaEl
 	size?: InputSize;
 	variant?: InputVariant;
 	className?: string;
+	labelClassName?: string;
 	textareaClassName?: string;
 	isRequired?: boolean;
 	label?: string;
@@ -194,4 +196,15 @@ export interface AnnoucementCardProps {
 	announcement: Announcement;
 	onEdit?: (id: string) => void;
 	onDelete?: (id: string) => void;
+}
+
+/**
+ * ToggleSwitchProps
+ */
+export interface ToggleSwitchProps {
+	checked: boolean;
+	className?: string;
+	label: string;
+	description?: string;
+	onChange: (checked: boolean) => void;
 }

@@ -143,7 +143,7 @@ export const inputSizeStyles: Record<InputSize, string> = {
 
 export const inputVariantStyles: Record<InputVariant, string> = {
 	default:
-		"border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 focus-within:border-gold-500 dark:focus-within:border-gold-400 focus-within:ring-2 focus-within:ring-gold-500/20",
+		"border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 focus-within:border-gold-500 dark:focus-within:border-gold-400 focus-within:ring-2 focus-within:ring-gold-500/20",
 	filled: "border border-transparent bg-slate-100 dark:bg-slate-700 text-slate-800 dark:text-slate-200 focus-within:border-gold-500 dark:focus-within:border-gold-400 focus-within:bg-white dark:focus-within:bg-slate-800",
 	outlined:
 		"border border-slate-300 dark:border-slate-600 bg-transparent text-slate-800 dark:text-slate-200 focus-within:border-gold-500 dark:focus-within:border-gold-400",

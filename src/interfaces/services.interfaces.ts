@@ -158,6 +158,7 @@ export interface CreateAnnouncementData {
 	title: string;
 	content: string;
 	priority: AnnouncementPriority;
+	isPublished?: boolean;
 	createdBy: string;
 	image?: string;
 }
@@ -166,5 +167,6 @@ export interface UpdateAnnouncementData {
 	title?: string;
 	content?: string;
 	priority?: AnnouncementPriority;
+	isPublished?: boolean;
 	image?: string;
 }

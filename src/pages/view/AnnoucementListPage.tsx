@@ -19,6 +19,7 @@ export default function AnnouncementListPage(): React.JSX.Element {
 	const { showAlert } = useAlert();
 	const { currentRole } = useAuth();
 
+	const [refreshTrigger, setRefreshTrigger] = useState(0);
 	const [announcements, setAnnouncements] = useState<Announcement[]>([]);
 	const [announcementPriority, setAnnouncementPriority] = useState<"ALL" | AnnouncementPriority>(
 		"ALL"
@@ -27,23 +28,33 @@ export default function AnnouncementListPage(): React.JSX.Element {
 	useEffect(() => {
 		async function fetchAnnouncements() {
 			try {
+				if (currentRole === "ADMIN") {
+					const data = await announcementService.getAllAdmin();
+
+					setAnnouncements(data || []);
+
+					return;
+				}
+
 				const data = await announcementService.getAll();
 
 				setAnnouncements(data || []);
 			} catch (error) {
-				showAlert(`Failed to load announcements: ${error}`, "error");
+				showAlert(
+					"ข้อผิดพลาด",
+					`ไม่สามารถโหลดข้อมูลประกาศได้: ${getErrorMessage(error)}`,
+					"error"
+				);
 			}
 		}
 
 		fetchAnnouncements();
-	}, []);
+	}, [showAlert, currentRole, refreshTrigger]);
 
 	const handleDelete = async (id: string) => {
 		try {
 			await announcementService.remove(id);
-			const data = await announcementService.getAll();
-
-			setAnnouncements(data || []);
+			setRefreshTrigger((prev) => prev + 1);
 		} catch (error) {
 			showAlert("ข้อผิดพลาด", `ไม่สามารถลบประกาศได้: ${getErrorMessage(error)}`, "error");
 		}
@@ -77,6 +88,7 @@ export default function AnnouncementListPage(): React.JSX.Element {
 							leftIcon={<Plus size={20} />}
 							size="md"
 							variant="none"
+							onClick={() => navigate("/announcement-form/add")}
 						>
 							สร้างประกาศ
 						</BaseButton>
@@ -118,20 +130,20 @@ export default function AnnouncementListPage(): React.JSX.Element {
 							key={announcement._id}
 							announcement={announcement}
 							onDelete={handleDelete}
-							onEdit={() => navigate(`/announcement-form`)}
+							onEdit={(id) => navigate(`/announcement-form/edit/${id}`)}
 						/>
 					))}
 
 				{/* Not Found */}
 				{filteredAnnouncements.length === 0 && (
-					<div className="col-span-full flex flex-col items-center justify-center gap-6 rounded-3xl border-2 border-dashed border-slate-300 py-8 text-slate-500 md:py-12 lg:py-16 dark:border-slate-700 dark:text-slate-400">
+					<div className="col-span-full flex flex-col items-center justify-center gap-6 rounded-3xl border-2 border-dashed border-slate-300 px-8 py-8 text-center text-slate-500 md:py-12 lg:py-16 dark:border-slate-700 dark:text-slate-400">
 						<div className="rounded-full bg-slate-200/30 p-6 dark:bg-slate-800/30">
 							<List size={36} />
 						</div>
-						<span className="text-lg font-medium">
+						<span className="text-lg font-medium whitespace-pre-line">
 							{announcementPriority === "ALL"
 								? "ยังไม่มีประกาศ"
-								: `ไม่พบประกาศที่มีลำดับความสำคัญ "${
+								: `ไม่พบประกาศที่มีลำดับความสำคัญ\n "${
 										announcementPriorityOptions.find(
 											(o) => o.id === announcementPriority
 										)?.label

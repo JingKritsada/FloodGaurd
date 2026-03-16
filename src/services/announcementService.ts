@@ -25,7 +25,7 @@ function buildQuery(params: Record<string, unknown>): string {
 // ─── Announcement Functions ───────────────────────────────────────────────────
 
 /** Get all published announcements (public, paginated). */
-async function getAll(page = 1, limit = 10, options?: ApiOptions) {
+async function getAll(page = 1, limit = 100, options?: ApiOptions) {
 	return apiRequest(
 		() => api.get<Announcement[]>(`/announcements${buildQuery({ page, limit })}`),
 		options

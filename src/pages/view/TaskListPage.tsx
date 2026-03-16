@@ -16,6 +16,7 @@ export default function TaskListPage(): React.JSX.Element {
 	const { showAlert } = useAlert();
 	const { currentRole } = useAuth();
 
+	const [refreshTrigger, setRefreshTrigger] = useState(0);
 	const [incidents, setIncidents] = useState<Incident[]>([]);
 	const [statusFilter, setStatusFilter] = useState<"ALL" | IncidentStatus>("ALL");
 
@@ -26,12 +27,16 @@ export default function TaskListPage(): React.JSX.Element {
 
 				setIncidents(data || []);
 			} catch (error) {
-				showAlert(`Failed to load incidents: ${error}`, "error");
+				showAlert(
+					"ข้อผิดพลาด",
+					`ไม่สามารถโหลดข้อมูลใบงานได้: ${getErrorMessage(error)}`,
+					"error"
+				);
 			}
 		}
 
 		fetchIncidents();
-	}, []);
+	}, [showAlert, currentRole, refreshTrigger]);
 
 	const filteredIncidents =
 		statusFilter === "ALL"
@@ -41,9 +46,7 @@ export default function TaskListPage(): React.JSX.Element {
 	const handleStatusUpdate = async (id: string, newStatus: IncidentStatus) => {
 		try {
 			await incidentService.updateStatus(id, newStatus);
-			const data = await incidentService.getAll();
-
-			setIncidents(data || []);
+			setRefreshTrigger((prev) => prev + 1);
 		} catch (error) {
 			showAlert("ข้อผิดพลาด", `ไม่สามารถอัปเดตสถานะได้: ${getErrorMessage(error)}`, "error");
 		}
@@ -111,10 +114,10 @@ export default function TaskListPage(): React.JSX.Element {
 						<div className="rounded-full bg-slate-200/30 p-6 dark:bg-slate-800/30">
 							<List size={36} />
 						</div>
-						<span className="text-lg font-medium">
+						<span className="text-lg font-medium whitespace-pre-line">
 							{statusFilter === "ALL"
 								? "ยังไม่มีใบงาน"
-								: `ไม่พบใบงานที่มีสถานะ "${
+								: `ไม่พบใบงานที่มีสถานะ\n "${
 										taskStatusOptions.find((o) => o.id === statusFilter)?.label
 									}"`}
 						</span>
