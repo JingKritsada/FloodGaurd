@@ -141,3 +141,11 @@ input:-webkit-autofill {
 *::-webkit-scrollbar {
 	display: none; /* Chrome, Safari, Opera */
 }
+
+/* Remove focus outline from all Recharts elements */
+.recharts-wrapper:focus,
+.recharts-wrapper *:focus,
+.recharts-surface:focus,
+.recharts-sector:focus {
+	outline: none;
+}

@@ -1,3 +1,6 @@
+import type { Incident } from "@/interfaces/services.interfaces";
+
+import { useEffect, useState } from "react";
 import { RotateCw } from "lucide-react";
 import {
 	PieChart,
@@ -13,15 +16,42 @@ import {
 
 import StatCard from "@/components/StatCard";
 import BaseButton from "@/components/BaseComponents/BaseButton";
+import { getErrorMessage } from "@/services/api";
+import { useAuth } from "@/providers/AuthContext";
+import { useTheme } from "@/providers/ThemeContext";
+import { useAlert } from "@/providers/AlertContext";
 import {
 	mapTaskStatusColor,
 	taskCategoryOptions,
 	taskStatusOptions,
 } from "@/constants/pages.constants";
-import { useTheme } from "@/providers/ThemeContext";
+import incidentService from "@/services/incidentService";
 
 export default function DashboardPage(): React.JSX.Element {
 	const { theme } = useTheme();
+	const { showAlert } = useAlert();
+	const { currentRole } = useAuth();
+
+	const [refreshTrigger, setRefreshTrigger] = useState(0);
+	const [incidents, setIncidents] = useState<Incident[]>([]);
+
+	useEffect(() => {
+		async function fetchIncidents() {
+			try {
+				const data = await incidentService.getAll();
+
+				setIncidents(data || []);
+			} catch (error) {
+				showAlert(
+					"ข้อผิดพลาด",
+					`ไม่สามารถโหลดข้อมูลใบงานได้: ${getErrorMessage(error)}`,
+					"error"
+				);
+			}
+		}
+
+		fetchIncidents();
+	}, [showAlert, currentRole, refreshTrigger]);
 
 	const COLORS = ["#ef4444", "#f59e0b", "#4CAF50"];
 	const isDarkMode =
@@ -34,13 +64,13 @@ export default function DashboardPage(): React.JSX.Element {
 		.filter((option) => option.id !== "ALL")
 		.map((option) => ({
 			name: option.label,
-			value: 10,
+			value: incidents.filter((incident) => incident.status === option.id).length,
 		}));
 	const typeDataForBar = taskCategoryOptions
 		.filter((option) => option.id !== "ALL")
 		.map((option) => ({
 			name: option.label,
-			value: 10,
+			value: incidents.filter((incident) => incident.type === option.id).length,
 		}));
 
 	return (
@@ -67,6 +97,7 @@ export default function DashboardPage(): React.JSX.Element {
 						size="lg"
 						type="submit"
 						variant="outline"
+						onClick={() => setRefreshTrigger((prev) => prev + 1)}
 					/>
 				</div>
 			</div>
@@ -81,7 +112,12 @@ export default function DashboardPage(): React.JSX.Element {
 							id={option.id}
 							label={option.label}
 							sublabel={option.sublabel}
-							value={10}
+							value={
+								incidents.filter(
+									(incident) =>
+										option.id === "ALL" || incident.status === option.id
+								).length
+							}
 						/>
 					))}
 				</div>
@@ -153,8 +189,8 @@ export default function DashboardPage(): React.JSX.Element {
 							ภาพรวมประเภทของเหตุการณ์
 						</h3>
 
-						<div className="custom-scrollbar w-full overflow-x-auto overflow-y-hidden">
-							<div className="h-75 min-w-160">
+						<div className="custom-scrollbar w-full items-center overflow-x-auto overflow-y-hidden">
+							<div className="mx-auto h-75 w-180">
 								<ResponsiveContainer height="100%" width="100%">
 									<BarChart data={typeDataForBar}>
 										<XAxis
@@ -163,6 +199,7 @@ export default function DashboardPage(): React.JSX.Element {
 											fontSize={14}
 											fontWeight={500}
 											stroke={isDarkMode ? "#64748b" : "#94a3b8"}
+											strokeWidth={0}
 											tickLine={false}
 											tickMargin={16}
 										/>
