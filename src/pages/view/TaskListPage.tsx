@@ -8,8 +8,8 @@ import { getErrorMessage } from "@/services/api";
 import { useAuth } from "@/providers/AuthContext";
 import { useAlert } from "@/providers/AlertContext";
 import { taskStatusOptions } from "@/constants/pages.constants";
-import TaskCard from "@/components/TaskCard";
 import incidentService from "@/services/incidentService";
+import TaskCard from "@/components/CardComponent/TaskCard";
 import BaseButton from "@/components/BaseComponents/BaseButton";
 
 export default function TaskListPage(): React.JSX.Element {

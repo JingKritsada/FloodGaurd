@@ -3,10 +3,9 @@ import type { AlertModalProps } from "@/interfaces/components.interfaces";
 import { useState } from "react";
 import { X } from "lucide-react";
 
-import BaseButton from "./BaseComponents/BaseButton";
-
 import { Z_INDEX } from "@/constants/pages.constants";
 import { bgColors, icons } from "@/constants/components.constants";
+import BaseButton from "@/components/BaseComponents/BaseButton";
 
 export default function AlertModal({
 	isOpen,

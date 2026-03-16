@@ -1,5 +1,5 @@
 import type { FontSize } from "@/types/index.types";
-import type { IncidentStatus } from "@/types/services.types";
+import type { IncidentStatus, IncidentCategory } from "@/types/services.types";
 import type { Announcement, Incident } from "@/interfaces/services.interfaces";
 
 import {
@@ -217,4 +217,16 @@ export interface StatCardProps {
 	label: string;
 	sublabel?: string;
 	value: number | string;
+}
+
+/**
+ * FilterModalProps
+ */
+export interface FilterModalProps {
+	isOpen: boolean;
+	title?: string;
+	currentFilters: IncidentCategory[];
+	onClose: () => void;
+	onReset?: () => void;
+	onApply: (filters: IncidentCategory[]) => void;
 }

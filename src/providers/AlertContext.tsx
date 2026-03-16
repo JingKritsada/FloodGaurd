@@ -3,7 +3,7 @@ import type { AlertContextType, AlertState } from "@/interfaces/providers.interf
 
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 
-import AlertModal from "@/components/AlertModal";
+import AlertModal from "@/components/ModalComponent/AlertModal";
 
 const AlertContext = createContext<AlertContextType | undefined>(undefined);
 

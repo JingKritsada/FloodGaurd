@@ -9,9 +9,9 @@ import { getErrorMessage } from "@/services/api";
 import { useAuth } from "@/providers/AuthContext";
 import { useAlert } from "@/providers/AlertContext";
 import { announcementPriorityOptions } from "@/constants/pages.constants";
-import AnnoucementCard from "@/components/AnnoucementCard";
 import BaseButton from "@/components/BaseComponents/BaseButton";
 import announcementService from "@/services/announcementService";
+import AnnoucementCard from "@/components/CardComponent/AnnoucementCard";
 
 export default function AnnouncementListPage(): React.JSX.Element {
 	const navigate = useNavigate();

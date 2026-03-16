@@ -2,11 +2,10 @@ import type { AnnoucementCardProps } from "@/interfaces/components.interfaces";
 
 import { Clock, User } from "lucide-react";
 
-import BaseButton from "./BaseComponents/BaseButton";
-
 import { useAuth } from "@/providers/AuthContext";
 import { useAlert } from "@/providers/AlertContext";
 import { mapPriorityColor, mapPriorityIcon, mapPriorityLabel } from "@/constants/pages.constants";
+import BaseButton from "@/components/BaseComponents/BaseButton";
 
 export default function AnnoucementCard({
 	announcement,

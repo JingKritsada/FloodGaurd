@@ -1,4 +1,5 @@
 import type { Role } from "@/types/index.types";
+import type { IncidentCategory } from "@/types/services.types";
 
 import {
 	CheckCircle,
@@ -169,3 +170,12 @@ export interface LoginModalProps {
 	onClose: () => void;
 	onSubmit: (username: string, password: string) => void;
 }
+
+export const incidentCategories: { id: IncidentCategory; label: string }[] = [
+	{ id: "MEDICAL", label: "เจ็บป่วย/พยาบาล" },
+	{ id: "SUPPLIES", label: "อาหาร/น้ำดื่ม" },
+	{ id: "EVACUATION", label: "อพยพคน" },
+	{ id: "ROAD_BLOCKED", label: "เส้นทางถูกตัดขาด" },
+	{ id: "RISK_AREA", label: "พื้นที่เสี่ยงภัย" },
+	{ id: "LEVEE_BREACH", label: "น้ำล้น/ผนังกั้นน้ำพัง" },
+];

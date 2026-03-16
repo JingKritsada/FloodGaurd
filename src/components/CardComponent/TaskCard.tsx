@@ -3,14 +3,13 @@ import type { TaskCardProps } from "@/interfaces/components.interfaces";
 
 import { ArrowRight, CircleCheckBig, Clock, Info, MapPin, Phone, User, Users } from "lucide-react";
 
-import BaseButton from "./BaseComponents/BaseButton";
-
 import { useAlert } from "@/providers/AlertContext";
 import {
 	mapCategoryIcon,
 	mapTaskStatusColor,
 	taskCategoryOptions,
 } from "@/constants/pages.constants";
+import BaseButton from "@/components/BaseComponents/BaseButton";
 
 export default function TaskCard({
 	incident,

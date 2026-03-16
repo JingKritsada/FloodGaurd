@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { Contrast, Menu, Type, Waves, X } from "lucide-react";
 import { Link } from "react-router-dom";
 
-import LoginModal from "@/components/LoginModal";
+import LoginModal from "@/components/ModalComponent/LoginModal";
 import { useAuth } from "@/providers/AuthContext";
 import { useAlert } from "@/providers/AlertContext";
 import { useTheme } from "@/providers/ThemeContext";

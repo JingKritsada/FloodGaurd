@@ -14,7 +14,7 @@ import {
 	YAxis,
 } from "recharts";
 
-import StatCard from "@/components/StatCard";
+import StatCard from "@/components/CardComponent/StatCard";
 import BaseButton from "@/components/BaseComponents/BaseButton";
 import { getErrorMessage } from "@/services/api";
 import { useAuth } from "@/providers/AuthContext";

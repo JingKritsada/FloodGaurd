@@ -1,0 +1,1 @@
+import { renderToString } from 'react-dom/server'; import { RefreshCw } from 'lucide-react'; import { cloneElement } from 'react'; console.log(renderToString(cloneElement(<RefreshCw className='my-class' />, { size: 24 })));

@@ -3,9 +3,8 @@ import type { LoginModalProps } from "@/constants/components.constants";
 import { useState } from "react";
 import { AlertCircle, Lock, User } from "lucide-react";
 
-import Input from "./InputComponents/Input";
-import BaseButton from "./BaseComponents/BaseButton";
-
+import Input from "@/components/InputComponents/Input";
+import BaseButton from "@/components/BaseComponents/BaseButton";
 import { Z_INDEX } from "@/constants/pages.constants";
 
 export default function LoginModal({
@@ -42,7 +41,7 @@ export default function LoginModal({
 
 			<div className="animate-in zoom-in-95 relative w-full max-w-sm scale-100 transform rounded-3xl border border-slate-100 bg-white p-6 shadow-2xl transition-all duration-200 dark:border-slate-700 dark:bg-slate-800">
 				<form className="flex flex-col items-center gap-10" onSubmit={handleSubmit}>
-					<div className="mt-4 rounded-2xl bg-gold-50 p-4 dark:bg-green-900/20">
+					<div className="mt-4 rounded-2xl bg-gold-50 p-4 dark:bg-gold-900/20">
 						<Lock className="h-8 w-8 text-gold-500" strokeWidth={2} />
 					</div>
 

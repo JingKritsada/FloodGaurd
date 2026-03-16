@@ -19,6 +19,12 @@ import {
  * Z-Index values for various components in the application.
  */
 export const Z_INDEX: Record<string, number> = {
+	/** Map Tool Overlay */
+	mapToolOverlay: 1000,
+
+	/** Filter Modal */
+	filterModal: 4000,
+
 	/** App Nav Bar */
 	appNavBar: 5000,
 
