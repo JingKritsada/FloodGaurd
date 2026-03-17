@@ -13,6 +13,7 @@ import {
 	Moon,
 	Monitor,
 } from "lucide-react";
+import L from "leaflet";
 
 import {
 	type ButtonSize,
@@ -32,7 +33,7 @@ export const variantStyles: Record<ButtonVariant, string> = {
 	primary:
 		"bg-gold-500 dark:bg-gold-600 text-white dark:text-white hover:bg-gold-600 dark:hover:bg-gold-700 active:bg-gold-700 dark:active:bg-gold-700",
 	secondary:
-		"bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 active:bg-slate-400 dark:active:bg-slate-600",
+		"bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 active:bg-slate-400 dark:active:bg-slate-600",
 	success:
 		"bg-green-600 dark:bg-green-600 text-white dark:text-white hover:bg-green-700 dark:hover:bg-green-700 active:bg-green-800 dark:active:bg-green-800",
 	warning:
@@ -179,3 +180,27 @@ export const incidentCategories: { id: IncidentCategory; label: string }[] = [
 	{ id: "RISK_AREA", label: "พื้นที่เสี่ยงภัย" },
 	{ id: "LEVEE_BREACH", label: "น้ำล้น/ผนังกั้นน้ำพัง" },
 ];
+
+/**
+ * Map Board Constants
+ * location for center
+ */
+export const CENTER_LOCATION = { lat: 17.007, lng: 99.826 };
+
+export const MAP_TILE_URL = "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png";
+
+export const MAP_ATTRIBUTION =
+	'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+
+export const userLocationIcon = L.divIcon({
+	html: `
+		<div class="relative flex items-center justify-center">
+			<div class="absolute w-12 h-12 bg-blue-500/20 rounded-full animate-ping"></div>
+			<div class="absolute w-8 h-8 bg-blue-500/40 rounded-full animate-pulse"></div>
+			<div class="w-5 h-5 bg-blue-600 border-[3px] border-white rounded-full shadow-[0_0_15px_rgba(37,99,235,0.8)] z-20"></div>
+		</div>
+	`,
+	className: "bg-transparent",
+	iconSize: [48, 48],
+	iconAnchor: [24, 24],
+});
