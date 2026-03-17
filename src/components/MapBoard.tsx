@@ -1,20 +1,16 @@
 import { MapContainer, Marker, TileLayer } from "react-leaflet";
 
 import { CENTER_LOCATION, userLocationIcon } from "@/constants/components.constants";
-import {
-	MapUpdater,
-	MapInvalidator,
-	InitialUserLocator,
-	MapReferenceHandler,
-	CurrentLocationHandler,
-} from "@/utils/components.utils";
+import { MapInvalidator, MapReferenceHandler } from "@/utils/components.utils";
 
 export default function MapBoard({
 	draggable = true,
 	userLocation,
+	setMapRef,
 }: {
 	draggable: boolean;
-	userLocation: { lat: number; lng: number };
+	userLocation?: { lat: number; lng: number } | null;
+	setMapRef?: (map: L.Map | null) => void;
 }): React.JSX.Element {
 	return (
 		<MapContainer
@@ -27,10 +23,7 @@ export default function MapBoard({
 		>
 			{/* Map Utils */}
 			<MapInvalidator />
-			<InitialUserLocator onFound={() => {}} />
-			<MapReferenceHandler setMapRef={() => {}} />
-			<CurrentLocationHandler hasLocation={false} onFound={() => {}} />
-			<MapUpdater lat={CENTER_LOCATION.lat} lng={CENTER_LOCATION.lng} />
+			<MapReferenceHandler setMapRef={setMapRef} />
 
 			<TileLayer
 				attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -38,7 +31,7 @@ export default function MapBoard({
 			/>
 
 			{/* User Location Marker */}
-			{userLocationIcon && (
+			{userLocationIcon && userLocation && (
 				<Marker
 					icon={userLocationIcon}
 					position={userLocation}

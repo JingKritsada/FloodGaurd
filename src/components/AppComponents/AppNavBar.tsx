@@ -12,7 +12,7 @@ export default function AppNavBar() {
 			className="pointer-events-none fixed right-0 bottom-0 left-0 flex justify-center p-4"
 			style={{ zIndex: Z_INDEX.appNavBar }}
 		>
-			<div className="pointer-events-auto flex w-fit items-center justify-around gap-1.5 overflow-visible rounded-3xl border border-slate-200 bg-white/80 p-1.5 shadow-2xl shadow-black/20 backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/80 dark:shadow-slate-700/30">
+			<div className="pointer-events-auto flex w-fit items-center justify-around gap-1.5 overflow-visible rounded-3xl border border-slate-200 bg-white/85 p-1.5 shadow-2xl shadow-black/20 backdrop-blur-md dark:border-slate-700 dark:bg-slate-900/85 dark:shadow-slate-700/30">
 				{currentRole === "CITIZEN" && (
 					<>
 						<NavButton
