@@ -4,7 +4,7 @@ import type { MapBoardProps } from "@/interfaces/components.interfaces";
 import { cloneElement } from "react";
 import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
-import { MapContainer, Marker, TileLayer, GeoJSON } from "react-leaflet";
+import { MapContainer, Marker, TileLayer, GeoJSON, Polyline } from "react-leaflet";
 
 import { MapInvalidator, MapReferenceHandler } from "@/utils/components.utils";
 import { CENTER_LOCATION, userLocationIcon } from "@/constants/components.constants";
@@ -13,6 +13,8 @@ import { mapCategoryColor, mapCategoryIcon, Z_INDEX } from "@/constants/pages.co
 export default function MapBoard({
 	draggable = true,
 	incidents = [],
+	roads = [],
+	shelters = [],
 	userLocation,
 	setMapRef,
 }: MapBoardProps): React.JSX.Element {
@@ -25,7 +27,7 @@ export default function MapBoard({
 
 		const iconHtml = ReactDOMServer.renderToString(
 			<div
-				className={`relative flex h-10 w-10 items-center justify-center rounded-xl border-2 border-white shadow-xl dark:border-slate-900 ${colorClass} ${isPulse ? "" : ""}`}
+				className={`relative flex h-10 w-10 items-center justify-center rounded-xl border-2 border-white text-white shadow-xl dark:border-slate-900 ${colorClass} ${isPulse ? "animate-pulse" : ""}`}
 			>
 				{iconNode}
 			</div>
@@ -45,7 +47,7 @@ export default function MapBoard({
 			className="h-full w-full"
 			dragging={draggable}
 			scrollWheelZoom={draggable}
-			zoom={13}
+			zoom={15}
 			zoomControl={false}
 		>
 			{/* Map Utils */}
@@ -82,7 +84,7 @@ export default function MapBoard({
 					fillOpacity: 0.05,
 					color: "#c5a039",
 					weight: 3,
-					opacity: 0.6,
+					opacity: 0.8,
 					dashArray: "10, 10",
 				})}
 			/>
@@ -96,16 +98,51 @@ export default function MapBoard({
 				/>
 			)}
 
-			{/* Incident Markers */}
+			{/* Incident Markers Without Road Block */}
 			{incidents &&
-				incidents.map((incident) => (
-					<Marker
-						key={incident._id}
-						icon={getIncidentIcon(incident.type, incident.status)}
-						position={[incident.location.latitude, incident.location.longitude]}
-						zIndexOffset={Z_INDEX.incidentMarker}
-					/>
-				))}
+				incidents
+					.filter((incident) => !incident.path || incident.path.length === 0)
+					.map((incident) => (
+						<Marker
+							key={incident._id}
+							icon={getIncidentIcon(incident.type, incident.status)}
+							position={[incident.location.latitude, incident.location.longitude]}
+							zIndexOffset={Z_INDEX.incidentMarker}
+						/>
+					))}
+
+			{/* Incident Paths for Roads Block */}
+			{incidents &&
+				incidents
+					.filter((i) => i.path && i.path.length > 0)
+					.map((incident) => {
+						const normalize = (raw: any[]) =>
+							raw.map((p) =>
+								Array.isArray(p)
+									? [p[0], p[1]]
+									: [p.lat ?? p.latitude, p.lng ?? p.longitude]
+							);
+						const positions = normalize(incident.path || []);
+
+						return (
+							<Polyline
+								key={`path-${incident._id}`}
+								pathOptions={{
+									color: incident.status === "OPEN" ? "#ef4444" : "#16a34a",
+									weight: 4,
+									opacity: incident.status === "OPEN" ? 1 : 0.8,
+									dashArray: "10, 10",
+								}}
+								positions={positions}
+							/>
+						);
+					})}
+
+			{/* Road Markers */}
+			{roads && roads.map((_road) => <></>)}
+
+			{/* Shelter Markers */}
+			{shelters && shelters.map((_shelter) => <></>)}
 		</MapContainer>
 	);
 }

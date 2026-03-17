@@ -1,6 +1,6 @@
 import type { Map } from "leaflet";
 import type { IncidentCategory } from "@/types/services.types";
-import type { Incident } from "@/interfaces/services.interfaces";
+import type { Incident, Road, Shelter } from "@/interfaces/services.interfaces";
 
 import { useEffect, useState } from "react";
 import { Filter, LocateFixed, Minus, Plus, RefreshCw } from "lucide-react";
@@ -13,9 +13,13 @@ import MapBoard from "@/components/MapBoard";
 import BaseButton from "@/components/BaseComponents/BaseButton";
 import FilterModal from "@/components/ModalComponent/FilterModal";
 import incidentService from "@/services/incidentService";
+import roadService from "@/services/roadService";
+import shelterService from "@/services/shelterService";
 
 export default function MapPage(): React.JSX.Element {
 	const [mapRef, setMapRef] = useState<Map | null>(null);
+	const [roads, setRoads] = useState<Road[]>([]);
+	const [shelters, setShelters] = useState<Shelter[]>([]);
 	const [incidents, setIncidents] = useState<Incident[]>([]);
 	const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 	const [mapFilter, setMapFilter] = useState<IncidentCategory[]>([]);
@@ -26,9 +30,13 @@ export default function MapPage(): React.JSX.Element {
 	useEffect(() => {
 		async function fetchIncidents() {
 			try {
-				const data = await incidentService.getAll();
+				const roadsData = await roadService.getAll();
+				const sheltersData = await shelterService.getAll();
+				const incidentsData = await incidentService.getAll();
 
-				setIncidents(data || []);
+				setRoads(roadsData || []);
+				setShelters(sheltersData || []);
+				setIncidents(incidentsData || []);
 			} catch (error) {
 				showAlert(
 					"ข้อผิดพลาด",
@@ -44,6 +52,8 @@ export default function MapPage(): React.JSX.Element {
 	const filteredIncidents = mapFilter.length
 		? incidents.filter((incident) => mapFilter.includes(incident.type as IncidentCategory))
 		: incidents;
+
+	const activeFilterCount = mapFilter.length;
 
 	const handleLocateUser = () => {
 		if (!navigator.geolocation) return;
@@ -92,7 +102,9 @@ export default function MapPage(): React.JSX.Element {
 					<MapBoard
 						draggable={!isFilterModalOpen}
 						incidents={filteredIncidents}
+						roads={roads}
 						setMapRef={setMapRef}
+						shelters={shelters}
 						userLocation={userPosition}
 					/>
 				</div>
@@ -103,7 +115,6 @@ export default function MapPage(): React.JSX.Element {
 					style={{ zIndex: Z_INDEX.mapToolOverlay }}
 				>
 					<BaseButton
-						isIconOnly
 						className="p-2.5! shadow-xl"
 						leftIcon={<Filter size={24} />}
 						size="xl"
@@ -111,7 +122,13 @@ export default function MapPage(): React.JSX.Element {
 						onClick={() => {
 							setIsFilterModalOpen(true);
 						}}
-					/>
+					>
+						{activeFilterCount > 0 && (
+							<span className="absolute -top-1 -right-1 flex h-5 w-5 items-start justify-center rounded-full bg-red-500 p-0.75 font-mono text-xs font-bold text-white shadow-sm ring-2 ring-white dark:ring-slate-900">
+								{activeFilterCount}
+							</span>
+						)}
+					</BaseButton>
 
 					{/* Locate User */}
 					<BaseButton

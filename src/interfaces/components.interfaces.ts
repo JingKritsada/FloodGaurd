@@ -1,6 +1,6 @@
 import type { FontSize } from "@/types/index.types";
 import type { IncidentStatus, IncidentCategory } from "@/types/services.types";
-import type { Announcement, Incident } from "@/interfaces/services.interfaces";
+import type { Announcement, Incident, Road, Shelter } from "@/interfaces/services.interfaces";
 
 import {
 	type ButtonHTMLAttributes,
@@ -237,6 +237,8 @@ export interface FilterModalProps {
 export interface MapBoardProps {
 	draggable: boolean;
 	incidents: Incident[];
+	roads: Road[];
+	shelters: Shelter[];
 	userLocation?: { lat: number; lng: number } | null;
 	setMapRef?: (map: L.Map | null) => void;
 }
