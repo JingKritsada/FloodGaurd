@@ -242,3 +242,21 @@ export interface MapBoardProps {
 	userLocation?: { lat: number; lng: number } | null;
 	setMapRef?: (map: L.Map | null) => void;
 }
+
+/**
+ * IncidentMarkerProps
+ */
+export interface IncidentMarkerProps {
+	incident: Incident;
+	isSelected: boolean;
+	disablePopup?: boolean;
+	onSelect?: (id: string) => void;
+}
+
+/**
+ * IncidentPopupProps
+ */
+export interface IncidentPopupProps {
+	incident: Incident;
+	onClose: () => void;
+}

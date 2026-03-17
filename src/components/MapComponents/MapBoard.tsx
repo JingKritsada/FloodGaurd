@@ -1,14 +1,13 @@
-import type { IncidentCategory } from "@/types/services.types";
 import type { MapBoardProps } from "@/interfaces/components.interfaces";
 
-import { cloneElement } from "react";
-import L from "leaflet";
-import ReactDOMServer from "react-dom/server";
+import { useState } from "react";
 import { MapContainer, Marker, TileLayer, GeoJSON, Polyline } from "react-leaflet";
 
+import IncidentMarker from "./IncidentMarker";
+
+import { Z_INDEX } from "@/constants/pages.constants";
 import { MapInvalidator, MapReferenceHandler } from "@/utils/components.utils";
 import { CENTER_LOCATION, userLocationIcon } from "@/constants/components.constants";
-import { mapCategoryColor, mapCategoryIcon, Z_INDEX } from "@/constants/pages.constants";
 
 export default function MapBoard({
 	draggable = true,
@@ -18,28 +17,7 @@ export default function MapBoard({
 	userLocation,
 	setMapRef,
 }: MapBoardProps): React.JSX.Element {
-	const getIncidentIcon = (category: string, status: string): L.DivIcon => {
-		const baseIconNode = mapCategoryIcon[category as IncidentCategory];
-		const colorClass = mapCategoryColor[category as IncidentCategory];
-		const isPulse = status === "OPEN";
-
-		const iconNode = cloneElement(baseIconNode, { size: 24 });
-
-		const iconHtml = ReactDOMServer.renderToString(
-			<div
-				className={`relative flex h-10 w-10 items-center justify-center rounded-xl border-2 border-white text-white shadow-xl dark:border-slate-900 ${colorClass} ${isPulse ? "animate-pulse" : ""}`}
-			>
-				{iconNode}
-			</div>
-		);
-
-		return L.divIcon({
-			html: iconHtml,
-			className: "bg-transparent",
-			iconSize: [36, 36],
-			iconAnchor: [16, 16],
-		});
-	};
+	const [selectedIncidentId, setSelectedIncidentId] = useState<string | null>(null);
 
 	return (
 		<MapContainer
@@ -103,11 +81,12 @@ export default function MapBoard({
 				incidents
 					.filter((incident) => !incident.path || incident.path.length === 0)
 					.map((incident) => (
-						<Marker
+						<IncidentMarker
 							key={incident._id}
-							icon={getIncidentIcon(incident.type, incident.status)}
-							position={[incident.location.latitude, incident.location.longitude]}
-							zIndexOffset={Z_INDEX.incidentMarker}
+							disablePopup={false}
+							incident={incident}
+							isSelected={selectedIncidentId === incident._id}
+							onSelect={setSelectedIncidentId}
 						/>
 					))}
 

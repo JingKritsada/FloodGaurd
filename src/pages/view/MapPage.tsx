@@ -9,12 +9,12 @@ import { getErrorMessage } from "@/services/api";
 import { useAlert } from "@/providers/AlertContext";
 import { Z_INDEX } from "@/constants/pages.constants";
 import { CENTER_LOCATION } from "@/constants/components.constants";
-import MapBoard from "@/components/MapBoard";
-import BaseButton from "@/components/BaseComponents/BaseButton";
-import FilterModal from "@/components/ModalComponent/FilterModal";
-import incidentService from "@/services/incidentService";
 import roadService from "@/services/roadService";
 import shelterService from "@/services/shelterService";
+import incidentService from "@/services/incidentService";
+import MapBoard from "@/components/MapComponents/MapBoard";
+import BaseButton from "@/components/BaseComponents/BaseButton";
+import FilterModal from "@/components/ModalComponent/FilterModal";
 
 export default function MapPage(): React.JSX.Element {
 	const [mapRef, setMapRef] = useState<Map | null>(null);
