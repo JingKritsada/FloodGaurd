@@ -1,23 +1,49 @@
-import type { IncidentCategory } from "@/types/services.types";
 import type { Map } from "leaflet";
+import type { IncidentCategory } from "@/types/services.types";
+import type { Incident } from "@/interfaces/services.interfaces";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Filter, LocateFixed, Minus, Plus, RefreshCw } from "lucide-react";
 
+import { getErrorMessage } from "@/services/api";
+import { useAlert } from "@/providers/AlertContext";
 import { Z_INDEX } from "@/constants/pages.constants";
 import { CENTER_LOCATION } from "@/constants/components.constants";
+import MapBoard from "@/components/MapBoard";
 import BaseButton from "@/components/BaseComponents/BaseButton";
 import FilterModal from "@/components/ModalComponent/FilterModal";
-import MapBoard from "@/components/MapBoard";
-import { useAlert } from "@/providers/AlertContext";
+import incidentService from "@/services/incidentService";
 
 export default function MapPage(): React.JSX.Element {
 	const [mapRef, setMapRef] = useState<Map | null>(null);
+	const [incidents, setIncidents] = useState<Incident[]>([]);
 	const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 	const [mapFilter, setMapFilter] = useState<IncidentCategory[]>([]);
 	const [userPosition, setUserPosition] = useState<{ lat: number; lng: number } | null>(null);
 
 	const { showAlert } = useAlert();
+
+	useEffect(() => {
+		async function fetchIncidents() {
+			try {
+				const data = await incidentService.getAll();
+
+				setIncidents(data || []);
+			} catch (error) {
+				showAlert(
+					"ข้อผิดพลาด",
+					`ไม่สามารถโหลดข้อมูลใบงานได้: ${getErrorMessage(error)}`,
+					"error"
+				);
+			}
+		}
+
+		fetchIncidents();
+	}, [showAlert]);
+
+	const filteredIncidents = mapFilter.length
+		? incidents.filter((incident) => mapFilter.includes(incident.type as IncidentCategory))
+		: incidents;
 
 	const handleLocateUser = () => {
 		if (!navigator.geolocation) return;
@@ -25,7 +51,9 @@ export default function MapPage(): React.JSX.Element {
 			(position) => {
 				const lat = position.coords.latitude;
 				const lng = position.coords.longitude;
+
 				setUserPosition({ lat, lng });
+
 				if (mapRef) {
 					mapRef.flyTo([lat, lng], 15);
 				}
@@ -39,7 +67,7 @@ export default function MapPage(): React.JSX.Element {
 
 	const handleLocateCenter = () => {
 		if (mapRef) {
-			mapRef.flyTo([CENTER_LOCATION.lat, CENTER_LOCATION.lng], 13);
+			mapRef.flyTo([CENTER_LOCATION.lat, CENTER_LOCATION.lng], 15);
 		}
 	};
 
@@ -63,6 +91,7 @@ export default function MapPage(): React.JSX.Element {
 					{/* Placeholder for Map */}
 					<MapBoard
 						draggable={!isFilterModalOpen}
+						incidents={filteredIncidents}
 						setMapRef={setMapRef}
 						userLocation={userPosition}
 					/>

@@ -230,3 +230,13 @@ export interface FilterModalProps {
 	onReset?: () => void;
 	onApply: (filters: IncidentCategory[]) => void;
 }
+
+/**
+ * MapBoardProps
+ */
+export interface MapBoardProps {
+	draggable: boolean;
+	incidents: Incident[];
+	userLocation?: { lat: number; lng: number } | null;
+	setMapRef?: (map: L.Map | null) => void;
+}

@@ -9,18 +9,25 @@ import {
 	CircleCheckBig,
 	Info,
 	Megaphone,
-	Navigation,
-	PlusCircle,
+	Package,
+	Stethoscope,
+	TrafficCone,
+	Truck,
 	Waves,
-	X,
 } from "lucide-react";
 
 /**
  * Z-Index values for various components in the application.
  */
 export const Z_INDEX: Record<string, number> = {
+	/** Incident Markers */
+	incidentMarkers: 500,
+
+	/** User Location Marker */
+	userLocationMarker: 1000,
+
 	/** Map Tool Overlay */
-	mapToolOverlay: 1000,
+	mapToolOverlay: 3000,
 
 	/** Filter Modal */
 	filterModal: 4000,
@@ -89,12 +96,21 @@ export const taskCategoryOptions: {
 ];
 
 export const mapCategoryIcon: Record<IncidentCategory, React.JSX.Element> = {
-	MEDICAL: <PlusCircle size={28} />,
-	SUPPLIES: <Navigation size={28} />,
-	EVACUATION: <AlertTriangle size={28} />,
-	ROAD_BLOCKED: <X size={28} />,
-	RISK_AREA: <Waves size={28} />,
-	LEVEE_BREACH: <AlertTriangle size={28} />,
+	MEDICAL: <Stethoscope size={28} />,
+	SUPPLIES: <Package size={28} />,
+	EVACUATION: <Truck size={28} />,
+	ROAD_BLOCKED: <TrafficCone size={28} />,
+	RISK_AREA: <AlertTriangle size={28} />,
+	LEVEE_BREACH: <Waves size={28} />,
+};
+
+export const mapCategoryColor: Record<IncidentCategory, string> = {
+	MEDICAL: "bg-rose-500 shadow-rose-500/30",
+	EVACUATION: "bg-cyan-500 shadow-cyan-500/30",
+	SUPPLIES: "bg-amber-500 shadow-amber-500/30",
+	ROAD_BLOCKED: "bg-slate-700 shadow-slate-700/30",
+	RISK_AREA: "bg-yellow-500 shadow-yellow-500/30",
+	LEVEE_BREACH: "bg-blue-500 shadow-blue-500/30",
 };
 
 /**
