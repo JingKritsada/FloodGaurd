@@ -1,6 +1,5 @@
 import type { MapBoardProps } from "@/interfaces/components.interfaces";
 
-import { useState } from "react";
 import { MapContainer, Marker, TileLayer, GeoJSON } from "react-leaflet";
 
 import IncidentMarker from "./IncidentMarker";
@@ -11,16 +10,17 @@ import { MapInvalidator, MapReferenceHandler } from "@/utils/components.utils";
 import { CENTER_LOCATION, userLocationIcon } from "@/constants/components.constants";
 
 export default function MapBoard({
+	disablePopups = false,
 	draggable = true,
 	incidents = [],
 	roads = [],
+	selectedIncidentId,
 	shelters = [],
 	userLocation,
+	onSelectIncident,
 	onStatusUpdate,
 	setMapRef,
 }: MapBoardProps): React.JSX.Element {
-	const [selectedIncidentId, setSelectedIncidentId] = useState<string | null>(null);
-
 	return (
 		<MapContainer
 			center={[CENTER_LOCATION.lat, CENTER_LOCATION.lng]}
@@ -85,10 +85,10 @@ export default function MapBoard({
 					.map((incident) => (
 						<IncidentMarker
 							key={incident._id}
-							disablePopup={false}
+							disablePopup={disablePopups}
 							incident={incident}
 							isSelected={selectedIncidentId === incident._id}
-							onSelect={setSelectedIncidentId}
+							onSelect={onSelectIncident}
 							onStatusUpdate={onStatusUpdate}
 						/>
 					))}
@@ -100,10 +100,10 @@ export default function MapBoard({
 					.map((incident) => (
 						<IncidentPolyline
 							key={incident._id}
-							disablePopup={false}
+							disablePopup={disablePopups}
 							incident={incident}
 							isSelected={selectedIncidentId === incident._id}
-							onSelect={setSelectedIncidentId}
+							onSelect={onSelectIncident}
 							onStatusUpdate={onStatusUpdate}
 						/>
 					))}

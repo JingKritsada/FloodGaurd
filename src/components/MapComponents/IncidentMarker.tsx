@@ -23,10 +23,13 @@ export default function IncidentMarker({
 	useEffect(() => {
 		if (markerRef.current) {
 			if (isSelected && !disablePopup) {
-				// Check if popup is already open to avoid flickering
-				if (!markerRef.current.isPopupOpen()) {
-					markerRef.current.openPopup();
-				}
+				// Use setTimeout to ensure the Popup component is mounted and bound
+				// before we attempt to open it.
+				setTimeout(() => {
+					if (markerRef.current && !markerRef.current.isPopupOpen()) {
+						markerRef.current.openPopup();
+					}
+				}, 10);
 			} else {
 				// Explicitly close popup if not selected.
 				markerRef.current.closePopup();
@@ -83,6 +86,7 @@ export default function IncidentMarker({
 				<Popup className="custom-popup" closeButton={false} maxWidth={600} minWidth={600}>
 					<IncidentPopup
 						incident={incident}
+						variant="popup"
 						onClose={() => markerRef.current?.closePopup()}
 						onStatusUpdate={onStatusUpdate}
 					/>

@@ -30,7 +30,7 @@ export default function LoginModal({
 			style={{ zIndex: Z_INDEX.alertModal }}
 		>
 			<div
-				className="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"
+				className="absolute inset-0 bg-black/60 backdrop-blur-md transition-opacity"
 				role="button"
 				tabIndex={0}
 				onClick={onClose}
@@ -38,7 +38,6 @@ export default function LoginModal({
 					if (e.key === "Escape") onClose();
 				}}
 			/>
-
 			<div className="animate-in zoom-in-95 relative w-full max-w-sm scale-100 transform rounded-3xl border border-slate-100 bg-white p-6 shadow-2xl transition-all duration-200 dark:border-slate-700 dark:bg-slate-800">
 				<form className="flex flex-col items-center gap-10" onSubmit={handleSubmit}>
 					<div className="mt-4 rounded-2xl bg-gold-50 p-4 dark:bg-gold-900/20">
@@ -56,7 +55,7 @@ export default function LoginModal({
 					</div>
 
 					{error && (
-						<div className="mb-8 flex items-start gap-3 rounded-xl border border-red-100 bg-red-50 p-4 text-red-700 dark:border-red-800 dark:bg-red-900/20 dark:text-red-300">
+						<div className="flex w-full items-start gap-3 rounded-xl border border-red-100 bg-red-50 p-4 text-red-700 dark:border-red-800 dark:bg-red-900/20 dark:text-red-300">
 							<AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
 							<span className="text-sm font-medium">{error}</span>
 						</div>

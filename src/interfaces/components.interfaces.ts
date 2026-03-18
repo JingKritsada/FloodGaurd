@@ -235,11 +235,14 @@ export interface FilterModalProps {
  * MapBoardProps
  */
 export interface MapBoardProps {
+	disablePopups?: boolean;
 	draggable: boolean;
 	incidents: Incident[];
 	roads: Road[];
+	selectedIncidentId: string | null;
 	shelters: Shelter[];
 	userLocation?: { lat: number; lng: number } | null;
+	onSelectIncident?: (id: string | null) => void;
 	onStatusUpdate?: (id: string, newStatus: IncidentStatus) => void;
 	setMapRef?: (map: L.Map | null) => void;
 }
@@ -260,6 +263,7 @@ export interface IncidentMarkerProps {
  */
 export interface IncidentPopupProps {
 	incident: Incident;
+	variant?: "popup" | "sheet";
 	onClose: () => void;
 	onStatusUpdate?: (id: string, newStatus: IncidentStatus) => void;
 }

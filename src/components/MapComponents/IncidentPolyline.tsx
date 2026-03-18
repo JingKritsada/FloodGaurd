@@ -19,10 +19,13 @@ export default function IncidentPolyline({
 	useEffect(() => {
 		if (polylineRef.current) {
 			if (isSelected && !disablePopup) {
-				// Check if popup is already open to avoid flickering
-				if (!polylineRef.current.isPopupOpen()) {
-					polylineRef.current.openPopup();
-				}
+				// Use setTimeout to ensure the Popup component is mounted and bound
+				// before we attempt to open it.
+				setTimeout(() => {
+					if (polylineRef.current && !polylineRef.current.isPopupOpen()) {
+						polylineRef.current.openPopup();
+					}
+				}, 10);
 			} else {
 				// Explicitly close popup if not selected.
 				polylineRef.current.closePopup();

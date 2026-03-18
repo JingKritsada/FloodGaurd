@@ -30,10 +30,16 @@ export const Z_INDEX: Record<string, number> = {
 	mapToolOverlay: 2000,
 
 	/** Filter Modal */
-	filterModal: 4000,
+	filterModal: 3000,
 
 	/** App Nav Bar */
-	appNavBar: 5000,
+	appNavBar: 4000,
+
+	/** Mobile Sheet Backdrop */
+	mobileSheetBackdrop: 4500,
+
+	/** Mobile Sheet */
+	mobileSheet: 5000,
 
 	/** Mobile Nav Backdrop */
 	mobileNavBackdrop: 6000,

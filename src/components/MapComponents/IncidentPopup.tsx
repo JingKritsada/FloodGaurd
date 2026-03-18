@@ -13,6 +13,7 @@ import { useAlert } from "@/providers/AlertContext";
 
 export default function IncidentPopup({
 	incident,
+	variant = "popup",
 	onClose,
 	onStatusUpdate,
 }: IncidentPopupProps): React.JSX.Element {
@@ -25,7 +26,15 @@ export default function IncidentPopup({
 		reporterName: incident.reporterName || "พลเมืองดีไม่ทราบชื่อ",
 		description:
 			incident.description.trim() === "" ? "ไม่มีรายละเอียดเพิ่มเติม" : incident.description,
+		address:
+			incident.description.trim() === "" ? "ไม่มีรายละเอียดเพิ่มเติม" : incident.description,
 	};
+
+	const isSheet = variant === "sheet";
+
+	const containerClasses = isSheet
+		? "w-full bg-white dark:bg-slate-950 rounded-t-3xl"
+		: "w-100 md:w-100 lg:w-120 bg-transparent";
 
 	const handleActionClick = () => {
 		const actionText =
@@ -55,8 +64,8 @@ export default function IncidentPopup({
 	};
 
 	return (
-		<div className="w-90 bg-transparent sm:w-100 md:w-120 lg:w-140">
-			<div className="flex flex-col gap-4 p-5">
+		<div className={containerClasses}>
+			<div className={`flex flex-col p-6 ${isSheet ? "gap-6 pb-8" : "gap-4"}`}>
 				{/* Header */}
 				<div className="flex items-center justify-between">
 					<h3 className="truncate pt-2 text-2xl font-bold text-slate-900 dark:text-white">
@@ -82,29 +91,29 @@ export default function IncidentPopup({
 				</div> */}
 
 				{/* Type and Status */}
-				<div className="flex justify-between gap-1.5">
+				<div className="flex justify-between gap-2">
 					<span
-						className={`w-full rounded-lg px-3 py-2 text-center text-sm font-medium whitespace-nowrap sm:text-base ${mapTaskStatusColor[normalizedIncident.status]}`}
+						className={`w-full rounded-lg px-3 py-2 text-center text-base font-medium whitespace-nowrap ${mapTaskStatusColor[normalizedIncident.status]}`}
 					>
 						{mapTaskStatusLabel[normalizedIncident.status]}
 					</span>
 
 					{normalizedIncident.hasBedridden && (
-						<span className="w-full rounded-lg bg-slate-200 px-3 py-2 text-center text-sm font-medium whitespace-nowrap text-slate-700 sm:text-base dark:bg-slate-700 dark:text-slate-200">
+						<span className="w-full rounded-lg bg-slate-200 px-3 py-2 text-center text-base font-medium whitespace-nowrap text-slate-700 dark:bg-slate-700 dark:text-slate-200">
 							ผู้ป่วยติดเตียง
 						</span>
 					)}
 
-					<span className="w-full rounded-lg bg-slate-200 px-3 py-2 text-center font-mono text-sm font-medium whitespace-nowrap text-slate-700 sm:text-base dark:bg-slate-700 dark:text-slate-200">
+					<span className="w-full rounded-lg bg-slate-200 px-3 py-2 text-center font-mono text-base font-medium whitespace-nowrap text-slate-700 dark:bg-slate-700 dark:text-slate-200">
 						#{normalizedIncident._id.slice(-5)}
 					</span>
 				</div>
 
 				{/* Detail */}
-				<div className="flex flex-col gap-1.5">
+				<div className="flex flex-col gap-2">
 					{/* Date and Time Section */}
-					<div className="grid grid-cols-2 gap-1.5">
-						<div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 dark:border-slate-700 dark:bg-slate-800/50">
+					<div className="grid grid-cols-2 gap-2">
+						<div className="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-800/50">
 							<div className="mb-1 flex items-center gap-2 text-gold-600 dark:text-gold-400">
 								<Calendar size={14} />
 								<h4 className="text-xs font-bold">วันที่</h4>
@@ -121,7 +130,7 @@ export default function IncidentPopup({
 							</div>
 						</div>
 
-						<div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 dark:border-slate-700 dark:bg-slate-800/50">
+						<div className="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-800/50">
 							<div className="mb-1 flex items-center gap-2 text-gold-600 dark:text-gold-400">
 								<Clock size={14} />
 								<h4 className="text-xs font-bold">เวลา</h4>
@@ -140,7 +149,7 @@ export default function IncidentPopup({
 					</div>
 
 					{/* Reporter Section */}
-					<div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 dark:border-slate-700 dark:bg-slate-800/50">
+					<div className="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-800/50">
 						<div className="mb-1 flex items-center gap-2 text-gold-600 dark:text-gold-400">
 							<User size={14} />
 							<h4 className="text-xs font-bold">ข้อมูลผู้แจ้งเหตุ</h4>
@@ -151,35 +160,33 @@ export default function IncidentPopup({
 					</div>
 
 					{/* Description Section */}
-					<div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 dark:border-slate-700 dark:bg-slate-800/50">
+					<div className="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-800/50">
 						<div className="mb-1 flex items-center gap-2 text-gold-600 dark:text-gold-400">
 							<List size={14} />
 							<h4 className="text-xs font-bold">รายละเอียดเหตุการณ์</h4>
 						</div>
-						<div className="text-base leading-relaxed text-slate-600 dark:text-slate-300">
+						<div className="line-clamp-3 text-base leading-relaxed text-slate-600 dark:text-slate-300">
 							{normalizedIncident.description}
 						</div>
 					</div>
 
 					{/* Location Section */}
-					{normalizedIncident.address && (
-						<div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 dark:border-slate-700 dark:bg-slate-800/50">
-							<div className="mb-1 flex items-center gap-2 text-gold-600 dark:text-gold-400">
-								<MapPin size={14} />
-								<h4 className="text-xs font-bold">สถานที่เกิดเหตุ</h4>
-							</div>
-							<div className="text-base leading-relaxed text-slate-600 dark:text-slate-300">
-								{normalizedIncident.address}
-							</div>
+					<div className="rounded-xl border border-slate-200 bg-slate-50 p-3 dark:border-slate-700 dark:bg-slate-800/50">
+						<div className="mb-1 flex items-center gap-2 text-gold-600 dark:text-gold-400">
+							<MapPin size={14} />
+							<h4 className="text-xs font-bold">สถานที่เกิดเหตุ</h4>
 						</div>
-					)}
+						<div className="line-clamp-3 text-base leading-relaxed text-slate-600 dark:text-slate-300">
+							{normalizedIncident.address}
+						</div>
+					</div>
 				</div>
 
 				{/* Action Buttons */}
 				<div className="mt-auto flex w-full flex-row items-center gap-1">
 					<BaseButton
 						className="w-full rounded-lg!"
-						size="md"
+						size="lg"
 						variant="link"
 						onClick={() => {
 							window.open(
