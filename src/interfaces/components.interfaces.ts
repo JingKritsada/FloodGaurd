@@ -186,7 +186,7 @@ export interface TaskCardProps {
 	incident: Incident;
 	currentRole: string | null;
 	onStatusUpdate?: (id: string, newStatus: IncidentStatus) => void;
-	onNavigateClick?: () => void;
+	onNavigateClick?: (id: string) => void;
 }
 
 /**

@@ -183,7 +183,7 @@ export default function IncidentPopup({
 				</div>
 
 				{/* Action Buttons */}
-				<div className="mt-auto flex w-full flex-row items-center gap-1">
+				<div className="mt-auto flex w-full flex-row items-center gap-2">
 					<BaseButton
 						className="w-full rounded-lg!"
 						size="lg"
@@ -216,7 +216,7 @@ export default function IncidentPopup({
 										/>
 									)
 								}
-								size="md"
+								size="lg"
 								variant="outline"
 								onClick={handleActionClick}
 							>

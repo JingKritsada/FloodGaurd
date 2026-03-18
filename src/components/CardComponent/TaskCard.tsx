@@ -49,6 +49,12 @@ export default function TaskCard({
 		);
 	};
 
+	const handleNavigateClick = () => {
+		if (onNavigateClick) {
+			onNavigateClick(normalizedIncident._id);
+		}
+	};
+
 	return (
 		<div className="flex flex-col gap-6 rounded-3xl border border-slate-100 bg-white p-4 shadow-sm transition-all dark:border-slate-800 dark:bg-[#121623]">
 			<div className="item-center flex flex-row justify-start gap-4">
@@ -140,7 +146,7 @@ export default function TaskCard({
 					leftIcon={<Info size={20} />}
 					size="md"
 					variant="outline"
-					onClick={onNavigateClick}
+					onClick={handleNavigateClick}
 				>
 					ดูรายละเอียด
 				</BaseButton>

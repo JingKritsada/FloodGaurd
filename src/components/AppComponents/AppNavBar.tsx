@@ -61,6 +61,11 @@ export default function AppNavBar() {
 							label="ใบงาน"
 							leftIcon={<List strokeWidth={2.5} />}
 						/>
+						<NavButton
+							destination="/announcements"
+							label="ประกาศ"
+							leftIcon={<Megaphone strokeWidth={2.5} />}
+						/>
 					</>
 				)}
 

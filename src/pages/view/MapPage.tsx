@@ -3,6 +3,7 @@ import type { IncidentCategory, IncidentStatus } from "@/types/services.types";
 import type { Incident, Road, Shelter } from "@/interfaces/services.interfaces";
 
 import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Filter, LocateFixed, Minus, Plus, RefreshCw } from "lucide-react";
 
 import { getErrorMessage } from "@/services/api";
@@ -18,6 +19,9 @@ import FilterModal from "@/components/ModalComponent/FilterModal";
 import IncidentPopup from "@/components/MapComponents/IncidentPopup";
 
 export default function MapPage(): React.JSX.Element {
+	const location = useLocation();
+	const navigate = useNavigate();
+
 	const [mapRef, setMapRef] = useState<Map | null>(null);
 	const [roads, setRoads] = useState<Road[]>([]);
 	const [refreshTrigger, setRefreshTrigger] = useState(0);
@@ -25,7 +29,9 @@ export default function MapPage(): React.JSX.Element {
 	const [incidents, setIncidents] = useState<Incident[]>([]);
 	const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
 	const [mapFilter, setMapFilter] = useState<IncidentCategory[]>([]);
-	const [selectedIncidentId, setSelectedIncidentId] = useState<string | null>(null);
+	const [selectedIncidentId, setSelectedIncidentId] = useState<string | null>(
+		location.state?.selectedIncidentId || null
+	);
 	const [userPosition, setUserPosition] = useState<{ lat: number; lng: number } | null>(null);
 
 	const { showAlert } = useAlert();
@@ -51,6 +57,25 @@ export default function MapPage(): React.JSX.Element {
 
 		fetchIncidents();
 	}, [showAlert, refreshTrigger]);
+
+	useEffect(() => {
+		if (location.state?.selectedIncidentId && mapRef && incidents.length > 0) {
+			const targetId = location.state.selectedIncidentId;
+			const targetInc = incidents.find((i) => i._id === targetId);
+
+			if (targetInc && targetInc.location) {
+				mapRef.flyTo(
+					[targetInc.location.latitude + 0.01, targetInc.location.longitude],
+					15,
+					{
+						animate: true,
+						duration: 1,
+					}
+				);
+			}
+			navigate(location.pathname, { replace: true, state: {} });
+		}
+	}, [location, navigate, mapRef, incidents]);
 
 	const filteredIncidents = mapFilter.length
 		? incidents.filter((incident) => mapFilter.includes(incident.type as IncidentCategory))
@@ -122,6 +147,10 @@ export default function MapPage(): React.JSX.Element {
 			mapRef.zoomOut();
 		}
 	};
+
+	const selectedIncident = selectedIncidentId
+		? incidents.find((inc) => inc._id === selectedIncidentId)
+		: null;
 
 	return (
 		<>
@@ -236,13 +265,13 @@ export default function MapPage(): React.JSX.Element {
 				/>
 
 				{/* Mobile Bottom Sheet for Incident Details */}
-				{isMobile && selectedIncidentId && (
+				{isMobile && selectedIncident && (
 					<div
 						className="animate-in slide-in-from-bottom custom-scrollbar absolute right-0 bottom-0 left-0 max-h-[85vh] overflow-y-auto rounded-t-3xl border-t border-slate-100 shadow-[0_-8px_30px_rgba(0,0,0,0.12)] duration-500 dark:border-slate-800"
 						style={{ zIndex: Z_INDEX.mobileSheet }}
 					>
 						<IncidentPopup
-							incident={incidents.find((inc) => inc._id === selectedIncidentId)!}
+							incident={selectedIncident}
 							variant="sheet"
 							onClose={() => setSelectedIncidentId(null)}
 							onStatusUpdate={handleStatusUpdate}

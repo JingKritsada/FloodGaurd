@@ -1,6 +1,7 @@
 import type { IncidentStatus } from "@/types/services.types";
 import type { Incident } from "@/interfaces/services.interfaces";
 
+import { useNavigate } from "react-router-dom";
 import { List } from "lucide-react";
 import { useState, useEffect } from "react";
 
@@ -13,6 +14,7 @@ import TaskCard from "@/components/CardComponent/TaskCard";
 import BaseButton from "@/components/BaseComponents/BaseButton";
 
 export default function TaskListPage(): React.JSX.Element {
+	const navigate = useNavigate();
 	const { showAlert } = useAlert();
 	const { currentRole } = useAuth();
 
@@ -50,6 +52,10 @@ export default function TaskListPage(): React.JSX.Element {
 		} catch (error) {
 			showAlert("ข้อผิดพลาด", `ไม่สามารถอัปเดตสถานะได้: ${getErrorMessage(error)}`, "error");
 		}
+	};
+
+	const handleNavigateClick = (id: string) => {
+		navigate("/", { state: { selectedIncidentId: id } });
 	};
 
 	return (
@@ -103,7 +109,7 @@ export default function TaskListPage(): React.JSX.Element {
 							key={incident._id}
 							currentRole={currentRole}
 							incident={incident}
-							onNavigateClick={() => {}}
+							onNavigateClick={handleNavigateClick}
 							onStatusUpdate={handleStatusUpdate}
 						/>
 					))}
