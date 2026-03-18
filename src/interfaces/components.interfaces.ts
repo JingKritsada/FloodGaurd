@@ -240,6 +240,7 @@ export interface MapBoardProps {
 	roads: Road[];
 	shelters: Shelter[];
 	userLocation?: { lat: number; lng: number } | null;
+	onStatusUpdate?: (id: string, newStatus: IncidentStatus) => void;
 	setMapRef?: (map: L.Map | null) => void;
 }
 
@@ -251,6 +252,7 @@ export interface IncidentMarkerProps {
 	isSelected: boolean;
 	disablePopup?: boolean;
 	onSelect?: (id: string) => void;
+	onStatusUpdate?: (id: string, newStatus: IncidentStatus) => void;
 }
 
 /**
@@ -259,4 +261,5 @@ export interface IncidentMarkerProps {
 export interface IncidentPopupProps {
 	incident: Incident;
 	onClose: () => void;
+	onStatusUpdate?: (id: string, newStatus: IncidentStatus) => void;
 }

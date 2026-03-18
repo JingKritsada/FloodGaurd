@@ -15,6 +15,7 @@ export default function MapBoard({
 	roads = [],
 	shelters = [],
 	userLocation,
+	onStatusUpdate,
 	setMapRef,
 }: MapBoardProps): React.JSX.Element {
 	const [selectedIncidentId, setSelectedIncidentId] = useState<string | null>(null);
@@ -87,6 +88,7 @@ export default function MapBoard({
 							incident={incident}
 							isSelected={selectedIncidentId === incident._id}
 							onSelect={setSelectedIncidentId}
+							onStatusUpdate={onStatusUpdate}
 						/>
 					))}
 

@@ -1,5 +1,5 @@
 import type { Map } from "leaflet";
-import type { IncidentCategory } from "@/types/services.types";
+import type { IncidentCategory, IncidentStatus } from "@/types/services.types";
 import type { Incident, Road, Shelter } from "@/interfaces/services.interfaces";
 
 import { useEffect, useState } from "react";
@@ -19,6 +19,7 @@ import FilterModal from "@/components/ModalComponent/FilterModal";
 export default function MapPage(): React.JSX.Element {
 	const [mapRef, setMapRef] = useState<Map | null>(null);
 	const [roads, setRoads] = useState<Road[]>([]);
+	const [refreshTrigger, setRefreshTrigger] = useState(0);
 	const [shelters, setShelters] = useState<Shelter[]>([]);
 	const [incidents, setIncidents] = useState<Incident[]>([]);
 	const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
@@ -47,13 +48,22 @@ export default function MapPage(): React.JSX.Element {
 		}
 
 		fetchIncidents();
-	}, [showAlert]);
+	}, [showAlert, refreshTrigger]);
 
 	const filteredIncidents = mapFilter.length
 		? incidents.filter((incident) => mapFilter.includes(incident.type as IncidentCategory))
 		: incidents;
 
 	const activeFilterCount = mapFilter.length;
+
+	const handleStatusUpdate = async (id: string, newStatus: IncidentStatus) => {
+		try {
+			await incidentService.updateStatus(id, newStatus);
+			setRefreshTrigger((prev) => prev + 1);
+		} catch (error) {
+			showAlert("ข้อผิดพลาด", `ไม่สามารถอัปเดตสถานะได้: ${getErrorMessage(error)}`, "error");
+		}
+	};
 
 	const handleLocateUser = () => {
 		if (!navigator.geolocation) return;
@@ -112,6 +122,7 @@ export default function MapPage(): React.JSX.Element {
 						setMapRef={setMapRef}
 						shelters={shelters}
 						userLocation={userPosition}
+						onStatusUpdate={handleStatusUpdate}
 					/>
 				</div>
 

@@ -9,12 +9,50 @@ import {
 	mapTaskStatusLabel,
 } from "@/constants/pages.constants";
 import { useAuth } from "@/providers/AuthContext";
+import { useAlert } from "@/providers/AlertContext";
 
 export default function IncidentPopup({
 	incident,
 	onClose,
+	onStatusUpdate,
 }: IncidentPopupProps): React.JSX.Element {
 	const { currentRole } = useAuth();
+	const { showConfirm } = useAlert();
+
+	const normalizedIncident = {
+		...incident,
+		phone: incident.phone || "ไม่ทราบเบอร์โทรศัพท์",
+		reporterName: incident.reporterName || "พลเมืองดีไม่ทราบชื่อ",
+		description:
+			incident.description.trim() === "" ? "ไม่มีรายละเอียดเพิ่มเติม" : incident.description,
+	};
+
+	const handleActionClick = () => {
+		const actionText =
+			normalizedIncident.status === "OPEN"
+				? currentRole === "ADMIN"
+					? "จ่ายงาน"
+					: "รับงาน"
+				: "ปิดงาน";
+
+		showConfirm(
+			"ยืนยันการดำเนินการ",
+			`คุณต้องการ${actionText}ใช่หรือไม่?`,
+			async () => {
+				if (onStatusUpdate) {
+					await onStatusUpdate(
+						normalizedIncident._id,
+						normalizedIncident.status === "OPEN" ? "IN_PROGRESS" : "RESOLVED"
+					);
+				}
+
+				onClose();
+			},
+			"success",
+			"ยืนยัน",
+			"ยกเลิก"
+		);
+	};
 
 	return (
 		<div className="w-90 bg-transparent sm:w-100 md:w-120 lg:w-140">
@@ -22,7 +60,7 @@ export default function IncidentPopup({
 				{/* Header */}
 				<div className="flex items-center justify-between">
 					<h3 className="truncate pt-2 text-2xl font-bold text-slate-900 dark:text-white">
-						{mapCategoryLabel[incident.type]}
+						{mapCategoryLabel[normalizedIncident.type]}
 					</h3>
 
 					{/* Close button for Popup (or Sheet explicit close) */}
@@ -46,19 +84,19 @@ export default function IncidentPopup({
 				{/* Type and Status */}
 				<div className="flex justify-between gap-1.5">
 					<span
-						className={`w-full rounded-lg px-3 py-2 text-center text-sm font-medium whitespace-nowrap sm:text-base ${mapTaskStatusColor[incident.status]}`}
+						className={`w-full rounded-lg px-3 py-2 text-center text-sm font-medium whitespace-nowrap sm:text-base ${mapTaskStatusColor[normalizedIncident.status]}`}
 					>
-						{mapTaskStatusLabel[incident.status]}
+						{mapTaskStatusLabel[normalizedIncident.status]}
 					</span>
 
-					{incident.hasBedridden && (
+					{normalizedIncident.hasBedridden && (
 						<span className="w-full rounded-lg bg-slate-200 px-3 py-2 text-center text-sm font-medium whitespace-nowrap text-slate-700 sm:text-base dark:bg-slate-700 dark:text-slate-200">
 							ผู้ป่วยติดเตียง
 						</span>
 					)}
 
 					<span className="w-full rounded-lg bg-slate-200 px-3 py-2 text-center font-mono text-sm font-medium whitespace-nowrap text-slate-700 sm:text-base dark:bg-slate-700 dark:text-slate-200">
-						#{incident._id.slice(-5)}
+						#{normalizedIncident._id.slice(-5)}
 					</span>
 				</div>
 
@@ -72,11 +110,14 @@ export default function IncidentPopup({
 								<h4 className="text-xs font-bold">วันที่</h4>
 							</div>
 							<div className="text-base leading-relaxed text-slate-600 dark:text-slate-300">
-								{new Date(incident.createdAt).toLocaleDateString("th-TH", {
-									day: "numeric",
-									month: "short",
-									year: "numeric",
-								})}
+								{new Date(normalizedIncident.createdAt).toLocaleDateString(
+									"th-TH",
+									{
+										day: "numeric",
+										month: "short",
+										year: "numeric",
+									}
+								)}
 							</div>
 						</div>
 
@@ -86,10 +127,13 @@ export default function IncidentPopup({
 								<h4 className="text-xs font-bold">เวลา</h4>
 							</div>
 							<div className="text-base leading-relaxed text-slate-600 dark:text-slate-300">
-								{new Date(incident.createdAt).toLocaleTimeString("th-TH", {
-									hour: "2-digit",
-									minute: "2-digit",
-								})}{" "}
+								{new Date(normalizedIncident.createdAt).toLocaleTimeString(
+									"th-TH",
+									{
+										hour: "2-digit",
+										minute: "2-digit",
+									}
+								)}{" "}
 								น.
 							</div>
 						</div>
@@ -102,8 +146,7 @@ export default function IncidentPopup({
 							<h4 className="text-xs font-bold">ข้อมูลผู้แจ้งเหตุ</h4>
 						</div>
 						<div className="text-base leading-relaxed text-slate-600 dark:text-slate-300">
-							{incident.reporterName || "พลเมืองดี"} -{" "}
-							{incident.phone || "ไม่ทราบเบอร์โทรศัพท์"}
+							{normalizedIncident.reporterName} - {normalizedIncident.phone}
 						</div>
 					</div>
 
@@ -114,21 +157,19 @@ export default function IncidentPopup({
 							<h4 className="text-xs font-bold">รายละเอียดเหตุการณ์</h4>
 						</div>
 						<div className="text-base leading-relaxed text-slate-600 dark:text-slate-300">
-							{incident.description.trim() === ""
-								? "ไม่มีรายละเอียดเพิ่มเติม"
-								: incident.description}
+							{normalizedIncident.description}
 						</div>
 					</div>
 
 					{/* Location Section */}
-					{incident.address && (
+					{normalizedIncident.address && (
 						<div className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 dark:border-slate-700 dark:bg-slate-800/50">
 							<div className="mb-1 flex items-center gap-2 text-gold-600 dark:text-gold-400">
 								<MapPin size={14} />
 								<h4 className="text-xs font-bold">สถานที่เกิดเหตุ</h4>
 							</div>
 							<div className="text-base leading-relaxed text-slate-600 dark:text-slate-300">
-								{incident.address}
+								{normalizedIncident.address}
 							</div>
 						</div>
 					)}
@@ -138,20 +179,25 @@ export default function IncidentPopup({
 				<div className="mt-auto flex w-full flex-row items-center gap-1">
 					<BaseButton
 						className="w-full rounded-lg!"
-						// leftIcon={<Navigation size={20} />}
 						size="md"
 						variant="link"
-						onClick={() => {}}
+						onClick={() => {
+							window.open(
+								`https://www.google.com/maps/dir/?api=1&destination=${normalizedIncident.location.latitude},${normalizedIncident.location.longitude}`,
+								"_blank",
+								"noopener noreferrer"
+							);
+						}}
 					>
 						นำทางด้วย Google Maps
 					</BaseButton>
 
 					{(currentRole === "OFFICER" || currentRole === "ADMIN") &&
-						incident.status !== "RESOLVED" && (
+						normalizedIncident.status !== "RESOLVED" && (
 							<BaseButton
 								className="group w-full rounded-lg!"
 								rightIcon={
-									incident.status === "OPEN" ? (
+									normalizedIncident.status === "OPEN" ? (
 										<ArrowRight
 											className="transition-transform duration-200 group-hover:translate-x-1"
 											size={20}
@@ -165,9 +211,9 @@ export default function IncidentPopup({
 								}
 								size="md"
 								variant="outline"
-								onClick={() => {}}
+								onClick={handleActionClick}
 							>
-								{incident.status === "OPEN"
+								{normalizedIncident.status === "OPEN"
 									? currentRole === "ADMIN"
 										? "จ่ายงาน"
 										: "รับงาน"

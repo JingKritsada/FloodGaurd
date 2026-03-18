@@ -15,6 +15,7 @@ export default function IncidentMarker({
 	isSelected,
 	disablePopup,
 	onSelect,
+	onStatusUpdate,
 }: IncidentMarkerProps): React.JSX.Element {
 	const map = useMap();
 	const markerRef = useRef<L.Marker>(null);
@@ -83,6 +84,7 @@ export default function IncidentMarker({
 					<IncidentPopup
 						incident={incident}
 						onClose={() => markerRef.current?.closePopup()}
+						onStatusUpdate={onStatusUpdate}
 					/>
 				</Popup>
 			)}
