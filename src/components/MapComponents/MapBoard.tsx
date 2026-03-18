@@ -1,9 +1,10 @@
 import type { MapBoardProps } from "@/interfaces/components.interfaces";
 
 import { useState } from "react";
-import { MapContainer, Marker, TileLayer, GeoJSON, Polyline } from "react-leaflet";
+import { MapContainer, Marker, TileLayer, GeoJSON } from "react-leaflet";
 
 import IncidentMarker from "./IncidentMarker";
+import IncidentPolyline from "./IncidentPolyline";
 
 import { Z_INDEX } from "@/constants/pages.constants";
 import { MapInvalidator, MapReferenceHandler } from "@/utils/components.utils";
@@ -96,28 +97,16 @@ export default function MapBoard({
 			{incidents &&
 				incidents
 					.filter((i) => i.path && i.path.length > 0)
-					.map((incident) => {
-						const normalize = (raw: any[]) =>
-							raw.map((p) =>
-								Array.isArray(p)
-									? [p[0], p[1]]
-									: [p.lat ?? p.latitude, p.lng ?? p.longitude]
-							);
-						const positions = normalize(incident.path || []);
-
-						return (
-							<Polyline
-								key={`path-${incident._id}`}
-								pathOptions={{
-									color: incident.status === "OPEN" ? "#ef4444" : "#16a34a",
-									weight: 4,
-									opacity: incident.status === "OPEN" ? 1 : 0.8,
-									dashArray: "10, 10",
-								}}
-								positions={positions}
-							/>
-						);
-					})}
+					.map((incident) => (
+						<IncidentPolyline
+							key={incident._id}
+							disablePopup={false}
+							incident={incident}
+							isSelected={selectedIncidentId === incident._id}
+							onSelect={setSelectedIncidentId}
+							onStatusUpdate={onStatusUpdate}
+						/>
+					))}
 
 			{/* Road Markers */}
 			{roads && roads.map((_road) => <></>)}
