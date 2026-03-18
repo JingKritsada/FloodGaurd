@@ -65,7 +65,10 @@ export default function MapPage(): React.JSX.Element {
 				setUserPosition({ lat, lng });
 
 				if (mapRef) {
-					mapRef.flyTo([lat, lng], 15);
+					mapRef.flyTo([lat, lng], 15, {
+						animate: true,
+						duration: 2,
+					});
 				}
 			},
 			(error) => {
@@ -77,7 +80,10 @@ export default function MapPage(): React.JSX.Element {
 
 	const handleLocateCenter = () => {
 		if (mapRef) {
-			mapRef.flyTo([CENTER_LOCATION.lat, CENTER_LOCATION.lng], 15);
+			mapRef.flyTo([CENTER_LOCATION.lat, CENTER_LOCATION.lng], 15, {
+				animate: true,
+				duration: 2,
+			});
 		}
 	};
 

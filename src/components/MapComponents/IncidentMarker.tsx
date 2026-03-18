@@ -3,7 +3,7 @@ import type { IncidentMarkerProps } from "@/interfaces/components.interfaces";
 
 import L from "leaflet";
 import ReactDOMServer from "react-dom/server";
-import { Marker, Popup } from "react-leaflet";
+import { Marker, Popup, useMap } from "react-leaflet";
 import { cloneElement, useEffect, useRef } from "react";
 
 import IncidentPopup from "./IncidentPopup";
@@ -16,6 +16,7 @@ export default function IncidentMarker({
 	disablePopup,
 	onSelect,
 }: IncidentMarkerProps): React.JSX.Element {
+	const map = useMap();
 	const markerRef = useRef<L.Marker>(null);
 
 	useEffect(() => {
@@ -52,7 +53,7 @@ export default function IncidentMarker({
 			className: "bg-transparent",
 			iconSize: [40, 40],
 			iconAnchor: [20, 20],
-			popupAnchor: [0, -25],
+			popupAnchor: [0, -20],
 		});
 	};
 
@@ -62,6 +63,14 @@ export default function IncidentMarker({
 			eventHandlers={{
 				click: (e) => {
 					L.DomEvent.stopPropagation(e.originalEvent);
+					map.flyTo(
+						[incident.location.latitude + 0.01, incident.location.longitude],
+						15,
+						{
+							animate: true,
+							duration: 1,
+						}
+					);
 					if (onSelect) onSelect(incident._id);
 				},
 			}}
