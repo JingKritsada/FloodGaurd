@@ -1,7 +1,7 @@
 import type { CreateIncidentData } from "@/interfaces/services.interfaces";
 
 import { incidentCategoryOptionsReport } from "@/constants/pages.constants";
-import IncidentForm from "@/components/FormComponent/IncidenetForm/IncidentForm";
+import IncidentForm from "@/components/FormComponent/IncidentForm/IncidentForm";
 
 export default function IncidentFormPage(): React.JSX.Element {
 	const handleSubmit = async (formData: CreateIncidentData) => {

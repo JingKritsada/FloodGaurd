@@ -295,3 +295,9 @@ export interface DetailSectionProps {
 	handleUploadImage: (e: React.ChangeEvent<HTMLInputElement>) => void;
 	setFormData: (data: CreateIncidentData) => void;
 }
+
+export interface LocationPickerProps {
+	lat: number;
+	lng: number;
+	onChange: (lat: number, lng: number) => void;
+}

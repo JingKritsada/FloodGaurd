@@ -150,9 +150,9 @@ export default function DetailSection({
 						variant="secondary"
 						onClick={() => imageInputRef.current?.click()}
 					>
-						<div className="flex flex-col items-center justify-center gap-6">
-							<div className="w-fit rounded-full bg-white p-6 shadow-sm dark:bg-slate-800">
-								<Upload size={32} />
+						<div className="flex flex-col items-center justify-center gap-4">
+							<div className="w-fit rounded-full bg-white p-4 shadow-sm dark:bg-slate-800">
+								<Upload size={36} />
 							</div>
 							<div className="flex flex-col gap-1">
 								<span className="text-md font-bold text-slate-500 dark:text-slate-400">

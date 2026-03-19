@@ -35,11 +35,26 @@ export function MapInvalidator() {
 	const map = useMap();
 
 	useEffect(() => {
-		const timer = setTimeout(() => {
-			map.invalidateSize();
-		}, 200);
+		const invalidate = () => map.invalidateSize();
 
-		return () => clearTimeout(timer);
+		const first = window.setTimeout(invalidate, 0);
+		const second = window.setTimeout(invalidate, 200);
+
+		window.addEventListener("resize", invalidate);
+
+		const container = map.getContainer();
+		const observer = new ResizeObserver(() => {
+			invalidate();
+		});
+
+		observer.observe(container);
+
+		return () => {
+			window.clearTimeout(first);
+			window.clearTimeout(second);
+			window.removeEventListener("resize", invalidate);
+			observer.disconnect();
+		};
 	}, [map]);
 
 	return null;
@@ -53,6 +68,19 @@ export function MapReferenceHandler({ setMapRef }: { setMapRef?: (map: L.Map) =>
 			setMapRef(map);
 		}
 	}, [map, setMapRef]);
+
+	return null;
+}
+
+export function MapUpdater({ lat, lng }: { lat: number; lng: number }) {
+	const map = useMap();
+
+	useEffect(() => {
+		if (lat !== 0 && lng !== 0) {
+			map.invalidateSize();
+			map.setView([lat, lng], Math.max(map.getZoom(), 15));
+		}
+	}, [lat, lng, map]);
 
 	return null;
 }
