@@ -1,7 +1,7 @@
 import type { IncidentCategory, IncidentStatus } from "@/types/services.types";
 import type { IncidentMarkerProps } from "@/interfaces/components.interfaces";
 
-import L from "leaflet";
+import L, { type LatLngTuple } from "leaflet";
 import ReactDOMServer from "react-dom/server";
 import { Marker, Popup, useMap } from "react-leaflet";
 import { cloneElement, useEffect, useRef } from "react";
@@ -20,7 +20,18 @@ export default function IncidentMarker({
 	const map = useMap();
 	const markerRef = useRef<L.Marker>(null);
 
+	const flyToLocation: LatLngTuple = disablePopup
+		? [incident.location.latitude, incident.location.longitude]
+		: [incident.location.latitude + 0.01, incident.location.longitude];
+
 	useEffect(() => {
+		if (isSelected) {
+			map.flyTo(flyToLocation, 15, {
+				animate: true,
+				duration: 1,
+			});
+		}
+
 		if (markerRef.current) {
 			if (isSelected && !disablePopup) {
 				// Use setTimeout to ensure the Popup component is mounted and bound
@@ -35,7 +46,7 @@ export default function IncidentMarker({
 				markerRef.current.closePopup();
 			}
 		}
-	}, [isSelected, disablePopup]);
+	}, [isSelected, disablePopup, map]);
 
 	const getIncidentIcon = (type: IncidentCategory, status: IncidentStatus) => {
 		const baseIconNode = mapCategoryIcon[type];
@@ -67,14 +78,10 @@ export default function IncidentMarker({
 			eventHandlers={{
 				click: (e) => {
 					L.DomEvent.stopPropagation(e.originalEvent);
-					map.flyTo(
-						[incident.location.latitude + 0.01, incident.location.longitude],
-						15,
-						{
-							animate: true,
-							duration: 1,
-						}
-					);
+					map.flyTo(flyToLocation, 15, {
+						animate: true,
+						duration: 1,
+					});
 					if (onSelect) onSelect(incident._id);
 				},
 			}}

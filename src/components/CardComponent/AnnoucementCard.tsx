@@ -49,7 +49,7 @@ export default function AnnoucementCard({
 				{/* Header */}
 				<div className="flex min-w-0 flex-col items-start gap-1">
 					{/* Title */}
-					<h4 className="line-clamp-1 w-full pl-2 text-xl font-bold text-slate-900 dark:text-slate-50">
+					<h4 className="line-clamp-1 w-full truncate pl-2 text-xl font-bold text-slate-900 dark:text-slate-50">
 						{announcement.title}
 					</h4>
 

@@ -146,7 +146,7 @@ export default function TaskCard({
 
 				{/* Address */}
 				{normalizedIncident.address && (
-					<div className="col-span-2 flex items-start gap-2 text-sm text-slate-700 dark:text-slate-300">
+					<div className="col-span-2 flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
 						<MapPin className="shrink-0 text-blue-500" size={16} />
 						<span className="truncate">{normalizedIncident.address}</span>
 					</div>

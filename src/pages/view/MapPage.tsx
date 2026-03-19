@@ -37,6 +37,26 @@ export default function MapPage(): React.JSX.Element {
 	const { showAlert } = useAlert();
 
 	useEffect(() => {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(
+				(position) => {
+					setUserPosition({
+						lat: position.coords.latitude,
+						lng: position.coords.longitude,
+					});
+				},
+				(error) => {
+					showAlert(
+						"ข้อผิดพลาด",
+						`ไม่สามารถระบุตำแหน่งของคุณได้: ${error.message}`,
+						"error"
+					);
+				}
+			);
+		}
+	}, []);
+
+	useEffect(() => {
 		async function fetchIncidents() {
 			try {
 				const roadsData = await roadService.getAll();

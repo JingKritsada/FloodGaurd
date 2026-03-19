@@ -1,6 +1,6 @@
 import type { MapsSectionProps } from "@/interfaces/components.interfaces";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Locate } from "lucide-react";
 
 import { useAlert } from "@/providers/AlertContext";
@@ -15,6 +15,20 @@ export default function MapsSection({
 	const { showAlert } = useAlert();
 
 	const [isLocating, setIsLocating] = useState(false);
+
+	useEffect(() => {
+		if (!formData.location.latitude && !formData.location.longitude && navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition((position) => {
+				setFormData({
+					...formData,
+					location: {
+						latitude: position.coords.latitude,
+						longitude: position.coords.longitude,
+					},
+				});
+			});
+		}
+	}, []);
 
 	const handleSetCurrentLocation = () => {
 		if (!navigator.geolocation) {
