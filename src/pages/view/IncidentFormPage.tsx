@@ -27,6 +27,20 @@ export default function IncidentFormPage(): React.JSX.Element {
 		hasBedridden: false,
 	});
 
+	const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+
+		if (file) {
+			const reader = new FileReader();
+
+			reader.onloadend = () => {
+				setFormData({ ...formData, image: reader.result as string });
+			};
+
+			reader.readAsDataURL(file);
+		}
+	};
+
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
@@ -249,7 +263,7 @@ export default function IncidentFormPage(): React.JSX.Element {
 					accept="image/*"
 					className="hidden"
 					type="file"
-					onChange={(_image) => setFormData({ ...formData, image: "test-image" })}
+					onChange={handleUploadImage}
 				/>
 			</div>
 

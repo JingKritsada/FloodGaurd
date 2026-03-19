@@ -27,6 +27,20 @@ export default function RequestFormPage(): React.JSX.Element {
 		hasBedridden: false,
 	});
 
+	const handleUploadImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const file = e.target.files?.[0];
+
+		if (file) {
+			const reader = new FileReader();
+
+			reader.onloadend = () => {
+				setFormData({ ...formData, image: reader.result as string });
+			};
+
+			reader.readAsDataURL(file);
+		}
+	};
+
 	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
@@ -174,7 +188,7 @@ export default function RequestFormPage(): React.JSX.Element {
 				<Input
 					label="รายละเอียดสถานการณ์"
 					labelClassName="text-lg! font-semibold mb-1"
-					placeholder="เช่น พื้นที่น้ำท่วมขังสูงประมาณ 50 ซม. รถเล็กไม่สามารถผ่านได้"
+					placeholder="เช่น ขาดแคลนอาหาร มีอาหารเหลือเพียงพอสำหรับ 3 วัน "
 					rows={5}
 					size="xl"
 					type="textarea"
@@ -249,7 +263,7 @@ export default function RequestFormPage(): React.JSX.Element {
 					accept="image/*"
 					className="hidden"
 					type="file"
-					onChange={(_image) => setFormData({ ...formData, image: "test-image" })}
+					onChange={handleUploadImage}
 				/>
 			</div>
 

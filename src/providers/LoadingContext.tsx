@@ -40,13 +40,21 @@ export const LoadingProvider: React.FC<LoadingProviderProps> = ({ children }) =>
 
 	// Listen for route changes
 	const location = useLocation();
+	const prevLocation = React.useRef(location.pathname);
 
 	useEffect(() => {
-		// Optional: Trigger loading on route change if needed.
-		// For now, we rely on data fetching in the new page triggering loading.
-		// If instant feedback is needed before data fetch:
-		// loadingManager.show();
-		// setTimeout(() => loadingManager.hide(), 500); // Artificial delay or wait for page load
+		// Only trigger loading if the pathname actually changes
+		if (location.pathname !== prevLocation.current) {
+			loadingManager.show();
+
+			const timer = setTimeout(() => {
+				loadingManager.hide();
+			}, 200);
+
+			prevLocation.current = location.pathname;
+
+			return () => clearTimeout(timer);
+		}
 	}, [location]);
 
 	const showLoading = () => loadingManager.show();
