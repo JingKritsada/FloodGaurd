@@ -1,7 +1,17 @@
 import type { Incident } from "@/interfaces/services.interfaces";
 import type { TaskCardProps } from "@/interfaces/components.interfaces";
 
-import { ArrowRight, CircleCheckBig, Clock, Info, MapPin, Phone, User, Users } from "lucide-react";
+import {
+	AlertTriangle,
+	ArrowRight,
+	CircleCheckBig,
+	Clock,
+	Info,
+	MapPin,
+	Phone,
+	User,
+	Users,
+} from "lucide-react";
 
 import { useAlert } from "@/providers/AlertContext";
 import {
@@ -98,17 +108,21 @@ export default function TaskCard({
 				{/* Victim Count */}
 				{normalizedIncident.victimCount !== undefined &&
 					normalizedIncident.victimCount > 0 && (
-						<div className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+						<div className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
 							<Users className="shrink-0 text-amber-500" size={16} />
 							<span className="font-semibold">
 								{normalizedIncident.victimCount} คน
 							</span>
+
+							{normalizedIncident.victimCount >= 3 && (
+								<AlertTriangle className="shrink-0 text-amber-500" size={16} />
+							)}
 						</div>
 					)}
 
 				{/* Phone */}
 				{normalizedIncident.phone && (
-					<div className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+					<div className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
 						<Phone className="shrink-0 text-green-500" size={16} />
 						<span className="font-medium">{normalizedIncident.phone}</span>
 					</div>
@@ -116,7 +130,7 @@ export default function TaskCard({
 
 				{/* Created At */}
 				{normalizedIncident.createdAt && (
-					<div className="flex items-center gap-2 text-sm text-slate-700 dark:text-slate-300">
+					<div className="flex items-center gap-3 text-sm text-slate-700 dark:text-slate-300">
 						<Clock className="shrink-0 text-purple-500" size={16} />
 						<span className="font-medium">
 							{new Date(normalizedIncident.createdAt).toLocaleString("th-TH", {

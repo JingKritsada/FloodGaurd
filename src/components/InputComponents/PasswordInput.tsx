@@ -17,13 +17,14 @@ export default function PasswordInput({ size = "md", ...props }: BaseInputProps)
 	const [visible, setVisible] = useState(false);
 
 	const toggleIcon: ReactNode = visible ? (
-		<EyeOff className="text-slate-500 dark:text-slate-400" strokeWidth={2.5} />
+		<EyeOff className="text-slate-500 dark:text-slate-400" size={20} strokeWidth={2} />
 	) : (
-		<Eye className="text-slate-500 dark:text-slate-400" strokeWidth={2.5} />
+		<Eye className="text-slate-500 dark:text-slate-400" size={20} strokeWidth={2} />
 	);
 
 	return (
 		<BaseInput
+			{...props}
 			className="relative overflow-hidden"
 			inputClassName={inputPr[size]}
 			rightIcon={
@@ -31,7 +32,7 @@ export default function PasswordInput({ size = "md", ...props }: BaseInputProps)
 					<BaseButton
 						isIconOnly
 						aria-label={visible ? "Hide password" : "Show password"}
-						className="aspect-square h-full! w-auto! p-0!"
+						className="aspect-square h-full! w-auto! rounded-xl! p-0!"
 						leftIcon={toggleIcon}
 						tabIndex={-1}
 						type="button"
@@ -42,7 +43,6 @@ export default function PasswordInput({ size = "md", ...props }: BaseInputProps)
 			}
 			size={size}
 			type={visible ? "text" : "password"}
-			{...props}
 		/>
 	);
 }
