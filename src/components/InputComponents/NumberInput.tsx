@@ -1,29 +1,22 @@
+import type { BaseInputProps } from "@/interfaces/components.interfaces";
+
 import { useCallback, useState } from "react";
 import { Minus, Plus } from "lucide-react";
 
-import {
-	inputIconSizeStyles,
-	inputSizeStyles,
-	inputVariantStyles,
-} from "@/constants/components.constants";
+import BaseInput from "@/components/BaseComponents/BaseInput";
 import BaseButton from "@/components/BaseComponents/BaseButton";
-import { type BaseInputProps } from "@/interfaces/components.interfaces";
+import { inputIconSizeStyles } from "@/constants/components.constants";
 
 export default function NumberInput({
-	className = "",
-	inputClassName = "",
-	size = "md",
-	variant = "default",
-	isRequired = false,
-	label,
-	id,
-	value,
 	defaultValue,
-	onChange,
+	disabled,
+	inputClassName,
 	min,
 	max,
+	size = "md",
 	step = 1,
-	disabled,
+	value,
+	onChange,
 	...rest
 }: BaseInputProps) {
 	const isControlled = value !== undefined;
@@ -82,77 +75,53 @@ export default function NumberInput({
 		(max !== undefined && numericValue !== undefined && numericValue >= Number(max));
 
 	const buttonClass =
-		"flex items-center justify-center flex-shrink-0 text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors duration-200 cursor-pointer";
+		"flex items-center justify-center flex-shrink-0 bg-slate-200! dark:bg-slate-800!";
 
 	const baseWrapperStyle =
 		"flex items-center w-full transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-60";
 
 	const baseInputStyle =
-		"w-full outline-none bg-transparent text-center placeholder:text-slate-400 dark:placeholder:text-slate-500 disabled:cursor-not-allowed [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none";
+		"w-full outline-none bg-transparent text-center placeholder:text-slate-400 dark:placeholder:text-slate-500";
 
 	return (
-		<div className={["flex flex-col gap-1", className].filter(Boolean).join(" ")}>
-			{label && (
-				<label
-					className="text-sm font-medium text-slate-700 dark:text-slate-300"
-					htmlFor={id}
-				>
-					{label}
-					{isRequired && <span className="ml-1 text-red-500">*</span>}
-				</label>
-			)}
-			<div
-				className={[
-					baseWrapperStyle,
-					inputVariantStyles[variant],
-					inputSizeStyles[size],
-					disabled ? "cursor-not-allowed opacity-60" : "",
-					"px-2!",
-				]
-					.filter(Boolean)
-					.join(" ")}
-			>
+		<BaseInput
+			className={`${baseWrapperStyle} px-2! text-3xl! font-medium!`}
+			disabled={disabled}
+			inputClassName={[baseInputStyle, inputClassName].filter(Boolean).join(" ")}
+			leftIcon={
 				<BaseButton
 					isIconOnly
 					aria-label="Decrease value"
 					className={buttonClass}
 					disabled={!!isDecrementDisabled}
-					leftIcon={<Minus size={iconSize} />}
+					leftIcon={<Minus size={iconSize} strokeWidth={2.5} />}
 					tabIndex={-1}
 					type="button"
 					variant="secondary"
 					onClick={handleDecrement}
 				/>
-
-				<input
-					className={[baseInputStyle, inputClassName].filter(Boolean).join(" ")}
-					disabled={disabled}
-					id={id}
-					max={max}
-					min={min}
-					step={step}
-					type="number"
-					value={isControlled ? value : String(internalValue)}
-					onChange={(e) => {
-						if (!isControlled)
-							setInternalValue(e.target.value === "" ? 0 : Number(e.target.value));
-						if (onChange) onChange(e);
-					}}
-					{...rest}
-				/>
-
+			}
+			rightIcon={
 				<BaseButton
 					isIconOnly
 					aria-label="Increase value"
 					className={buttonClass}
 					disabled={!!isIncrementDisabled}
-					leftIcon={<Plus size={iconSize} />}
+					leftIcon={<Plus size={iconSize} strokeWidth={2.5} />}
 					tabIndex={-1}
 					type="button"
 					variant="secondary"
 					onClick={handleIncrement}
 				/>
-			</div>
-		</div>
+			}
+			size={size}
+			value={numericValue !== undefined ? String(numericValue) : ""}
+			onChange={(e) => {
+				if (!isControlled)
+					setInternalValue(e.target.value === "" ? 0 : Number(e.target.value));
+				if (onChange) onChange(e);
+			}}
+			{...rest}
+		/>
 	);
 }

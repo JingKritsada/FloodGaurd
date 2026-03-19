@@ -29,7 +29,7 @@ export default function BaseInput({
 		"flex items-center w-full transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-60";
 
 	const baseInputStyle =
-		"w-full outline-none bg-transparent placeholder:text-slate-400 dark:placeholder:text-slate-500 disabled:cursor-not-allowed";
+		"w-full outline-none bg-transparent placeholder:text-slate-400 dark:placeholder:text-slate-500 disabled:cursor-not-allowed [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none";
 
 	return (
 		<div className={["flex flex-col gap-1"].filter(Boolean).join(" ")}>
@@ -47,6 +47,7 @@ export default function BaseInput({
 					{isRequired && <span className="ml-1 text-red-500">*</span>}
 				</label>
 			)}
+
 			<div
 				className={[
 					baseStyle,

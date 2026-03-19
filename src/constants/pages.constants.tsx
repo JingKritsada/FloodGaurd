@@ -123,7 +123,7 @@ export const mapCategoryColor: Record<IncidentCategory, string> = {
 	MEDICAL: "bg-rose-500 shadow-rose-500/30",
 	EVACUATION: "bg-cyan-500 shadow-cyan-500/30",
 	SUPPLIES: "bg-amber-500 shadow-amber-500/30",
-	ROAD_BLOCKED: "bg-slate-700 shadow-slate-700/30",
+	ROAD_BLOCKED: "bg-emerald-700 shadow-emerald-900/30",
 	RISK_AREA: "bg-yellow-500 shadow-yellow-500/30",
 	LEVEE_BREACH: "bg-blue-500 shadow-blue-500/30",
 };
@@ -172,6 +172,11 @@ export const mapPriorityIcon: Record<AnnouncementPriority, React.JSX.Element> = 
 	LOW: <Info size={32} />,
 };
 
+/**
+ * Announce Form Page
+ * - priority options for filter
+ * - priority options for form (exclude "ALL")
+ */
 export const announcementPriorityOptions: { id: "ALL" | AnnouncementPriority; label: string }[] = [
 	{ id: "ALL", label: "ทั้งหมด" },
 	{ id: "HIGH", label: mapPriorityLabel.HIGH },
@@ -186,4 +191,21 @@ export const annoucementPriorityOptionsForm: {
 	{ id: "HIGH", label: mapPriorityLabel.HIGH },
 	{ id: "MEDIUM", label: mapPriorityLabel.MEDIUM },
 	{ id: "LOW", label: mapPriorityLabel.LOW },
+];
+
+/**
+ * Incident Form Page
+ * - category options for report
+ * - category options for SOS
+ */
+export const incidentCategoryOptionsSOS: { id: IncidentCategory; label: string }[] = [
+	{ id: "MEDICAL", label: mapCategoryLabel.MEDICAL },
+	{ id: "SUPPLIES", label: mapCategoryLabel.SUPPLIES },
+	{ id: "EVACUATION", label: mapCategoryLabel.EVACUATION },
+];
+
+export const incidentCategoryOptionsReport: { id: IncidentCategory; label: string }[] = [
+	{ id: "RISK_AREA", label: mapCategoryLabel.RISK_AREA },
+	{ id: "LEVEE_BREACH", label: mapCategoryLabel.LEVEE_BREACH },
+	{ id: "ROAD_BLOCKED", label: mapCategoryLabel.ROAD_BLOCKED },
 ];

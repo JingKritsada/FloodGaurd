@@ -33,7 +33,7 @@ export const variantStyles: Record<ButtonVariant, string> = {
 	primary:
 		"bg-gold-500 dark:bg-gold-600 text-white dark:text-white hover:bg-gold-600 dark:hover:bg-gold-700 active:bg-gold-700 dark:active:bg-gold-700",
 	secondary:
-		"bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 active:bg-slate-400 dark:active:bg-slate-600",
+		"bg-slate-100 dark:bg-slate-900 text-slate-800 dark:text-slate-200 hover:bg-slate-300 dark:hover:bg-slate-700 active:bg-slate-400 dark:active:bg-slate-600",
 	success:
 		"bg-green-600 dark:bg-green-600 text-white dark:text-white hover:bg-green-700 dark:hover:bg-green-700 active:bg-green-800 dark:active:bg-green-800",
 	warning:

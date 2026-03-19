@@ -108,7 +108,6 @@ export default function AnnouncementFormPage(): React.JSX.Element {
 					<BaseButton
 						leftIcon={<ArrowLeft className="hidden sm:block" size={24} />}
 						size="lg"
-						type="submit"
 						variant="secondary"
 						onClick={() => navigate("/announcements")}
 					>
@@ -120,7 +119,7 @@ export default function AnnouncementFormPage(): React.JSX.Element {
 						leftIcon={<Save className="hidden sm:block" size={24} />}
 						size="lg"
 						type="submit"
-						variant="primary"
+						variant="success"
 					>
 						บันทึก
 					</BaseButton>
@@ -128,7 +127,7 @@ export default function AnnouncementFormPage(): React.JSX.Element {
 			</div>
 
 			{/* Form */}
-			<div className="space-y-6 p-4 sm:px-6">
+			<div className="flex flex-col gap-6 p-4 sm:px-6">
 				{/* Title */}
 				<Input
 					isRequired
