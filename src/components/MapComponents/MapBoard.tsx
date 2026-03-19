@@ -26,6 +26,7 @@ export default function MapBoard({
 			center={[CENTER_LOCATION.lat, CENTER_LOCATION.lng]}
 			className="h-full w-full"
 			dragging={draggable}
+			maxZoom={18}
 			scrollWheelZoom={draggable}
 			zoom={15}
 			zoomControl={false}

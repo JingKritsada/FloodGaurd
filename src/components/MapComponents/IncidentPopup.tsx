@@ -24,9 +24,8 @@ export default function IncidentPopup({
 		...incident,
 		phone: incident.phone || "ไม่ทราบเบอร์โทรศัพท์",
 		reporterName: incident.reporterName || "พลเมืองดีไม่ทราบชื่อ",
+		address: incident.address?.trim() === "" ? "ไม่มีรายละเอียดเพิ่มเติม" : incident.address,
 		description:
-			incident.description.trim() === "" ? "ไม่มีรายละเอียดเพิ่มเติม" : incident.description,
-		address:
 			incident.description.trim() === "" ? "ไม่มีรายละเอียดเพิ่มเติม" : incident.description,
 	};
 
@@ -98,15 +97,17 @@ export default function IncidentPopup({
 						{mapTaskStatusLabel[normalizedIncident.status]}
 					</span>
 
+					<span className="w-full rounded-lg bg-slate-200 px-3 py-2 text-center text-base font-medium whitespace-nowrap text-slate-700 dark:bg-slate-700 dark:text-slate-200">
+						{normalizedIncident.victimCount
+							? `${normalizedIncident.victimCount} คน`
+							: "ไม่มีผู้ประสบภัย"}
+					</span>
+
 					{normalizedIncident.hasBedridden && (
 						<span className="w-full rounded-lg bg-slate-200 px-3 py-2 text-center text-base font-medium whitespace-nowrap text-slate-700 dark:bg-slate-700 dark:text-slate-200">
 							ผู้ป่วยติดเตียง
 						</span>
 					)}
-
-					<span className="w-full rounded-lg bg-slate-200 px-3 py-2 text-center font-mono text-base font-medium whitespace-nowrap text-slate-700 dark:bg-slate-700 dark:text-slate-200">
-						#{normalizedIncident._id.slice(-5)}
-					</span>
 				</div>
 
 				{/* Detail */}

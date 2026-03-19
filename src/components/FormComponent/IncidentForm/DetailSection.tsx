@@ -93,6 +93,17 @@ export default function DetailSection({
 				onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
 			/>
 
+			{/* Address */}
+			<Input
+				label="ที่อยู่หรือจุดสังเกต"
+				labelClassName="text-lg! font-semibold mb-1"
+				placeholder="เช่น ถ.สุขุมวิท ซอย 50 ใกล้ร้านกาแฟ XYZ"
+				size="xl"
+				type="text"
+				value={formData.address || ""}
+				onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+			/>
+
 			{/* Description */}
 			<Input
 				label="รายละเอียดสถานการณ์"
@@ -126,7 +137,9 @@ export default function DetailSection({
 				onChange={(checked) => setFormData({ ...formData, hasBedridden: checked })}
 			/>
 
-			<div className="flex flex-col gap-1">
+			{/* Image Upload */}
+			{/* TODO: Implement image upload backend for fix entity too large */}
+			<div className="hidden flex-col gap-1">
 				<label
 					className="mb-1 text-lg font-semibold text-slate-700 dark:text-slate-300"
 					htmlFor="incident-category-form"

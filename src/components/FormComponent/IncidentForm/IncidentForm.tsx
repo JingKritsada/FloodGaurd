@@ -67,11 +67,11 @@ export default function IncidentForm({
 						leftIcon={
 							<ArrowLeft
 								className="hidden transition-transform duration-300 group-hover:-translate-x-1 sm:block"
-								size={24}
-								strokeWidth={3}
+								size={20}
+								strokeWidth={2.5}
 							/>
 						}
-						size="lg"
+						size="md"
 						variant="secondary"
 						onClick={() => {
 							if (sectionTab === "DETAIL") {
@@ -84,31 +84,43 @@ export default function IncidentForm({
 						{sectionTab === "DETAIL" ? "ยกเลิก" : "ย้อนกลับ"}
 					</BaseButton>
 
-					{/* Save Button */}
-					<BaseButton
-						className="group"
-						rightIcon={
-							sectionTab === "DETAIL" ? (
+					{/* Next Button */}
+					{sectionTab === "DETAIL" && (
+						<BaseButton
+							className="group"
+							rightIcon={
 								<ArrowRight
 									className="hidden transition-transform duration-300 group-hover:translate-x-1 sm:block"
-									size={24}
-									strokeWidth={3}
+									size={20}
+									strokeWidth={2.5}
 								/>
-							) : (
-								<Save className="hidden sm:block" size={24} strokeWidth={3} />
-							)
-						}
-						size="lg"
-						type={sectionTab === "DETAIL" ? "button" : "submit"}
-						variant="success"
-						onClick={() => {
-							if (sectionTab === "DETAIL") {
-								setSectionTab("MAP");
 							}
-						}}
-					>
-						{sectionTab === "DETAIL" ? "ถัดไป" : "บันทึก"}
-					</BaseButton>
+							size="md"
+							variant="success"
+							onClick={() => {
+								if (sectionTab === "DETAIL") {
+									setSectionTab("MAP");
+								}
+							}}
+						>
+							ถัดไป
+						</BaseButton>
+					)}
+
+					{/* Save Button */}
+					{sectionTab === "MAP" && (
+						<BaseButton
+							className="group"
+							rightIcon={
+								<Save className="hidden sm:block" size={20} strokeWidth={2.5} />
+							}
+							size="md"
+							type="submit"
+							variant="success"
+						>
+							บันทึก
+						</BaseButton>
+					)}
 				</div>
 			</div>
 

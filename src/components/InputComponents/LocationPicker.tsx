@@ -42,7 +42,12 @@ export default function LocationPicker({
 
 	return (
 		<div className="relative h-full w-full overflow-hidden text-slate-800">
-			<MapContainer center={center} className="h-full w-full" zoom={lat && lng ? 13 : 6}>
+			<MapContainer
+				center={center}
+				className="h-full w-full"
+				maxZoom={18}
+				zoom={lat && lng ? 13 : 6}
+			>
 				<MapInvalidator />
 				<MapUpdater lat={lat} lng={lng} />
 				<MapEvents onChange={onChange} />
@@ -54,10 +59,6 @@ export default function LocationPicker({
 
 				{lat !== 0 && lng !== 0 && <Marker icon={customIcon} position={[lat, lng]} />}
 			</MapContainer>
-
-			<div className="pointer-events-none absolute right-2 bottom-2 z-1000 rounded bg-white/80 p-1 text-xs text-slate-600 dark:bg-slate-800/80 dark:text-slate-300">
-				แตะที่แผนที่เพื่อปักหมุด
-			</div>
 		</div>
 	);
 }
