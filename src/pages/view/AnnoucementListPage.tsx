@@ -120,7 +120,7 @@ export default function AnnouncementListPage(): React.JSX.Element {
 			</div>
 
 			{/* Annoucement List */}
-			<div className="grid grid-cols-1 gap-4 px-4 py-5 sm:gap-6 sm:px-6 md:grid-cols-2 xl:grid-cols-3">
+			<div className="grid grid-cols-1 gap-4 px-4 py-5 sm:gap-6 sm:px-6 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
 				{/* Incident Card */}
 				{filteredAnnouncements
 					.slice()

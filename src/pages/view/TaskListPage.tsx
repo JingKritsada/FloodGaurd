@@ -99,7 +99,7 @@ export default function TaskListPage(): React.JSX.Element {
 			</div>
 
 			{/* Incident List */}
-			<div className="grid grid-cols-1 gap-4 px-4 py-5 sm:gap-6 sm:px-6 md:grid-cols-2 xl:grid-cols-3">
+			<div className="grid grid-cols-1 gap-4 px-4 py-5 sm:gap-6 sm:px-6 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
 				{/* Incident Card */}
 				{filteredIncidents
 					.slice()

@@ -53,7 +53,7 @@ export default function IncidentForm({
 	return (
 		<form className="h-full overflow-y-auto pb-30" onSubmit={handleSubmit}>
 			{/* Header */}
-			<div className="sticky top-0 z-10 flex flex-row items-center justify-between border-b border-slate-200 bg-white/80 p-4 backdrop-blur-lg sm:px-6 dark:border-slate-800 dark:bg-slate-950/80">
+			<div className="sticky top-0 z-10 flex flex-row items-center justify-between border-b border-slate-200 bg-white p-4 backdrop-blur-lg sm:px-6 dark:border-slate-800 dark:bg-slate-950">
 				{/* Title */}
 				<div className="flex h-full flex-col items-start gap-1">
 					<h2 className="text-2xl font-black text-slate-900 dark:text-white">{title}</h2>
