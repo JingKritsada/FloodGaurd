@@ -1,6 +1,12 @@
 import type { FontSize } from "@/types/index.types";
 import type { IncidentStatus, IncidentCategory } from "@/types/services.types";
-import type { Announcement, Incident, Road, Shelter } from "@/interfaces/services.interfaces";
+import type {
+	Announcement,
+	CreateIncidentData,
+	Incident,
+	Road,
+	Shelter,
+} from "@/interfaces/services.interfaces";
 
 import {
 	type ButtonHTMLAttributes,
@@ -266,4 +272,26 @@ export interface IncidentPopupProps {
 	variant?: "popup" | "sheet";
 	onClose: () => void;
 	onStatusUpdate?: (id: string, newStatus: IncidentStatus) => void;
+}
+
+/**
+ * IncidentFormProps
+ */
+export interface IncidentFormProps {
+	categoryOptions: { id: IncidentCategory; label: string }[];
+	defaultType: IncidentCategory;
+	title: string;
+	onSubmitForm: (data: CreateIncidentData) => Promise<void>;
+}
+
+export interface MapsSectionProps {
+	formData: CreateIncidentData;
+	setFormData: (data: CreateIncidentData) => void;
+}
+
+export interface DetailSectionProps {
+	categoryOptions: { id: IncidentCategory; label: string }[];
+	formData: CreateIncidentData;
+	handleUploadImage: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	setFormData: (data: CreateIncidentData) => void;
 }
